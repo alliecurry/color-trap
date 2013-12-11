@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="watermellon">#F56991</color>
+    <color name="sherbert_dark">#FF9F80</color>
+    <color name="sherbert_light">#FFC48C</color>
+    <color name="honey_dew">#EFFAB4</color>
+    <color name="lime">#D1F2A5</color>
+    <color name="sage">#8DCCAD</color>
+    <color name="dirt">#988864</color>
+    <color name="blush">#FEA6A2</color>
+    <color name="sky">#81A8B8</color>
+
+
+    <string-array name="grid_colors">
+        <item>@color/watermellon</item>
+        <item>@color/sherbert_dark</item>
+        <item>@color/sherbert_light</item>
+        <item>@color/honey_dew</item>
+        <item>@color/lime</item>
+        <item>@color/sage</item>
+        <item>@color/dirt</item>
+        <item>@color/blush</item>
+        <item>@color/sky</item>
+    </string-array>
+
+
+</resources>
