@@ -68,5 +68,8 @@ public final class GridUtility {
         return c.getResources().getIntArray(R.array.grid_colors);
     }
 
+    public static int getDefaultColNum(){
+        return DEFAULT_COL_NUM;
+    }
 
 }

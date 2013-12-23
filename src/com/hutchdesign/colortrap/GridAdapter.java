@@ -39,7 +39,8 @@ public class GridAdapter extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        return convertView == null ?  mTiles.get(position/6).get(position%5) : (Tile) convertView;
+        return convertView == null ?  mTiles.get(position/GridUtility.getDefaultColNum())
+                .get(position%GridUtility.getDefaultColNum()) : (Tile) convertView;
     }
 
 }
