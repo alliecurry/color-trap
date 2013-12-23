@@ -1,6 +1,7 @@
 package com.hutchdesign.colortrap.util;
 
 import android.content.Context;
+import android.util.Log;
 import com.hutchdesign.colortrap.R;
 import com.hutchdesign.colortrap.Tile;
 
@@ -11,48 +12,54 @@ import java.util.Stack;
 
 public final class GridUtility {
     /** Default amount of tiles (including disabled). */
-    private static final int DEFAULT_TILE_AMOUNT = 30;
+    private static final int DEFAULT_ROW_NUM = 6;
+    private static final int DEFAULT_COL_NUM = 5;
 
     /** Tile positions disabled by default. */
     private static final int[] DEFAULT_DISABLED_TILES = {0, 2, 3, 4, 25};
 
-    public static List<Tile> createTiles(Context c) {
-        return createTiles(c, DEFAULT_TILE_AMOUNT);
+    public static List<List<Tile>> createTiles(Context c) {
+        return createTiles(c, DEFAULT_ROW_NUM, DEFAULT_COL_NUM);
     }
 
-    public static List<Tile> createTiles(Context c, int amount) {
-        List<Tile> tiles = new ArrayList<Tile>();
-        for (int i = 0; i < amount; ++i) {
-            tiles.add(new Tile(c));
+    public static List<List<Tile>> createTiles(Context c, int rowAmount, int colAmount) {
+        List<List<Tile>> tiles = new ArrayList<List<Tile>>();
+        for (int i = 0; i < rowAmount; ++i) {
+            tiles.add(i, new ArrayList<Tile>());
+            for (int j = 0; j < colAmount; ++j)
+            {
+                tiles.get(i).add(j, new Tile(c));
+            }
         }
         return tiles;
     }
 
-    public static void assignDisabledTiles(List<Tile> tiles) {
+    public static void assignDisabledTiles(List<List<Tile>> tiles) {
         assignDisabledTiles(tiles, DEFAULT_DISABLED_TILES);
     }
 
-    public static void assignDisabledTiles(List<Tile> tiles, int[] disabled) {
+    public static void assignDisabledTiles(List<List<Tile>> tiles, int[] disabled) {
         for(int i=0; i<disabled.length; ++i) {
-            tiles.get(disabled[i]).disable();
+            tiles.get(disabled[i]/DEFAULT_COL_NUM).get(disabled[i] % DEFAULT_COL_NUM).disable();
         }
     }
 
-    public static void assignColors(Context c, List<Tile> tiles) {
+    public static void assignColors(Context c, List<List<Tile>> tiles) {
         int[] colors = getColors(c);
         Stack<Integer> colorsStack = new Stack<Integer>();
 
         // Convert colors array to a stack of colors equal to the amount of colors
         int i = 0;
-        while(colorsStack.size() < tiles.size()) {
+        while(colorsStack.size() < DEFAULT_COL_NUM * DEFAULT_ROW_NUM) {
             colorsStack.add(colors[i]);
             i = (i == colors.length - 1) ? 0 : i+1;
         }
 
         Collections.shuffle(colorsStack); // randomize colors
-
-        for (Tile t : tiles) { // apply colors to tiles
+        for (i = 0; i < tiles.size(); i++){
+            for (Tile t : tiles.get(i)) { // apply colors to tiles
             t.setColor(colorsStack.pop());
+            }
         }
     }
 
