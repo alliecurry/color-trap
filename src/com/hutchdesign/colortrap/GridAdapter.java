@@ -9,7 +9,7 @@ import com.hutchdesign.colortrap.util.GridUtility;
 import java.util.List;
 
 public class GridAdapter extends BaseAdapter {
-    List<Tile> mTiles;
+    List<List<Tile>> mTiles;
 
     private Context mContext;
     private int[] mColors;
@@ -27,7 +27,7 @@ public class GridAdapter extends BaseAdapter {
     }
 
     public int getCount() {
-        return mTiles.size();
+        return 5*6;//mTiles.size();
     }
 
     public Object getItem(int position) {
@@ -39,7 +39,8 @@ public class GridAdapter extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        return convertView == null ?  mTiles.get(position) : (Tile) convertView;
+        return convertView == null ?  mTiles.get(position/GridUtility.getDefaultColNum())
+                .get(position%GridUtility.getDefaultColNum()) : (Tile) convertView;
     }
 
 }
