@@ -1,8 +1,8 @@
 package com.hutchdesign.colortrap;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.GridView;
 
 public class StartupActivity extends Activity {
 
@@ -11,11 +11,12 @@ public class StartupActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // TODO show menu, not playing grid
-        setContentView(R.layout.grid);
+        // TODO show menu, start button creates new grid
 
-       GridView gridView = (GridView) findViewById(R.id.gridview);
-       gridView.setNumColumns(5); // TODO move this to game setup function
-       gridView.setAdapter(new GridAdapter(this));
+        Intent i = new Intent(this, ColorTrap.class);
+        startActivity(i);
+//       GridView gridView = (GridView) findViewById(R.id.gridview);
+//       gridView.setNumColumns(5);
+//       gridView.setAdapter(new GridAdapter(this));
     }
 }

@@ -10,16 +10,23 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
-public final class GridUtility {
+public final class GameBoard {
     /** Default amount of tiles (including disabled). */
     private static final int DEFAULT_ROW_NUM = 6;
     private static final int DEFAULT_COL_NUM = 5;
-
     /** Tile positions disabled by default. */
     private static final int[] DEFAULT_DISABLED_TILES = {0, 2, 3, 4, 25};
+    private List<List<Tile>> mTiles;
 
-    public static List<List<Tile>> createTiles(Context c) {
-        return createTiles(c, DEFAULT_ROW_NUM, DEFAULT_COL_NUM);
+
+    public GameBoard(Context c){
+        setupTiles(c);
+    }
+
+    private void setupTiles(Context c){
+        mTiles = createTiles(c, DEFAULT_ROW_NUM, DEFAULT_COL_NUM);
+        assignColors(c, mTiles);
+        assignDisabledTiles(mTiles);
     }
 
     public static List<List<Tile>> createTiles(Context c, int rowAmount, int colAmount) {
@@ -68,8 +75,17 @@ public final class GridUtility {
         return c.getResources().getIntArray(R.array.grid_colors);
     }
 
-    public static int getDefaultColNum(){
+    public int getDefaultColNum(){
         return DEFAULT_COL_NUM;
     }
 
+    //Convert 2d List to single List for GridView display
+    public Tile getGridPosition(int position){
+        return mTiles.get(position/DEFAULT_COL_NUM)
+        .get(position%DEFAULT_COL_NUM);
+    }
+
+    public int boardSize(){
+        return DEFAULT_COL_NUM*DEFAULT_ROW_NUM;
+    }
 }

@@ -13,5 +13,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".GridAdapter"/>
+        <activity android:name=".ColorTrap"/>
     </application>
 </manifest>

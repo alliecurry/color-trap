@@ -4,30 +4,27 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import com.hutchdesign.colortrap.util.GridUtility;
-
-import java.util.List;
+import com.hutchdesign.colortrap.util.GameBoard;
 
 public class GridAdapter extends BaseAdapter {
-    List<List<Tile>> mTiles;
-
+    GameBoard mTiles;
     private Context mContext;
-    private int[] mColors;
 
-    public GridAdapter(Context c) {
+    public GridAdapter(Context c, GameBoard tiles) {
         mContext = c;
-        mColors = c.getResources().getIntArray(R.array.grid_colors);
-        setupTiles();
+        mTiles = tiles;
+//        mColors = c.getResources().getIntArray(R.array.grid_colors);
+//        setupTiles();
     }
 
-    private void setupTiles() {
-        mTiles = GridUtility.createTiles(mContext);
-        GridUtility.assignColors(mContext, mTiles);
-        GridUtility.assignDisabledTiles(mTiles);
-    }
+//    private void setupTiles() {
+//        mTiles = GridUtility.createTiles(mContext);
+//        GridUtility.assignColors(mContext, mTiles);
+//        GridUtility.assignDisabledTiles(mTiles);
+//    }
 
     public int getCount() {
-        return 5*6;//mTiles.size();
+        return mTiles.boardSize();
     }
 
     public Object getItem(int position) {
@@ -39,8 +36,7 @@ public class GridAdapter extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        return convertView == null ?  mTiles.get(position/GridUtility.getDefaultColNum())
-                .get(position%GridUtility.getDefaultColNum()) : (Tile) convertView;
+        return convertView == null ?  mTiles.getGridPosition(position) : (Tile) convertView;
     }
 
 }
