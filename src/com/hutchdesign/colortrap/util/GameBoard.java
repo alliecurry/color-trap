@@ -15,7 +15,7 @@ public final class GameBoard {
     private static final int DEFAULT_COL_NUM = 5;
     /** Tile positions disabled by default. */
     private static final int[] DEFAULT_DISABLED_TILES = {0, 2, 3, 4, 25};
-    private List<List<Tile>> mTiles;
+    private Tile[][] mTiles;
     private int rowNum;
     private int colNum;
 
@@ -23,50 +23,56 @@ public final class GameBoard {
         setupTiles(c);
     }
 
+
+
+    /*Initial Board setup Methods
+
+    Creates board of row x col size Tiles, applies initial randomized colors and disabled tiles
+    Board is a 2d List of Tiles (List of ArrayList of Tiles). Accessed similar to coordinates starting at 0,0
+    in top left corner
+    */
     private void setupTiles(Context c){
         colNum = DEFAULT_COL_NUM;
         rowNum = DEFAULT_ROW_NUM;
-        mTiles = createTiles(c, rowNum, colNum);
-        assignColors(c, mTiles);
-        assignDisabledTiles(mTiles);
+        createTiles(c, rowNum, colNum);
+        assignColors(c);
+        assignDisabledTiles();
     }
 
-    private static List<List<Tile>> createTiles(Context c, int rowAmount, int colAmount) {
-        List<List<Tile>> tiles = new ArrayList<List<Tile>>();
+    private void createTiles(Context c, int rowAmount, int colAmount) {
+        mTiles = new Tile[rowAmount][colAmount];
         for (int i = 0; i < rowAmount; ++i) {
-            tiles.add(i, new ArrayList<Tile>());
             for (int j = 0; j < colAmount; ++j)
             {
-                tiles.get(i).add(j, new Tile(c));
+                mTiles[i][j] = new Tile(c);
             }
         }
-        return tiles;
     }
 
-    private void assignDisabledTiles(List<List<Tile>> tiles) {
-        assignDisabledTiles(tiles, DEFAULT_DISABLED_TILES);
+    private void assignDisabledTiles() {
+        assignDisabledTiles(DEFAULT_DISABLED_TILES);
     }
 
-    private void assignDisabledTiles(List<List<Tile>> tiles, int[] disabled) {
+    private void assignDisabledTiles(int[] disabled) {
         for(int i=0; i<disabled.length; ++i) {
-            tiles.get(disabled[i]/colNum).get(disabled[i] % colNum).disable();
+            getGridPosition(disabled[i]).disable();
         }
     }
 
-    private void assignColors(Context c, List<List<Tile>> tiles) {
+    private void assignColors(Context c) {
         int[] colors = getColors(c);
         Stack<Integer> colorsStack = new Stack<Integer>();
 
         // Convert colors array to a stack of colors equal to the amount of colors
         int i = 0;
-        while(colorsStack.size() < colNum * rowNum) {
+        while(colorsStack.size() < boardSize()) {
             colorsStack.add(colors[i]);
             i = (i == colors.length - 1) ? 0 : i+1;
         }
 
         Collections.shuffle(colorsStack); // randomize colors
-        for (i = 0; i < tiles.size(); i++){
-            for (Tile t : tiles.get(i)) { // apply colors to tiles
+        for (Tile[] tArray : mTiles){
+            for (Tile t : tArray) { // apply colors to tiles
             t.setColor(colorsStack.pop());
             }
         }
@@ -77,17 +83,27 @@ public final class GameBoard {
         return c.getResources().getIntArray(R.array.grid_colors);
     }
 
+    /** Utility methods and getter/setters */
+
     public int getColNum(){
         return colNum;
     }
 
-    //Convert 2d List to single List for GridView display
+    public int getRowNum(){
+        return rowNum;
+    }
+
+    //Gets tile position based on 1d position for utility purposes
     public Tile getGridPosition(int position){
-        return mTiles.get(position/colNum)
-        .get(position%colNum);
+        return mTiles[(position/colNum)]
+        [(position%colNum)];
     }
 
     public int boardSize(){
         return colNum*rowNum;
+    }
+
+    public Tile getTile(int row, int col){
+        return mTiles[(row)][(col)];
     }
 }
