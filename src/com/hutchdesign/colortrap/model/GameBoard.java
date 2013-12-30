@@ -85,6 +85,7 @@ public final class GameBoard {
         return c.getResources().getIntArray(R.array.grid_colors);
     }
 
+
     /** Utility methods and getter/setters */
 
     public int getColNum(){
@@ -116,11 +117,33 @@ public final class GameBoard {
         return player2.getPosition() == position ? player2 : null;
     }
 
+    private int getPlayerTileColor(Player player){
+        return getGridPosition(player.getPosition()).getColor();
+    }
+
     public State getCurrentState() {
         return currentState;
     }
 
     public void setCurrentState(State currentState) {
         this.currentState = currentState;
+    }
+
+    //Check the 3 win conditions (Same color squares, same space, or no valid moves)
+    public boolean checkWin(){
+        if(sameColor() || sameSpace() || noMoves()){
+            return true;
+        }
+        return false;
+    }
+
+    private boolean sameColor(){
+        return getPlayerTileColor(player1) == getPlayerTileColor(player2) ? true : false;
+    }
+    private boolean sameSpace(){
+        return player1.getPosition() == player2.getPosition() ? true : false;
+    }
+    private boolean noMoves(){
+        return false;
     }
 }
