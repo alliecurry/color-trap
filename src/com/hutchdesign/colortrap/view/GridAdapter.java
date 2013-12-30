@@ -4,8 +4,9 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import com.hutchdesign.colortrap.controller.TileClickListener;
+import com.hutchdesign.colortrap.controller.GridClickListener;
 import com.hutchdesign.colortrap.model.Player;
 import com.hutchdesign.colortrap.R;
 import com.hutchdesign.colortrap.model.Tile;
@@ -14,12 +15,10 @@ import com.hutchdesign.colortrap.model.GameBoard;
 public class GridAdapter extends BaseAdapter {
     private GameBoard gameBoard;
     private Context context;
-    private View.OnClickListener tileClickListener;
 
     public GridAdapter(Context c, GameBoard board) {
         context = c;
         gameBoard = board;
-        tileClickListener = new TileClickListener();
     }
 
     public int getCount() {
@@ -50,7 +49,6 @@ public class GridAdapter extends BaseAdapter {
             }
 
             tileView.findViewById(R.id.tile_layout).setBackgroundColor(currentTile.getColor());
-            tileView.setOnClickListener(tileClickListener);
 
             // Show/hide player
             Player p = gameBoard.getPlayer(position);

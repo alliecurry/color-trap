@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.GridView;
 import com.hutchdesign.colortrap.R;
+import com.hutchdesign.colortrap.controller.GridClickListener;
 import com.hutchdesign.colortrap.model.GameBoard;
 
 
@@ -13,25 +14,24 @@ import com.hutchdesign.colortrap.model.GameBoard;
  */
 public class ColorTrap extends Activity {
 
-    private Context mContext;
-
-    //private int[] mColors;
-    GameBoard mTiles;
+    private Context context;
+    GameBoard gameBoard;
 
     public ColorTrap(){
     }
 
     public void onCreate(Bundle bundle){
         super.onCreate(bundle);
-        mContext = this;
+        context = this;
         setContentView(R.layout.board);
-        mTiles = new GameBoard(mContext);
+        gameBoard = new GameBoard(context);
         setupGridView();
     }
 
     private void setupGridView(){
         GridView gridView = (GridView) findViewById(R.id.gridview);
-        gridView.setNumColumns(mTiles.getColNum());
-        gridView.setAdapter(new GridAdapter(mContext, mTiles));
+        gridView.setNumColumns(gameBoard.getColNum());
+        gridView.setAdapter(new GridAdapter(context, gameBoard));
+        gridView.setOnItemClickListener(new GridClickListener());
     }
 }
