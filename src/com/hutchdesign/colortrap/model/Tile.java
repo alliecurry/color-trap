@@ -1,5 +1,7 @@
 package com.hutchdesign.colortrap.model;
 
+import com.hutchdesign.colortrap.R;
+
 public class Tile {
 
     private int color;
@@ -18,7 +20,7 @@ public class Tile {
     }
 
     public void disable() {
-        color = android.R.color.transparent;
+        color = R.color.board_background;
         disabled = true;
     }
 

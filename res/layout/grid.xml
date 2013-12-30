@@ -5,8 +5,8 @@
           android:layout_height="wrap_content"
           android:columnWidth="@dimen/tile_size"
           android:numColumns="5"
-          android:verticalSpacing="15dp"
-          android:horizontalSpacing="15dp"
+          android:verticalSpacing="@dimen/spacing"
+          android:horizontalSpacing="@dimen/spacing"
           android:stretchMode="none"
           android:gravity="center"
         />

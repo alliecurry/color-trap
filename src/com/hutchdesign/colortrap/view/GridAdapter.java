@@ -39,11 +39,17 @@ public class GridAdapter extends BaseAdapter {
 
         if (convertView == null) {
             tileView = LayoutInflater.from(context).inflate(R.layout.tile, null);
-            tileView.setOnClickListener(tileClickListener);
 
             // Update background color
             Tile currentTile = gameBoard.getGridPosition(position);
+
+            if (currentTile.isDisabled()) {
+                tileView.setOnClickListener(null);
+                return tileView;
+            }
+
             tileView.findViewById(R.id.tile_layout).setBackgroundColor(currentTile.getColor());
+            tileView.setOnClickListener(tileClickListener);
 
             // Show/hide player
             Player p = gameBoard.getPlayer(position);
