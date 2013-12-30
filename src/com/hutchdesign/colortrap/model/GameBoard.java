@@ -1,12 +1,9 @@
-package com.hutchdesign.colortrap.util;
+package com.hutchdesign.colortrap.model;
 
 import android.content.Context;
 import com.hutchdesign.colortrap.R;
-import com.hutchdesign.colortrap.Tile;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Stack;
 
 public final class GameBoard {
@@ -19,11 +16,21 @@ public final class GameBoard {
     private int rowNum;
     private int colNum;
 
+    private Player player1;
+    private Player player2;
+
+    private State currentState = State.PLACE_PIECE1;
+
     public GameBoard(Context c){
         setupTiles(c);
+        setupPlayers(c);
     }
 
-
+    private void setupPlayers(Context c) {
+        // TODO ... below is test code
+        player1 = new Player(1, true);
+        player2 = new Player(29, false);
+    }
 
     /*Initial Board setup Methods
 
@@ -31,20 +38,18 @@ public final class GameBoard {
     Board is a 2d List of Tiles (List of ArrayList of Tiles). Accessed similar to coordinates starting at 0,0
     in top left corner
     */
-    private void setupTiles(Context c){
+    private void setupTiles(Context c) {
         colNum = DEFAULT_COL_NUM;
         rowNum = DEFAULT_ROW_NUM;
-        createTiles(c, rowNum, colNum);
-        assignColors(c);
+        createTiles(rowNum, colNum, generateColors(c));
         assignDisabledTiles();
     }
 
-    private void createTiles(Context c, int rowAmount, int colAmount) {
+    private void createTiles(int rowAmount, int colAmount, Stack<Integer> colors) {
         mTiles = new Tile[rowAmount][colAmount];
         for (int i = 0; i < rowAmount; ++i) {
-            for (int j = 0; j < colAmount; ++j)
-            {
-                mTiles[i][j] = new Tile(c);
+            for (int j = 0; j < colAmount; ++j) {
+                mTiles[i][j] = new Tile(colors.pop());
             }
         }
     }
@@ -59,7 +64,8 @@ public final class GameBoard {
         }
     }
 
-    private void assignColors(Context c) {
+    /** Creates a randomized stack of the color palette. */
+    private Stack<Integer> generateColors(Context c) {
         int[] colors = getColors(c);
         Stack<Integer> colorsStack = new Stack<Integer>();
 
@@ -71,11 +77,7 @@ public final class GameBoard {
         }
 
         Collections.shuffle(colorsStack); // randomize colors
-        for (Tile[] tArray : mTiles){
-            for (Tile t : tArray) { // apply colors to tiles
-            t.setColor(colorsStack.pop());
-            }
-        }
+        return colorsStack;
     }
 
     /** @return the default color palette in the form of resource ("R") values. */
@@ -105,5 +107,20 @@ public final class GameBoard {
 
     public Tile getTile(int row, int col){
         return mTiles[(row)][(col)];
+    }
+
+    public Player getPlayer(int position) {
+        if (player1.getPosition() == position) {
+            return player1;
+        }
+        return player2.getPosition() == position ? player2 : null;
+    }
+
+    public State getCurrentState() {
+        return currentState;
+    }
+
+    public void setCurrentState(State currentState) {
+        this.currentState = currentState;
     }
 }

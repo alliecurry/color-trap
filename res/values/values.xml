@@ -36,14 +36,21 @@
         <item>@color/a1</item>
         <item>@color/a2</item>
         <item>@color/a3</item>
-        <item>@color/a4</item>
+        <item>@color/sherbert_light</item>
         <item>@color/a5</item>
-        <item>@color/a6</item>
+        <item>@color/honey_dew</item>
         <item>@color/a7</item>
         <item>@color/a8</item>
-        <item>@color/a9</item>
+        <item>@color/sage</item>
         <item>@color/a10</item>
     </string-array>
+
+    <color name="board_background">@android:color/white</color>
+    <color name="player_color">@android:color/holo_blue_bright</color>
+    <color name="player_color2">@android:color/holo_purple</color>
+
+    <dimen name="tile_size">45dp</dimen>
+    <dimen name="piece_size">15dp</dimen>
 
 
 </resources>

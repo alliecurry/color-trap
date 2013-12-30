@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="@dimen/tile_size"
+                android:layout_height="@dimen/tile_size"
+                android:minWidth="@dimen/tile_size"
+                android:minHeight="@dimen/tile_size"
+                android:id="@+id/tile_layout">
+
+
+    <View android:id="@+id/tile_player1"
+          android:visibility="gone"
+          android:layout_height="@dimen/piece_size"
+          android:layout_width="@dimen/piece_size"
+          android:background="@drawable/player"
+          android:layout_centerInParent="true"/>
+
+    <View android:id="@+id/tile_player2"
+          android:visibility="gone"
+          android:layout_height="@dimen/piece_size"
+          android:layout_width="@dimen/piece_size"
+          android:background="@drawable/player2"
+          android:layout_centerInParent="true"/>
+
+</RelativeLayout>

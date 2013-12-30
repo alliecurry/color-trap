@@ -1,4 +1,4 @@
-package com.hutchdesign.colortrap;
+package com.hutchdesign.colortrap.view;
 
 import android.app.Activity;
 import android.content.Intent;
