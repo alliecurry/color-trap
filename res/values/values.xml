@@ -18,6 +18,8 @@
     <color name="love">#87244C</color>
     <color name="moss">#F5A2A2</color>
 
+    <color name="cotton">#46ECDF</color>
+
     <string-array name="grid_colors">
         <item>@color/emerald</item>
         <item>@color/watermellon</item>
@@ -28,7 +30,7 @@
         <item>@color/river</item>
         <item>@color/alizarin</item>
         <item>@color/minde</item>
-        <item>@color/concrete</item>
+        <item>@color/cotton</item>
     </string-array>
 
     <color name="board_background">@color/clouds</color>
