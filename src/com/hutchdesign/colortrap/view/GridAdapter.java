@@ -45,6 +45,7 @@ public class GridAdapter extends BaseAdapter {
 
             if (currentTile.isDisabled()) {
                 tileView.setOnClickListener(null);
+                tileView.setFocusable(false);
                 return tileView;
             }
 

@@ -2,26 +2,6 @@
 <resources>
 
     <color name="watermellon">#F56991</color>
-    <color name="sherbert_dark">#FF9F80</color>
-    <color name="sherbert_light">#FFC48C</color>
-    <color name="honey_dew">#EFFAB4</color>
-    <color name="lime">#D1F2A5</color>
-    <color name="sage">#8DCCAD</color>
-    <color name="dirt">#988864</color>
-    <color name="lake">#3A8686</color>
-    <color name="sky">#81A8B8</color>
-
-    <color name="a1">#6B94FE</color>
-    <color name="a2">#9D59FD</color>
-    <color name="a3">#FF5BCB</color>
-    <color name="a4">#FF9866</color>
-    <color name="a5">#F4C015</color>
-    <color name="a6">#95FF6B</color>
-    <color name="a7">#62FFCD</color>
-    <color name="a8">#CCCCCC</color>
-    <color name="a9">#A0512D</color>
-    <color name="a10">#444444</color>
-
     <color name="turquoise">#1abc9c</color>
     <color name="emerald">#2ecc71</color>
     <color name="river">#3498db</color>
@@ -33,27 +13,31 @@
     <color name="concrete">#95a5a6</color>
     <color name="clouds">#ecf0f1</color>
 
+    <color name="minde">#BCCF9F</color>
+    <color name="phobia">#3FB094</color>
+    <color name="love">#87244C</color>
+    <color name="moss">#F5A2A2</color>
 
     <string-array name="grid_colors">
-        <item>@color/turquoise</item>
         <item>@color/emerald</item>
-        <item>@color/river</item>
+        <item>@color/watermellon</item>
+        <item>@color/love</item>
         <item>@color/amethyst</item>
         <item>@color/asphalt</item>
         <item>@color/sun_flower</item>
-        <item>@color/carrot</item>
+        <item>@color/river</item>
         <item>@color/alizarin</item>
+        <item>@color/minde</item>
         <item>@color/concrete</item>
-        <item>@color/a10</item>
     </string-array>
 
     <color name="board_background">@color/clouds</color>
     <color name="player_color">@android:color/holo_blue_bright</color>
     <color name="player_color2">@android:color/holo_purple</color>
 
-    <dimen name="tile_size">50dp</dimen>
+    <dimen name="tile_size">54dp</dimen>
     <dimen name="piece_size">20dp</dimen>
-    <dimen name="spacing">5dp</dimen> <!-- space between tiles -->
+    <dimen name="spacing">2dp</dimen> <!-- space between tiles -->
 
 
 </resources>
