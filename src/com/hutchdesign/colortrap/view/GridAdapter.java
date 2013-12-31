@@ -35,38 +35,40 @@ public class GridAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
         View tileView = convertView;
+        Tile currentTile = gameBoard.getGridPosition(position);
 
         if (convertView == null) {
             tileView = LayoutInflater.from(context).inflate(R.layout.tile, null);
         }
 
-            // Update background color
-            Tile currentTile = gameBoard.getGridPosition(position);
+        // Show/hide player
+        Player p = gameBoard.getPlayer(position);
+        View playerView1 = tileView.findViewById(R.id.tile_player1);
+        View playerView2 = tileView.findViewById(R.id.tile_player2);
 
+        if (p == null) {
+            playerView1.setVisibility(View.GONE);
+            playerView2.setVisibility(View.GONE);
+        } else {
+            boolean isFirstPlayer = p.isFirstPlayer();
+            playerView1.setVisibility(isFirstPlayer ? View.VISIBLE : View.GONE);
+            playerView2.setVisibility(isFirstPlayer ? View.GONE : View.VISIBLE);
+        }
 
-            tileView.findViewById(R.id.tile_layout).setBackgroundColor(currentTile.getColor());
-
-
-            // Show/hide player
-            Player p = gameBoard.getPlayer(position);
-            View playerView1 = tileView.findViewById(R.id.tile_player1);
-            View playerView2 = tileView.findViewById(R.id.tile_player2);
-
-            if (p == null) {
-                playerView1.setVisibility(View.GONE);
-                playerView2.setVisibility(View.GONE);
-            } else {
-                boolean isFirstPlayer = p.isFirstPlayer();
-                playerView1.setVisibility(isFirstPlayer ? View.VISIBLE : View.GONE);
-                playerView2.setVisibility(isFirstPlayer ? View.GONE : View.VISIBLE);
-            }
+        // Handle "dead" tiles
         if (currentTile.isDisabled()) {
             tileView.setOnClickListener(null);
             tileView.setFocusable(false);
+            tileView.findViewById(R.id.tile_layout).setBackgroundColor(getDisabledColor());
             return tileView;
         }
 
+        tileView.findViewById(R.id.tile_layout).setBackgroundColor(currentTile.getColor());
         return tileView;
+    }
+
+    private int getDisabledColor() {
+        return context.getResources().getColor(R.color.board_background);
     }
 
 }

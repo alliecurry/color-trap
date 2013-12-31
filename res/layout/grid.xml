@@ -8,4 +8,5 @@
           android:verticalSpacing="@dimen/spacing"
           android:horizontalSpacing="@dimen/spacing"
           android:stretchMode="none"
+          android:background="@android:color/transparent"
         />

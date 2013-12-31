@@ -20,7 +20,6 @@ public class Tile {
     }
 
     public void disable() {
-        color = R.color.board_background;
         disabled = true;
     }
 
