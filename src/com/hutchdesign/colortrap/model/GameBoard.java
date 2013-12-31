@@ -116,12 +116,13 @@ public final class GameBoard {
     }
 
     public Player getPlayer(int position) {
-        if (players[PLAYER_ONE] == null || players[PLAYER_TWO] == null)
-            return null;
-        if (players[PLAYER_ONE].getPosition() == position) {
-            return players[PLAYER_ONE];
+        if(players[PLAYER_ONE] != null && players[PLAYER_ONE].getPosition() == position){
+                return players[PLAYER_ONE];
+            }
+        if(players[PLAYER_TWO] != null && players[PLAYER_TWO].getPosition() == position){
+            return players[PLAYER_TWO];
         }
-        return players[PLAYER_TWO].getPosition() == position ? players[PLAYER_TWO] : null;
+        return null;
     }
 
     private int getPlayerTileColor(Player player){
