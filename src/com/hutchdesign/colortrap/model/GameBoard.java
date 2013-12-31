@@ -3,7 +3,9 @@ package com.hutchdesign.colortrap.model;
 import android.content.Context;
 import com.hutchdesign.colortrap.R;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Stack;
 
 public final class GameBoard {
@@ -18,7 +20,6 @@ public final class GameBoard {
     private int rowNum;
     private int colNum;
     private Player[] players;
-
     private State currentState = State.PLACE_PIECE1;
 
     public GameBoard(Context c){
@@ -26,17 +27,30 @@ public final class GameBoard {
         players = new Player[2];
         players[PLAYER_ONE] = null;
         players[PLAYER_TWO] = null;
+
         //setupPlayers(c);
     }
 
-    public void setupPlayer(int player, int position) {
+    public boolean setupPlayer(int player, int position) {
         if(player == PLAYER_ONE){
             players[player] = new Player(position, true);
+            return true;
         }
-        else players[player] = new Player(position, false);
+        if(validStartSpace(position)){
+            players[player] = new Player(position, false);
+            return true;
+        }
+        return false;
     }
 
-
+    // Second players start space can't be a winning position
+    private boolean validStartSpace(int position){
+        if(position == players[PLAYER_ONE].getPosition() ||
+        getGridPosition(position).getColor() == getPlayerTileColor(players[PLAYER_ONE])){
+            return false;
+        }
+        return true;
+    }
     /*Initial Board setup Methods
 
     Creates board of row x col size Tiles, applies initial randomized colors and disabled tiles
@@ -107,6 +121,9 @@ public final class GameBoard {
         [(position%colNum)];
     }
 
+    public int getTileRow(int position){return position/colNum;}
+    public int getTileCol(int position){return position%colNum;}
+
     public int boardSize(){
         return colNum*rowNum;
     }
@@ -155,8 +172,51 @@ public final class GameBoard {
         return false;
     }
 
-    public void takeTurn(int player, int position) {
-        getGridPosition(players[player].getPosition()).disable();
-        players[player].setPosition(position);
+    public boolean takeTurn(int player, int position) {
+        List validMoves;
+        validMoves = getValidMoves(players[player].getPosition());
+        if(validMoves.contains(position)){
+            getGridPosition(players[player].getPosition()).disable();
+            players[player].setPosition(position);
+            return true;
+        }
+        return false;
+    }
+
+    //Probably a fancier way to do this.
+    private List getValidMoves(int position){
+        List<Integer> validMoves = new ArrayList();
+        //Right
+        for(int i = position + 1; i%colNum != 0; i++){
+            if(!getGridPosition(i).isDisabled()){
+                validMoves.add(i);
+                break;
+            }
+        }
+        //Left
+        for(int i = position - 1; (i + 1)%colNum >= 0; i--){
+            if(!getGridPosition(i).isDisabled()){
+                validMoves.add(i);
+                break;
+            }
+        }
+        //Up
+        for(int i = position - colNum; i >= 0; i = i - colNum){
+            if(!getGridPosition(i).isDisabled()){
+                validMoves.add(i);
+                break;
+            }
+        }
+        //Down
+        for(int i = position + colNum; i <= boardSize(); i = i + colNum){
+            if(!getGridPosition(i).isDisabled()){
+                validMoves.add(i);
+                break;
+            }
+        }
+        for(Integer item : validMoves){
+            System.out.println("Valid Move: " + item);
+        }
+        return validMoves;
     }
 }

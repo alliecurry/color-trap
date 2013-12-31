@@ -45,7 +45,7 @@ public class ColorTrap extends Activity implements AdapterView.OnItemClickListen
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        System.out.println("Tile Clicked #" + position + "NEW STATE = " + state);
+        //System.out.println("Tile Clicked #" + position + "NEW STATE = " + state);
         step(position);
         ((BaseAdapter)gridView.getAdapter()).notifyDataSetChanged();
     }
@@ -53,22 +53,20 @@ public class ColorTrap extends Activity implements AdapterView.OnItemClickListen
     private void step(int position){
         switch(state){
             case PLACE_PIECE1:
-                gameBoard.setupPlayer(PLAYER_ONE, position);
-
-                state = State.PLACE_PIECE2;
+                if(gameBoard.setupPlayer(PLAYER_ONE, position))
+                    state = State.PLACE_PIECE2;
                 break;
             case PLACE_PIECE2:
-                gameBoard.setupPlayer(PLAYER_TWO, position);
-                state = State.TURN_PLAYER1;
+                if(gameBoard.setupPlayer(PLAYER_TWO, position))
+                    state = State.TURN_PLAYER1;
                 break;
             case TURN_PLAYER1:
-                gameBoard.takeTurn(PLAYER_ONE, position);
-                state = State.TURN_PLAYER2;
+                if(gameBoard.takeTurn(PLAYER_ONE, position))
+                    state = State.TURN_PLAYER2;
                 break;
             case TURN_PLAYER2:
-                gameBoard.takeTurn(PLAYER_TWO, position);
-                state = State.TURN_PLAYER1;
-
+                if(gameBoard.takeTurn(PLAYER_TWO, position))
+                    state = State.TURN_PLAYER1;
                 break;
             default: break;
         }
