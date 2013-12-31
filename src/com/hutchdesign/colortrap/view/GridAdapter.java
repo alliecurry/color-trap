@@ -4,9 +4,9 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import com.hutchdesign.colortrap.controller.GridClickListener;
+import android.widget.ListAdapter;
 import com.hutchdesign.colortrap.model.Player;
 import com.hutchdesign.colortrap.R;
 import com.hutchdesign.colortrap.model.Tile;
@@ -26,7 +26,7 @@ public class GridAdapter extends BaseAdapter {
     }
 
     public Object getItem(int position) {
-        return null;
+        return gameBoard.getGridPosition(position);
     }
 
     public long getItemId(int position) {
@@ -38,17 +38,14 @@ public class GridAdapter extends BaseAdapter {
 
         if (convertView == null) {
             tileView = LayoutInflater.from(context).inflate(R.layout.tile, null);
+        }
 
             // Update background color
             Tile currentTile = gameBoard.getGridPosition(position);
 
-            if (currentTile.isDisabled()) {
-                tileView.setOnClickListener(null);
-                tileView.setFocusable(false);
-                return tileView;
-            }
 
             tileView.findViewById(R.id.tile_layout).setBackgroundColor(currentTile.getColor());
+
 
             // Show/hide player
             Player p = gameBoard.getPlayer(position);
@@ -63,6 +60,10 @@ public class GridAdapter extends BaseAdapter {
                 playerView1.setVisibility(isFirstPlayer ? View.VISIBLE : View.GONE);
                 playerView2.setVisibility(isFirstPlayer ? View.GONE : View.VISIBLE);
             }
+        if (currentTile.isDisabled()) {
+            tileView.setOnClickListener(null);
+            tileView.setFocusable(false);
+            return tileView;
         }
 
         return tileView;

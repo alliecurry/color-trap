@@ -10,27 +10,32 @@ public final class GameBoard {
     /** Default amount of tiles (including disabled). */
     private static final int DEFAULT_ROW_NUM = 6;
     private static final int DEFAULT_COL_NUM = 5;
+    static final int PLAYER_ONE = 0;
+    static final int PLAYER_TWO = 1;
     /** Tile positions disabled by default. */
     private static final int[] DEFAULT_DISABLED_TILES = {0, 2, 3, 4, 25};
     private Tile[][] mTiles;
     private int rowNum;
     private int colNum;
-
-    private Player player1;
-    private Player player2;
+    private Player[] players;
 
     private State currentState = State.PLACE_PIECE1;
 
     public GameBoard(Context c){
         setupTiles(c);
-        setupPlayers(c);
+        players = new Player[2];
+        players[PLAYER_ONE] = null;
+        players[PLAYER_TWO] = null;
+        //setupPlayers(c);
     }
 
-    private void setupPlayers(Context c) {
-        // TODO ... below is test code
-        player1 = new Player(1, true);
-        player2 = new Player(29, false);
+    public void setupPlayer(int player, int position) {
+        if(player == PLAYER_ONE){
+            players[player] = new Player(position, true);
+        }
+        else players[player] = new Player(position, false);
     }
+
 
     /*Initial Board setup Methods
 
@@ -111,10 +116,12 @@ public final class GameBoard {
     }
 
     public Player getPlayer(int position) {
-        if (player1.getPosition() == position) {
-            return player1;
+        if (players[PLAYER_ONE] == null || players[PLAYER_TWO] == null)
+            return null;
+        if (players[PLAYER_ONE].getPosition() == position) {
+            return players[PLAYER_ONE];
         }
-        return player2.getPosition() == position ? player2 : null;
+        return players[PLAYER_TWO].getPosition() == position ? players[PLAYER_TWO] : null;
     }
 
     private int getPlayerTileColor(Player player){
@@ -138,12 +145,17 @@ public final class GameBoard {
     }
 
     private boolean sameColor(){
-        return getPlayerTileColor(player1) == getPlayerTileColor(player2) ? true : false;
+        return getPlayerTileColor(players[PLAYER_ONE]) == getPlayerTileColor(players[PLAYER_TWO]) ? true : false;
     }
     private boolean sameSpace(){
-        return player1.getPosition() == player2.getPosition() ? true : false;
+        return players[PLAYER_ONE].getPosition() == players[PLAYER_TWO].getPosition() ? true : false;
     }
     private boolean noMoves(){
         return false;
+    }
+
+    public void takeTurn(int player, int position) {
+        getGridPosition(players[player].getPosition()).disable();
+        players[player].setPosition(position);
     }
 }
