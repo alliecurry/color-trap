@@ -155,8 +155,8 @@ public final class GameBoard {
     }
 
     //Check the 3 win conditions (Same color squares, same space, or no valid moves)
-    public boolean checkWin(){
-        if(sameColor() || sameSpace() || noMoves()){
+    public boolean checkWin(int player){
+        if(sameColor() || sameSpace() || noMoves(otherPlayer(player))){
             return true;
         }
         return false;
@@ -168,8 +168,8 @@ public final class GameBoard {
     private boolean sameSpace(){
         return players[PLAYER_ONE].getPosition() == players[PLAYER_TWO].getPosition() ? true : false;
     }
-    private boolean noMoves(){
-        return false;
+    private boolean noMoves(int player){
+        return getValidMoves(players[player].getPosition()).isEmpty() ? true:false;
     }
 
     public boolean takeTurn(int player, int position) {
@@ -178,13 +178,20 @@ public final class GameBoard {
         if(validMoves.contains(position)){
             getGridPosition(players[player].getPosition()).disable();
             players[player].setPosition(position);
+            if(checkWin(player)){
+                System.out.println("A winner is player " + player);
+                //Win and reset?
+            }
             return true;
         }
         return false;
     }
-
+    private int otherPlayer(int player) {
+        return player == 0 ? 1 : 0;
+    }
     //Probably a fancier way to do this.
     private List getValidMoves(int position){
+        System.out.println("Current position = " + position);
         List<Integer> validMoves = new ArrayList();
         //Right
         for(int i = position + 1; i%colNum != 0; i++){
@@ -194,7 +201,8 @@ public final class GameBoard {
             }
         }
         //Left
-        for(int i = position - 1; (i + 1)%colNum >= 0; i--){
+        for(int i = position - 1; (i+1)%colNum > 0; i--){
+            System.out.println("left move i = " + i);
             if(!getGridPosition(i).isDisabled()){
                 validMoves.add(i);
                 break;
@@ -208,14 +216,12 @@ public final class GameBoard {
             }
         }
         //Down
-        for(int i = position + colNum; i <= boardSize(); i = i + colNum){
+        for(int i = position + colNum; i < boardSize(); i = i + colNum){
+            System.out.println("Down move i = " + i);
             if(!getGridPosition(i).isDisabled()){
                 validMoves.add(i);
                 break;
             }
-        }
-        for(Integer item : validMoves){
-            System.out.println("Valid Move: " + item);
         }
         return validMoves;
     }
