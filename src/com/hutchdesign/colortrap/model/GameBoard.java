@@ -1,5 +1,6 @@
 package com.hutchdesign.colortrap.model;
 
+import android.app.Activity;
 import android.content.Context;
 import com.hutchdesign.colortrap.R;
 
@@ -14,30 +15,36 @@ public final class GameBoard {
     private static final int DEFAULT_COL_NUM = 5;
     static final int PLAYER_ONE = 0;
     static final int PLAYER_TWO = 1;
+    private int playerTurn;
     /** Tile positions disabled by default. */
     private static final int[] DEFAULT_DISABLED_TILES = {0, 2, 3, 4, 25};
     private Tile[][] mTiles;
     private int rowNum;
     private int colNum;
     private Player[] players;
-    private State currentState = State.PLACE_PIECE1;
+    private State currentState;
 
     public GameBoard(Context c){
         setupTiles(c);
         players = new Player[2];
         players[PLAYER_ONE] = null;
         players[PLAYER_TWO] = null;
+        playerTurn = 0;
+        setCurrentState(State.PLACE_PIECE);
 
         //setupPlayers(c);
     }
 
-    public boolean setupPlayer(int player, int position) {
-        if(player == PLAYER_ONE){
-            players[player] = new Player(position, true);
+    public boolean setupPlayer(int position) {
+        if(playerTurn == PLAYER_ONE){
+            players[playerTurn] = new Player(position, true);
+            playerTurn = otherPlayer(playerTurn);
             return true;
         }
         if(validStartSpace(position)){
-            players[player] = new Player(position, false);
+            players[playerTurn] = new Player(position, false);
+            playerTurn = otherPlayer(playerTurn);
+            setCurrentState(State.TURN_PLAYER);
             return true;
         }
         return false;
@@ -155,8 +162,8 @@ public final class GameBoard {
     }
 
     //Check the 3 win conditions (Same color squares, same space, or no valid moves)
-    public boolean checkWin(int player){
-        if(sameColor() || sameSpace() || noMoves(otherPlayer(player))){
+    public boolean checkWin(){
+        if(sameColor() || sameSpace() || noMoves(otherPlayer(playerTurn))){
             return true;
         }
         return false;
@@ -172,16 +179,18 @@ public final class GameBoard {
         return getValidMoves(players[player].getPosition()).isEmpty() ? true:false;
     }
 
-    public boolean takeTurn(int player, int position) {
+    public boolean takeTurn(int position) {
         List validMoves;
-        validMoves = getValidMoves(players[player].getPosition());
+        validMoves = getValidMoves(players[playerTurn].getPosition());
         if(validMoves.contains(position)){
-            getGridPosition(players[player].getPosition()).disable();
-            players[player].setPosition(position);
-            if(checkWin(player)){
-                System.out.println("A winner is player " + player);
+            getGridPosition(players[playerTurn].getPosition()).disable();
+            players[playerTurn].setPosition(position);
+            if(checkWin()){
+                System.out.println("A winner is player " + playerTurn);
+                setCurrentState(State.GAME_OVER);
                 //Win and reset?
             }
+            playerTurn = otherPlayer(playerTurn);
             return true;
         }
         return false;

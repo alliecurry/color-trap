@@ -19,10 +19,7 @@ public class ColorTrap extends Activity implements AdapterView.OnItemClickListen
 
     private Context context;
     GameBoard gameBoard;
-    State state;
     GridView gridView;
-    static final int PLAYER_ONE = 0;
-    static final int PLAYER_TWO = 1;
 
     public ColorTrap(){
     }
@@ -33,7 +30,7 @@ public class ColorTrap extends Activity implements AdapterView.OnItemClickListen
         setContentView(R.layout.board);
         gameBoard = new GameBoard(context);
         setupGridView();
-        state = State.PLACE_PIECE1;
+        //state = State.PLACE_PIECE1;
     }
 
     private void setupGridView(){
@@ -51,23 +48,17 @@ public class ColorTrap extends Activity implements AdapterView.OnItemClickListen
     }
 
     private void step(int position){
-        switch(state){
-            case PLACE_PIECE1:
-                if(gameBoard.setupPlayer(PLAYER_ONE, position))
-                    state = State.PLACE_PIECE2;
+        switch(gameBoard.getCurrentState()){
+            case PLACE_PIECE:
+                gameBoard.setupPlayer(position);
                 break;
-            case PLACE_PIECE2:
-                if(gameBoard.setupPlayer(PLAYER_TWO, position))
-                    state = State.TURN_PLAYER1;
+            case TURN_PLAYER:
+                gameBoard.takeTurn(position);
                 break;
-            case TURN_PLAYER1:
-                if(gameBoard.takeTurn(PLAYER_ONE, position))
-                    state = State.TURN_PLAYER2;
+            case GAME_OVER:
+                recreate();
                 break;
-            case TURN_PLAYER2:
-                if(gameBoard.takeTurn(PLAYER_TWO, position))
-                    state = State.TURN_PLAYER1;
-                break;
+
             default: break;
         }
 
