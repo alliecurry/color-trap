@@ -209,6 +209,7 @@ public final class GameBoard {
             if(checkWin()){
                 System.out.println("A winner is player " + playerTurn);
                 setCurrentState(State.GAME_OVER);
+                return true;
                 //Win and reset?
             }
             playerTurn = otherPlayer(playerTurn);
