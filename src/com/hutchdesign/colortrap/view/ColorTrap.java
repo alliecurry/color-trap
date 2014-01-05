@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import com.hutchdesign.colortrap.R;
 import com.hutchdesign.colortrap.model.GameBoard;
+import com.hutchdesign.colortrap.model.Mode;
 import com.hutchdesign.colortrap.model.State;
 
 
@@ -20,15 +21,16 @@ public class ColorTrap extends Activity implements AdapterView.OnItemClickListen
     private Context context;
     GameBoard gameBoard;
     GridView gridView;
-
+    Mode mode;
     public ColorTrap(){
     }
 
     public void onCreate(Bundle bundle){
         super.onCreate(bundle);
         context = this;
+        mode = Mode.COMPUTER;
         setContentView(R.layout.board);
-        gameBoard = new GameBoard(context);
+        gameBoard = new GameBoard(context, mode);
         setupGridView();
         //state = State.PLACE_PIECE1;
     }

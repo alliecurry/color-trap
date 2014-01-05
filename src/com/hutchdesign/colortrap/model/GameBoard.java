@@ -23,13 +23,15 @@ public final class GameBoard {
     private int colNum;
     private Player[] players;
     private State currentState;
+    private Mode gameMode;
 
-    public GameBoard(Context c){
+    public GameBoard(Context c, Mode mode){
         setupTiles(c);
         players = new Player[2];
         players[PLAYER_ONE] = null;
         players[PLAYER_TWO] = null;
         playerTurn = 0;
+        setGameMode(mode);
         setCurrentState(State.PLACE_PIECE);
 
         //setupPlayers(c);
@@ -39,7 +41,11 @@ public final class GameBoard {
         if(playerTurn == PLAYER_ONE){
             players[playerTurn] = new Player(position, true);
             playerTurn = otherPlayer(playerTurn);
+            if(gameMode == Mode.COMPUTER){
+                setUpCompPlayer();
+            }
             return true;
+
         }
         if(validStartSpace(position)){
             players[playerTurn] = new Player(position, false);
@@ -50,10 +56,25 @@ public final class GameBoard {
         return false;
     }
 
+    private void setUpCompPlayer() {
+        Stack<Integer> startMoves = new Stack<Integer>();
+        for(int position = 0; position < boardSize(); position++){
+            if(validStartSpace(position)){
+                startMoves.add(position);
+            }
+        }
+        Collections.shuffle(startMoves);
+        players[playerTurn] = new ComputerPlayer(startMoves.pop(), false);
+        setCurrentState(State.TURN_PLAYER);
+        playerTurn = otherPlayer(playerTurn);
+
+    }
+
     // Second players start space can't be a winning position
     private boolean validStartSpace(int position){
         if(position == players[PLAYER_ONE].getPosition() ||
-        getGridPosition(position).getColor() == getPlayerTileColor(players[PLAYER_ONE])){
+        getGridPosition(position).getColor() == getPlayerTileColor(players[PLAYER_ONE]) ||
+                getGridPosition(position).isDisabled()){
             return false;
         }
         return true;
@@ -191,10 +212,20 @@ public final class GameBoard {
                 //Win and reset?
             }
             playerTurn = otherPlayer(playerTurn);
+            if(gameMode == Mode.COMPUTER && !players[playerTurn].isFirstPlayer()){
+                takeCompTurn();
+            }
             return true;
         }
         return false;
     }
+    private void takeCompTurn() {
+        List<Integer> validMoves;
+        validMoves = getValidMoves(players[playerTurn].getPosition());
+        Collections.shuffle(validMoves);
+        takeTurn(validMoves.get(0));
+    }
+
     private int otherPlayer(int player) {
         return player == 0 ? 1 : 0;
     }
@@ -233,5 +264,9 @@ public final class GameBoard {
             }
         }
         return validMoves;
+    }
+
+    public void setGameMode(Mode currentMode) {
+        this.gameMode = currentMode;
     }
 }
