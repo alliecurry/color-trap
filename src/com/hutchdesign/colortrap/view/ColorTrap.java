@@ -58,7 +58,8 @@ public class ColorTrap extends Activity implements AdapterView.OnItemClickListen
                 gameBoard.takeTurn(position);
                 break;
             case GAME_OVER:
-                recreate();
+//                recreate();
+                finish();
                 break;
 
             default: break;
