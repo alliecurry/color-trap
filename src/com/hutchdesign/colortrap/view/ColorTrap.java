@@ -56,14 +56,20 @@ public class ColorTrap extends Activity implements AdapterView.OnItemClickListen
                 break;
             case TURN_PLAYER:
                 gameBoard.takeTurn(position);
+                if (gameBoard.getCurrentState() == State.GAME_OVER) {
+                    handleGameOver();
+                }
                 break;
             case GAME_OVER:
-//                recreate();
-                finish();
+                handleGameOver();
                 break;
-
             default: break;
+
         }
 
+    }
+
+    private void handleGameOver() {
+        finish();
     }
 }
