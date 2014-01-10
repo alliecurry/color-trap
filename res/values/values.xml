@@ -20,6 +20,15 @@
 
     <color name="cotton">#46ECDF</color>
 
+    <color name="joff_yellow">#F9E85E</color>
+    <color name="joff_blue">#2F37A3</color>
+    <color name="joff_green">#AEDF4F</color>
+    <color name="joff_orange">#E87B44</color>
+    <color name="joff_pink">#B83A72</color>
+    <color name="joff_purple">#746FD8</color>
+    <color name="joff_sky">#7AD6D7</color>
+    <color name="joff_ocean">#0E2A40</color>
+
     <string-array name="grid_colors">
         <item>@color/emerald</item>
         <item>@color/watermellon</item>
@@ -31,6 +40,32 @@
         <item>@color/alizarin</item>
         <item>@color/minde</item>
         <item>@color/cotton</item>
+    </string-array>
+
+    <string-array name="grid_colors2">
+        <item>@color/emerald</item>
+        <item>@color/watermellon</item>
+        <item>@color/joff_pink</item>
+        <item>@color/amethyst</item>
+        <item>@color/asphalt</item>
+        <item>@color/sun_flower</item>
+        <item>@color/river</item>
+        <item>@color/carrot</item>
+        <item>@color/joff_green</item>
+        <item>@color/joff_sky</item>
+    </string-array>
+
+    <string-array name="joff_grid_colors">
+        <item>@color/joff_yellow</item>
+        <item>@color/joff_blue</item>
+        <item>@color/joff_green</item>
+        <item>@color/joff_orange</item>
+        <item>@color/joff_pink</item>
+        <item>@color/joff_purple</item>
+        <item>@color/joff_sky</item>
+        <item>@color/joff_ocean</item>
+        <item>@color/minde</item>
+        <item>@color/emerald</item>
     </string-array>
 
     <color name="board_background">@color/clouds</color>

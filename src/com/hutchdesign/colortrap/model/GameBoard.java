@@ -129,7 +129,7 @@ public final class GameBoard {
 
     /** @return the default color palette in the form of resource ("R") values. */
     private static int[] getColors(Context c) {
-        return c.getResources().getIntArray(R.array.grid_colors);
+        return c.getResources().getIntArray(R.array.grid_colors2);
     }
 
 
