@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="global_style" parent="@android:style/Theme.Light.NoTitleBar">
+    <style name="global_style" parent="@android:style/Theme.Light.NoTitleBar.Fullscreen">
         <item name="android:background">@color/board_background</item>
     </style>
 
