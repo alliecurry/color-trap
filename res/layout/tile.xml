@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="@dimen/tile_size"
-                android:layout_height="@dimen/tile_size"
-                android:minWidth="@dimen/tile_size"
-                android:minHeight="@dimen/tile_size"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:id="@+id/tile_layout">
 
+    <com.hutchdesign.colortrap.view.SquareView
+          android:id="@+id/tile_square_view"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"/>
 
     <View android:id="@+id/tile_player1"
           android:visibility="gone"

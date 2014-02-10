@@ -1,15 +1,15 @@
 <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/board_layout"
         style="@style/global_style"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:padding="10dp" >
+        android:padding="20dp" >
 
     <include
             layout="@layout/grid"
             android:id="@+id/gridview"
             android:layout_alignWithParentIfMissing="false"
-            android:layout_centerHorizontal="true"/>
+            />
 
 </RelativeLayout>
