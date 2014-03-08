@@ -3,6 +3,7 @@ package com.hutchdesign.colortrap.view;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -36,10 +37,19 @@ public class ColorTrap extends Activity implements AdapterView.OnItemClickListen
     }
 
     private void setupGridView(){
+        final GridAdapter adapter = new GridAdapter(context, gameBoard);
         gridView = (GridView) findViewById(R.id.gridview);
         gridView.setNumColumns(gameBoard.getColNum());
-        gridView.setAdapter(new GridAdapter(context, gameBoard));
+        gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(this);
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                adapter.animate();
+            }
+        }, 100);
     }
 
     @Override

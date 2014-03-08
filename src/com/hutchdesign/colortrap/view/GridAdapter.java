@@ -4,21 +4,20 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.ListAdapter;
-import com.hutchdesign.colortrap.model.Player;
 import com.hutchdesign.colortrap.R;
-import com.hutchdesign.colortrap.model.Tile;
 import com.hutchdesign.colortrap.model.GameBoard;
+import com.hutchdesign.colortrap.model.Player;
+import com.hutchdesign.colortrap.model.Tile;
 
-public class GridAdapter extends BaseAdapter {
+public class GridAdapter extends AnimatedAdapter {
     private GameBoard gameBoard;
     private Context context;
 
     public GridAdapter(Context c, GameBoard board) {
+        super(c, R.animator.flip, 400);
         context = c;
         gameBoard = board;
+        setDelay(50);
     }
 
     public int getCount() {
@@ -31,6 +30,12 @@ public class GridAdapter extends BaseAdapter {
 
     public long getItemId(int position) {
         return 0;
+    }
+
+    /** Redraw & animate grid. */
+    public void animate() {
+        animate = true;
+        notifyDataSetChanged();
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -64,7 +69,14 @@ public class GridAdapter extends BaseAdapter {
         }
 
         tileView.findViewById(R.id.tile_layout).setBackgroundColor(currentTile.getColor());
+
+        doAnimation(tileView, position, currentTile.isDisabled());
         return tileView;
+    }
+
+    @Override
+    public void onAnimate(View view) {
+        view.setVisibility(View.VISIBLE);
     }
 
     private int getDisabledColor() {

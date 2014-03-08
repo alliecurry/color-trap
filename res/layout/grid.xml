@@ -8,4 +8,5 @@
           android:horizontalSpacing="@dimen/spacing"
           android:stretchMode="columnWidth"
           android:background="@android:color/transparent"
+          android:listSelector="@android:color/transparent"
         />
