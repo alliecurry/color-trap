@@ -1,8 +1,8 @@
 package com.hutchdesign.colortrap.model;
 
-import android.app.Activity;
 import android.content.Context;
-import com.hutchdesign.colortrap.R;
+import android.util.Log;
+import com.hutchdesign.colortrap.util.TileUtility;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Stack;
 
 public final class GameBoard {
+    private static String TAG = GameBoard.class.getSimpleName();
+
     /** Default amount of tiles (including disabled). */
     private static final int DEFAULT_ROW_NUM = 6;
     private static final int DEFAULT_COL_NUM = 5;
@@ -33,8 +35,6 @@ public final class GameBoard {
         playerTurn = 0;
         setGameMode(mode);
         setCurrentState(State.PLACE_PIECE);
-
-        //setupPlayers(c);
     }
 
     public boolean setupPlayer(int position) {
@@ -79,7 +79,8 @@ public final class GameBoard {
         }
         return true;
     }
-    /*Initial Board setup Methods
+
+    /* Initial Board setup Methods
 
     Creates board of row x col size Tiles, applies initial randomized colors and disabled tiles
     Board is a 2d List of Tiles (List of ArrayList of Tiles). Accessed similar to coordinates starting at 0,0
@@ -88,7 +89,7 @@ public final class GameBoard {
     private void setupTiles(Context c) {
         colNum = DEFAULT_COL_NUM;
         rowNum = DEFAULT_ROW_NUM;
-        createTiles(rowNum, colNum, generateColors(c));
+        createTiles(rowNum, colNum, TileUtility.generateColors(c, boardSize()));
         assignDisabledTiles();
     }
 
@@ -106,32 +107,10 @@ public final class GameBoard {
     }
 
     private void assignDisabledTiles(int[] disabled) {
-        for(int i=0; i<disabled.length; ++i) {
-            getGridPosition(disabled[i]).disable();
+        for (int position : disabled) {
+            getGridPosition(position).disable();
         }
     }
-
-    /** Creates a randomized stack of the color palette. */
-    private Stack<Integer> generateColors(Context c) {
-        int[] colors = getColors(c);
-        Stack<Integer> colorsStack = new Stack<Integer>();
-
-        // Convert colors array to a stack of colors equal to the amount of colors
-        int i = 0;
-        while(colorsStack.size() < boardSize()) {
-            colorsStack.add(colors[i]);
-            i = (i == colors.length - 1) ? 0 : i+1;
-        }
-
-        Collections.shuffle(colorsStack); // randomize colors
-        return colorsStack;
-    }
-
-    /** @return the default color palette in the form of resource ("R") values. */
-    private static int[] getColors(Context c) {
-        return c.getResources().getIntArray(R.array.grid_colors2);
-    }
-
 
     /** Utility methods and getter/setters */
 
@@ -184,20 +163,17 @@ public final class GameBoard {
 
     //Check the 3 win conditions (Same color squares, same space, or no valid moves)
     public boolean checkWin(){
-        if(sameColor() || sameSpace() || noMoves(otherPlayer(playerTurn))){
-            return true;
-        }
-        return false;
+        return sameColor() || sameSpace() || noMoves(otherPlayer(playerTurn));
     }
 
     private boolean sameColor(){
-        return getPlayerTileColor(players[PLAYER_ONE]) == getPlayerTileColor(players[PLAYER_TWO]) ? true : false;
+        return getPlayerTileColor(players[PLAYER_ONE]) == getPlayerTileColor(players[PLAYER_TWO]);
     }
     private boolean sameSpace(){
-        return players[PLAYER_ONE].getPosition() == players[PLAYER_TWO].getPosition() ? true : false;
+        return players[PLAYER_ONE].getPosition() == players[PLAYER_TWO].getPosition();
     }
     private boolean noMoves(int player){
-        return getValidMoves(players[player].getPosition()).isEmpty() ? true:false;
+        return getValidMoves(players[player].getPosition()).isEmpty();
     }
 
     public boolean takeTurn(int position) {
@@ -207,7 +183,7 @@ public final class GameBoard {
             getGridPosition(players[playerTurn].getPosition()).disable();
             players[playerTurn].setPosition(position);
             if(checkWin()){
-                System.out.println("A winner is player " + playerTurn);
+                Log.d(TAG, "A winner is player " + playerTurn);
                 setCurrentState(State.GAME_OVER);
                 return true;
                 //Win and reset?
@@ -232,7 +208,7 @@ public final class GameBoard {
     }
     //Probably a fancier way to do this.
     private List getValidMoves(int position){
-        System.out.println("Current position = " + position);
+        Log.d(TAG, "Current position = " + position);
         List<Integer> validMoves = new ArrayList();
         //Right
         for(int i = position + 1; i%colNum != 0; i++){
@@ -243,7 +219,7 @@ public final class GameBoard {
         }
         //Left
         for(int i = position - 1; (i+1)%colNum > 0; i--){
-            System.out.println("left move i = " + i);
+            Log.d(TAG, "left move i = " + i);
             if(!getGridPosition(i).isDisabled()){
                 validMoves.add(i);
                 break;
@@ -258,7 +234,7 @@ public final class GameBoard {
         }
         //Down
         for(int i = position + colNum; i < boardSize(); i = i + colNum){
-            System.out.println("Down move i = " + i);
+            Log.d(TAG, "Down move i = " + i);
             if(!getGridPosition(i).isDisabled()){
                 validMoves.add(i);
                 break;

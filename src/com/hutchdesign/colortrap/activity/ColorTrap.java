@@ -1,4 +1,4 @@
-package com.hutchdesign.colortrap.view;
+package com.hutchdesign.colortrap.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,6 +12,7 @@ import com.hutchdesign.colortrap.R;
 import com.hutchdesign.colortrap.model.GameBoard;
 import com.hutchdesign.colortrap.model.Mode;
 import com.hutchdesign.colortrap.model.State;
+import com.hutchdesign.colortrap.view.GridAdapter;
 
 
 /**
@@ -33,7 +34,6 @@ public class ColorTrap extends Activity implements AdapterView.OnItemClickListen
         setContentView(R.layout.board);
         gameBoard = new GameBoard(context, mode);
         setupGridView();
-        //state = State.PLACE_PIECE1;
     }
 
     private void setupGridView(){
