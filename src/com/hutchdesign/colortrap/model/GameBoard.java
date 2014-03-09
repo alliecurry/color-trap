@@ -27,7 +27,7 @@ public final class GameBoard {
     private State currentState;
     private Mode gameMode;
 
-    public GameBoard(Context c, Mode mode){
+    public GameBoard(Context c, Mode mode) {
         setupTiles(c);
         players = new Player[2];
         players[PLAYER_ONE] = null;
@@ -72,18 +72,15 @@ public final class GameBoard {
 
     // Second players start space can't be a winning position
     private boolean validStartSpace(int position){
-        if(position == players[PLAYER_ONE].getPosition() ||
-        getGridPosition(position).getColor() == getPlayerTileColor(players[PLAYER_ONE]) ||
-                getGridPosition(position).isDisabled()){
-            return false;
-        }
-        return true;
+        return !(position == players[PLAYER_ONE].getPosition() ||
+                getGridPosition(position).getColor() == getPlayerTileColor(players[PLAYER_ONE]) ||
+                getGridPosition(position).isDisabled());
     }
 
     /* Initial Board setup Methods
 
     Creates board of row x col size Tiles, applies initial randomized colors and disabled tiles
-    Board is a 2d List of Tiles (List of ArrayList of Tiles). Accessed similar to coordinates starting at 0,0
+    Board is a 2d List of Tiles (List of ArrayList of Tiles). Accessed similar to coordinates starting at 0,0x
     in top left corner
     */
     private void setupTiles(Context c) {
@@ -176,20 +173,23 @@ public final class GameBoard {
         return getValidMoves(players[player].getPosition()).isEmpty();
     }
 
+    /** Makes a move for the current player a the given grid position.
+     *  @return true - if the position was valid. */
     public boolean takeTurn(int position) {
-        List validMoves;
-        validMoves = getValidMoves(players[playerTurn].getPosition());
-        if(validMoves.contains(position)){
+        List validMoves = getValidMoves(players[playerTurn].getPosition());
+
+        if (validMoves.contains(position)) {
             getGridPosition(players[playerTurn].getPosition()).disable();
             players[playerTurn].setPosition(position);
-            if(checkWin()){
+
+            if (checkWin()) {
                 Log.d(TAG, "A winner is player " + playerTurn);
                 setCurrentState(State.GAME_OVER);
                 return true;
-                //Win and reset?
             }
+
             playerTurn = otherPlayer(playerTurn);
-            if(gameMode == Mode.COMPUTER && !players[playerTurn].isFirstPlayer()){
+            if (gameMode == Mode.COMPUTER && !players[playerTurn].isFirstPlayer()) {
                 takeCompTurn();
             }
             return true;

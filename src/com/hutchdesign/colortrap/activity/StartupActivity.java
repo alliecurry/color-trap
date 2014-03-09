@@ -1,12 +1,16 @@
 package com.hutchdesign.colortrap.activity;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import com.hutchdesign.colortrap.R;
+import com.hutchdesign.colortrap.model.Mode;
+import com.hutchdesign.colortrap.util.FragmentUtility;
 
 public class StartupActivity extends Activity {
+
+    private GameFragment gameFragment;
+    private boolean isGameStarted = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -20,12 +24,32 @@ public class StartupActivity extends Activity {
                 startGame();
             }
         });
-
     }
+
+    private void setupFragment() {}
 
     // TODO send bundle with game state
     private void startGame() {
-        Intent i = new Intent(this, ColorTrap.class);
-        startActivity(i);
+//        Intent i = new Intent(this, ColorTrap.class);
+//        startActivity(i);
+        findViewById(R.id.fragment).setVisibility(View.VISIBLE);
+        FragmentUtility.replaceFragmentIgnoreStack(this, gameFragment = new GameFragment(), R.id.fragment);
+        gameFragment.startGame(this, Mode.COMPUTER);
+        isGameStarted = true;
+    }
+
+    private void endGame() {
+        FragmentUtility.removeFragment(this, gameFragment);
+        findViewById(R.id.fragment).setVisibility(View.GONE); // TODO Animate
+        isGameStarted = false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isGameStarted) {
+            endGame();
+        } else {
+            super.onBackPressed();
+        }
     }
 }

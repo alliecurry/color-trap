@@ -1,10 +1,12 @@
 package com.hutchdesign.colortrap.activity;
 
-import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
@@ -12,33 +14,35 @@ import com.hutchdesign.colortrap.R;
 import com.hutchdesign.colortrap.model.GameBoard;
 import com.hutchdesign.colortrap.model.Mode;
 import com.hutchdesign.colortrap.model.State;
+import com.hutchdesign.colortrap.view.FontyTextView;
 import com.hutchdesign.colortrap.view.GridAdapter;
 
-
 /**
- * Created by mike.hutcheson on 12/26/13.
+ * Activity which starts and manages a new game.
  */
-public class ColorTrap extends Activity implements AdapterView.OnItemClickListener {
+public class GameFragment extends Fragment implements AdapterView.OnItemClickListener {
 
-    private Context context;
-    GameBoard gameBoard;
-    GridView gridView;
-    Mode mode;
-    public ColorTrap(){
+    private GameBoard gameBoard;
+    private GridView gridView;
+    private FontyTextView messageView;
+    private Mode mode;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.board, container, false);
+        messageView = (FontyTextView) v.findViewById(R.id.board_text);
+        gridView = (GridView) v.findViewById(R.id.gridview);
+        setupGridView(getActivity());
+        return v;
     }
 
-    public void onCreate(Bundle bundle){
-        super.onCreate(bundle);
-        context = this;
-        mode = Mode.COMPUTER;
-        setContentView(R.layout.board);
+    public void startGame(Context context, Mode mode) {
+        this.mode = mode;
         gameBoard = new GameBoard(context, mode);
-        setupGridView();
     }
 
-    private void setupGridView(){
+    private void setupGridView(Context context) {
         final GridAdapter adapter = new GridAdapter(context, gameBoard);
-        gridView = (GridView) findViewById(R.id.gridview);
         gridView.setNumColumns(gameBoard.getColNum());
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(this);
@@ -54,19 +58,19 @@ public class ColorTrap extends Activity implements AdapterView.OnItemClickListen
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        //System.out.println("Tile Clicked #" + position + "NEW STATE = " + state);
         step(position);
         ((BaseAdapter)gridView.getAdapter()).notifyDataSetChanged();
     }
 
-    private void step(int position){
-        switch(gameBoard.getCurrentState()){
+    private void step(int position) {
+        State currentState = gameBoard.getCurrentState();
+        switch (currentState) {
             case PLACE_PIECE:
                 gameBoard.setupPlayer(position);
                 break;
             case TURN_PLAYER:
                 gameBoard.takeTurn(position);
-                if (gameBoard.getCurrentState() == State.GAME_OVER) {
+                if (currentState == State.GAME_OVER) {
                     handleGameOver();
                 }
                 break;
@@ -74,12 +78,21 @@ public class ColorTrap extends Activity implements AdapterView.OnItemClickListen
                 handleGameOver();
                 break;
             default: break;
-
         }
+        displayMessage(currentState);
+    }
 
+    /** Display some message to the user based on the given State. */
+    private void displayMessage(State state) {
+        messageView.setText("");
+
+        // TODO cross-fade messages
     }
 
     private void handleGameOver() {
-        finish();
+        // TODO
+        messageView.setText("Game Over");
     }
+
+
 }
