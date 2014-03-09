@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="global_style" parent="@android:style/Theme.Light.NoTitleBar.Fullscreen">
+    <style name="ColorTrap" parent="@android:style/Theme.Light.NoTitleBar.Fullscreen">
         <item name="android:background">@color/board_background</item>
     </style>
+
+    <declare-styleable name="FontyTextView">
+        <attr name="customFont" format="string"/>
+    </declare-styleable>
 
 </resources>

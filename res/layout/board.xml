@@ -1,7 +1,8 @@
 <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res/com.hutchdesign.colortrap"
         android:id="@+id/board_layout"
-        style="@style/global_style"
+        style="@style/ColorTrap"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="20dp" >
@@ -10,6 +11,19 @@
             layout="@layout/grid"
             android:id="@+id/gridview"
             android:layout_alignWithParentIfMissing="false"
+            android:layout_marginBottom="10dp"
+            />
+
+    <com.hutchdesign.colortrap.view.FontyTextView
+            android:id="@+id/board_text"
+            app:customFont="@string/font_default"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/gridview"
+            android:padding="10dp"
+            android:gravity="center"
+            android:visibility="gone"
+            android:textSize="18sp"
             />
 
 </RelativeLayout>
