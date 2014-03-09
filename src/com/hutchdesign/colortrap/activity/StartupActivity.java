@@ -24,16 +24,14 @@ public class StartupActivity extends Activity {
                 startGame();
             }
         });
-    }
 
-    private void setupFragment() {}
+        gameFragment = new GameFragment();
+    }
 
     // TODO send bundle with game state
     private void startGame() {
-//        Intent i = new Intent(this, ColorTrap.class);
-//        startActivity(i);
         findViewById(R.id.fragment).setVisibility(View.VISIBLE);
-        FragmentUtility.replaceFragmentIgnoreStack(this, gameFragment = new GameFragment(), R.id.fragment);
+        FragmentUtility.replaceFragmentIgnoreStack(this, gameFragment, R.id.fragment);
         gameFragment.startGame(this, Mode.COMPUTER);
         isGameStarted = true;
     }
