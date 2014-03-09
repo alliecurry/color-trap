@@ -1,9 +1,11 @@
 package com.hutchdesign.colortrap.activity;
 
+import android.animation.ObjectAnimator;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import com.hutchdesign.colortrap.R;
 import com.hutchdesign.colortrap.model.GameBoard;
 import com.hutchdesign.colortrap.model.Mode;
 import com.hutchdesign.colortrap.model.State;
+import com.hutchdesign.colortrap.util.MessageHelper;
 import com.hutchdesign.colortrap.view.FontyTextView;
 import com.hutchdesign.colortrap.view.GridAdapter;
 
@@ -21,10 +24,12 @@ import com.hutchdesign.colortrap.view.GridAdapter;
  * Activity which starts and manages a new game.
  */
 public class GameFragment extends Fragment implements AdapterView.OnItemClickListener {
+    private static final int FADE_DURATION = 300;
 
     private GameBoard gameBoard;
     private GridView gridView;
     private FontyTextView messageView;
+    private MessageHelper msgHelper;
     private Mode mode;
 
     @Override
@@ -33,12 +38,19 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
         messageView = (FontyTextView) v.findViewById(R.id.board_text);
         gridView = (GridView) v.findViewById(R.id.gridview);
         setupGridView(getActivity());
+        displayMessage(State.PLACE_PIECE);
         return v;
     }
 
     public void startGame(Context context, Mode mode) {
         this.mode = mode;
         gameBoard = new GameBoard(context, mode);
+
+        if (msgHelper == null) {
+            msgHelper = new MessageHelper();
+        }
+
+        msgHelper.setMode(context, mode);
     }
 
     private void setupGridView(Context context) {
@@ -67,11 +79,14 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
         switch (currentState) {
             case PLACE_PIECE:
                 gameBoard.setupPlayer(position);
+                displayMessage(State.TURN_PLAYER);
                 break;
             case TURN_PLAYER:
-                gameBoard.takeTurn(position);
-                if (currentState == State.GAME_OVER) {
+                State newState = gameBoard.takeTurn(position);
+                if (newState == State.GAME_OVER) {
                     handleGameOver();
+                } else {
+                    displayMessage(newState);
                 }
                 break;
             case GAME_OVER:
@@ -79,18 +94,37 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
                 break;
             default: break;
         }
-        displayMessage(currentState);
+    }
+
+    private void fadeOutView(View v) {
+        ObjectAnimator animationFadeOut = ObjectAnimator.ofFloat(v, "alpha", 1f, 0f);
+        animationFadeOut.setDuration(FADE_DURATION);
+        animationFadeOut.start();
+    }
+
+    private void fadeInView(View v) {
+        ObjectAnimator animationFadeIn = ObjectAnimator.ofFloat(v, "alpha", 0f, 1f);
+        animationFadeIn.setDuration(FADE_DURATION);
+        animationFadeIn.start();
     }
 
     /** Display some message to the user based on the given State. */
     private void displayMessage(State state) {
-        messageView.setText("");
+        final String message = msgHelper.getMessage(state);
+        fadeOutView(messageView);
 
-        // TODO cross-fade messages
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                messageView.setText(message);
+                fadeInView(messageView);
+            }
+        }, FADE_DURATION);
     }
 
     private void handleGameOver() {
         // TODO
+        Log.d("allie", "game over");
         messageView.setText("Game Over");
     }
 

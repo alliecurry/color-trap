@@ -4,17 +4,21 @@ public class Player {
 
     /** Players current grid position or -1 if not placed. */
     private int position;
-
     private boolean isFirstPlayer;
+    private String name;
 
     public Player(int position, boolean isFirstPlayer) {
         this.position = position;
         this.isFirstPlayer = isFirstPlayer;
+        this.name = "Player " + (position + 1);
     }
 
-    public Player(boolean isFirstPlayer) {
-        this.position = -1;
-        this.isFirstPlayer = isFirstPlayer;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public int getPosition() {

@@ -2,7 +2,8 @@ package com.hutchdesign.colortrap.model;
 
 import android.content.Context;
 import android.util.Log;
-import com.hutchdesign.colortrap.util.TileUtility;
+import com.hutchdesign.colortrap.R;
+import com.hutchdesign.colortrap.util.Shuffle;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -86,7 +87,7 @@ public final class GameBoard {
     private void setupTiles(Context c) {
         colNum = DEFAULT_COL_NUM;
         rowNum = DEFAULT_ROW_NUM;
-        createTiles(rowNum, colNum, TileUtility.generateColors(c, boardSize()));
+        createTiles(rowNum, colNum, Shuffle.shuffleInt(c.getResources().getIntArray(R.array.grid_colors2), boardSize()));
         assignDisabledTiles();
     }
 
@@ -174,8 +175,8 @@ public final class GameBoard {
     }
 
     /** Makes a move for the current player a the given grid position.
-     *  @return true - if the position was valid. */
-    public boolean takeTurn(int position) {
+     *  @return State - the state of the game immediately after the turn. */
+    public State takeTurn(int position) {
         List validMoves = getValidMoves(players[playerTurn].getPosition());
 
         if (validMoves.contains(position)) {
@@ -185,16 +186,16 @@ public final class GameBoard {
             if (checkWin()) {
                 Log.d(TAG, "A winner is player " + playerTurn);
                 setCurrentState(State.GAME_OVER);
-                return true;
+                return State.GAME_OVER;
             }
 
             playerTurn = otherPlayer(playerTurn);
             if (gameMode == Mode.COMPUTER && !players[playerTurn].isFirstPlayer()) {
                 takeCompTurn();
             }
-            return true;
+            getCurrentState();
         }
-        return false;
+        return getCurrentState();
     }
     private void takeCompTurn() {
         List<Integer> validMoves;
@@ -245,5 +246,10 @@ public final class GameBoard {
 
     public void setGameMode(Mode currentMode) {
         this.gameMode = currentMode;
+    }
+
+    /** @return the name of the current Player. */
+    public String getCurrentPlayerName() {
+        return players[playerTurn].getName();
     }
 }

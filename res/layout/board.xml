@@ -19,11 +19,10 @@
             app:customFont="@string/font_default"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/gridview"
-            android:padding="10dp"
+            android:layout_alignParentBottom="true"
             android:gravity="center"
-            android:visibility="gone"
-            android:textSize="18sp"
+            android:textSize="24sp"
+            android:textColor="@android:color/secondary_text_light"
             />
 
 </com.hutchdesign.colortrap.view.SlidingRelativeLayout>

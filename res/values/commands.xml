@@ -9,6 +9,8 @@
         <item>Where\'s that token goin\'?</item>
         <item>You\'ve gotta start somewhere. Where\'s it gonna be?</item>
         <item>Pick a tile, any tile.</item>
+        <item>Choose that starting tile.</item>
+        <item>Where do you want to start?</item>
     </string-array>
 
     <string-array name="turn_list">
@@ -25,6 +27,8 @@
         <item>%1$s, where\'s that token goin\'?</item>
         <item>You\'ve gotta start somewhere, %1$s. Where\'s it gonna be?</item>
         <item>Pick a tile, any tile, %1$s.</item>
+        <item>Choose that starting tile, %1$s.</item>
+        <item>Where do you want to start, %1$s?</item>
     </string-array>
 
     <string-array name="turn_hotseat_list">
