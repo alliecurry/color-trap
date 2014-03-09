@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import com.hutchdesign.colortrap.R;
 
 /**
  * @author alliecurry
@@ -15,11 +16,7 @@ public final class FragmentUtility {
     }
 
     public static void addFragment(Activity fragmentActivity, Fragment fragment, int containerId) {
-        FragmentManager fragmentManager = fragmentActivity.getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(containerId, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        addFragment(fragmentActivity, fragment, containerId, null);
     }
 
     public static void addFragment(Activity fragmentActivity, Fragment fragment, int containerId, String tag) {
@@ -33,21 +30,16 @@ public final class FragmentUtility {
     public static void replaceFragment(Activity fragmentActivity, Fragment fragment, int containerId, String tag) {
         FragmentManager fragmentManager = fragmentActivity.getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.animator.slide_in, R.animator.slide_out);
         fragmentTransaction.replace(containerId, fragment, tag);
         fragmentTransaction.addToBackStack(tag);
-        fragmentTransaction.commit();
-    }
-
-    public static void replaceFragmentIgnoreStack(Activity fragmentActivity, Fragment fragment, int containerId) {
-        FragmentManager fragmentManager = fragmentActivity.getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(containerId, fragment);
         fragmentTransaction.commit();
     }
 
     public static void removeFragment(Activity fragmentActivity, Fragment fragment) {
         FragmentManager fragmentManager = fragmentActivity.getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.animator.slide_in, R.animator.slide_out);
         fragmentTransaction.remove(fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();

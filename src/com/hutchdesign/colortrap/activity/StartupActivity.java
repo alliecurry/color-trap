@@ -10,7 +10,6 @@ import com.hutchdesign.colortrap.util.FragmentUtility;
 public class StartupActivity extends Activity {
 
     private GameFragment gameFragment;
-    private boolean isGameStarted = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,24 +27,15 @@ public class StartupActivity extends Activity {
         gameFragment = new GameFragment();
     }
 
-    // TODO send bundle with game state
     private void startGame() {
-        findViewById(R.id.fragment).setVisibility(View.VISIBLE);
-        FragmentUtility.replaceFragmentIgnoreStack(this, gameFragment, R.id.fragment);
-        gameFragment.startGame(this, Mode.COMPUTER);
-        isGameStarted = true;
-    }
-
-    private void endGame() {
-        FragmentUtility.removeFragment(this, gameFragment);
-        findViewById(R.id.fragment).setVisibility(View.GONE); // TODO Animate
-        isGameStarted = false;
+        FragmentUtility.replaceFragment(this, gameFragment, R.id.fragment, null);
+        gameFragment.startGame(this, Mode.COMPUTER); // TODO have mode chosen from menu
     }
 
     @Override
     public void onBackPressed() {
-        if (isGameStarted) {
-            endGame();
+        if (FragmentUtility.getBackStackCount(this) > 0) {
+            FragmentUtility.removeFragment(this, gameFragment);
         } else {
             super.onBackPressed();
         }
