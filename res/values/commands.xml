@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Messages/commands to show the user in regards to the game. -->
+    <!--   The more the better... -->
+
+    <!-- VS COMPUTER -->
+    <string-array name="place_piece_list">
+        <item>Place your piece.</item>
+        <item>Where\'s that token goin\'?</item>
+        <item>You\'ve gotta start somewhere. Where\'s it gonna be?</item>
+        <item>Pick a tile, any tile.</item>
+    </string-array>
+
+    <string-array name="turn_list">
+        <item>Your turn.</item>
+        <item>It\'s your turn.</item>
+        <item>Go, go, go!</item>
+        <item>You\'re up!</item>
+    </string-array>
+
+    <!-- HOTSEAT -->
+    <string-array name="place_piece_hotseat_list">
+        <item>Place your piece, %1$s.</item>
+        <item>%1$s, place that piece.</item>
+        <item>%1$s, where\'s that token goin\'?</item>
+        <item>You\'ve gotta start somewhere, %1$s. Where\'s it gonna be?</item>
+        <item>Pick a tile, any tile, %1$s.</item>
+    </string-array>
+
+    <string-array name="turn_hotseat_list">
+        <item>Your turn, %1$s.</item>
+        <item>%1$s! It\'s your turn.</item>
+        <item>%1$s, go, go, go!</item>
+        <item>%1$s, you know what to do!</item>
+    </string-array>
+
+</resources>
