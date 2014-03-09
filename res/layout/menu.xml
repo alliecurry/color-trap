@@ -1,35 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.hutchdesign.colortrap.view.SlidingRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              style="@style/ColorTrap"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:padding="20dp">
+<com.hutchdesign.colortrap.view.SlidingRelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res/com.hutchdesign.colortrap"
+        style="@style/ColorTrap"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp">
 
-    <TextView
+    <com.hutchdesign.colortrap.view.FontyTextView
+            android:id="@+id/menu_text_title"
+            app:customFont="@string/font_default"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Color Trap"
-            android:id="@+id/menu_text_title"
+            android:text="@string/app_name"
             android:layout_gravity="center_horizontal"
             android:textColor="@android:color/black"
             android:textSize="60sp"
             android:layout_marginTop="40dp"
+            android:layout_marginBottom="40dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"/>
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="New Game"
-            android:id="@+id/menu_text_new"
-            android:layout_gravity="center_horizontal"
-            android:textColor="@android:color/black"
+    <View android:id="@+id/menu_filler"
+          android:layout_width="20dp"
+          android:layout_height="1dp"
+          android:layout_centerHorizontal="true"
+          android:layout_below="@id/menu_text_title"
+          />
+
+    <com.hutchdesign.colortrap.view.FontyTextView
+            style="@style/MenuButton"
+            android:id="@+id/button_new_computer"
+            app:customFont="@string/font_default"
+            android:text="@string/new_game_ai"
             android:background="@color/sun_flower"
-            android:padding="20dp"
-            android:layout_centerVertical="true" android:layout_centerHorizontal="true"/>
+            android:layout_toLeftOf="@id/menu_filler"
+            android:layout_alignTop="@id/menu_filler"
+            />
+
+    <com.hutchdesign.colortrap.view.FontyTextView
+            style="@style/MenuButton"
+            android:id="@+id/button_new_hotseat"
+            app:customFont="@string/font_default"
+            android:text="@string/new_game_hotseat"
+            android:background="@color/watermelon"
+            android:layout_toRightOf="@id/menu_filler"
+            android:layout_alignTop="@id/menu_filler"
+            />
 
 
     <FrameLayout

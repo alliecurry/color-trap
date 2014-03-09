@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">color-trap</string>
+    <string name="app_name">Color Trap</string>
+
+    <string name="new_game_ai">VS Computer</string>
+    <string name="new_game_hotseat">VS Friend</string>
 
     <string name="font_default">GothamRnd-Book.otf</string>
     <string name="font_default_bold">GothamRnd-Bold.otf</string>

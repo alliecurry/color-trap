@@ -16,6 +16,7 @@ public class MessageHelper {
     private Mode mode;
     private LinkedList<String> placePieceStack;
     private LinkedList<String> turnStack;
+    private LinkedList<String> invalidStack;
 
     String player1 = "Player 1";
     String player2 = "Player 2";
@@ -34,6 +35,8 @@ public class MessageHelper {
                 turnStack = Shuffle.shuffleString(res.getStringArray(R.array.turn_list));
                 break;
         }
+
+        invalidStack = Shuffle.shuffleString(res.getStringArray(R.array.invalid_list));
     }
 
     public void setPlayerNames(String player1, String player2) {
@@ -54,6 +57,10 @@ public class MessageHelper {
         }
 
         return "";
+    }
+
+    public String getInvalidMessage() {
+        return getNextMessage(invalidStack);
     }
 
     public String getNextMessage(LinkedList<String> list) {

@@ -17,10 +17,15 @@ public abstract class AnimatedAdapter extends BaseAdapter {
     protected boolean animate = false;
     protected int delay = 0;
     private int delayAmount = 0;
+    private AnimationListener listener;
 
     public AnimatedAdapter(Context context, int animatorRes, int duration) {
         animator = (ObjectAnimator) AnimatorInflater.loadAnimator(context, animatorRes);
         animator.setDuration(duration);
+    }
+
+    public void setAnimationListener(AnimationListener listener) {
+        this.listener = listener;
     }
 
     public void animate() {
@@ -45,6 +50,8 @@ public abstract class AnimatedAdapter extends BaseAdapter {
             return;
         }
 
+        final boolean isLastItem = position == getCount() - 1;
+
         if (!skip) {
             final ObjectAnimator anim = animator.clone();
             anim.setTarget(view);
@@ -56,12 +63,16 @@ public abstract class AnimatedAdapter extends BaseAdapter {
                     anim.start();
                     onAnimate(view);
                     view.setVisibility(View.VISIBLE);
+
+                    if (isLastItem && listener != null) {
+                        listener.onAnimationComplete();
+                    }
                 }
             }, delay += delayAmount);
         }
 
         // Reset animation
-        if (position == getCount() - 1) {
+        if (isLastItem) {
             animate = false;
             delay = 0;
         }
@@ -69,5 +80,10 @@ public abstract class AnimatedAdapter extends BaseAdapter {
 
     /** Called during animation. Perform any additional transformations not in the animator here. */
     public abstract void onAnimate(View view);
+
+    public interface AnimationListener {
+        /** Called when the Adapter has animated its last View. */
+        public abstract void onAnimationComplete();
+    }
 
 }

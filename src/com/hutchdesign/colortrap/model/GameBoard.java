@@ -175,8 +175,8 @@ public final class GameBoard {
     }
 
     /** Makes a move for the current player a the given grid position.
-     *  @return State - the state of the game immediately after the turn. */
-    public State takeTurn(int position) {
+     *  @return true if the move was valid. */
+    public boolean takeTurn(int position) {
         List validMoves = getValidMoves(players[playerTurn].getPosition());
 
         if (validMoves.contains(position)) {
@@ -186,16 +186,16 @@ public final class GameBoard {
             if (checkWin()) {
                 Log.d(TAG, "A winner is player " + playerTurn);
                 setCurrentState(State.GAME_OVER);
-                return State.GAME_OVER;
+                return true;
             }
 
             playerTurn = otherPlayer(playerTurn);
             if (gameMode == Mode.COMPUTER && !players[playerTurn].isFirstPlayer()) {
                 takeCompTurn();
             }
-            getCurrentState();
+            return true;
         }
-        return getCurrentState();
+        return false;
     }
     private void takeCompTurn() {
         List<Integer> validMoves;

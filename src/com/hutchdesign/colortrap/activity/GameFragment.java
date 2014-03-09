@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +16,14 @@ import com.hutchdesign.colortrap.model.GameBoard;
 import com.hutchdesign.colortrap.model.Mode;
 import com.hutchdesign.colortrap.model.State;
 import com.hutchdesign.colortrap.util.MessageHelper;
+import com.hutchdesign.colortrap.view.AnimatedAdapter;
 import com.hutchdesign.colortrap.view.FontyTextView;
 import com.hutchdesign.colortrap.view.GridAdapter;
 
 /**
  * Activity which starts and manages a new game.
  */
-public class GameFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class GameFragment extends Fragment implements AdapterView.OnItemClickListener, AnimatedAdapter.AnimationListener {
     private static final int FADE_DURATION = 300;
 
     private GameBoard gameBoard;
@@ -36,9 +36,9 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.board, container, false);
         messageView = (FontyTextView) v.findViewById(R.id.board_text);
+        messageView.setText("");
         gridView = (GridView) v.findViewById(R.id.gridview);
         setupGridView(getActivity());
-        displayMessage(State.PLACE_PIECE);
         return v;
     }
 
@@ -55,6 +55,8 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
 
     private void setupGridView(Context context) {
         final GridAdapter adapter = new GridAdapter(context, gameBoard);
+        adapter.setAnimationListener(this);
+
         gridView.setNumColumns(gameBoard.getColNum());
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(this);
@@ -82,17 +84,24 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
                 displayMessage(State.TURN_PLAYER);
                 break;
             case TURN_PLAYER:
-                State newState = gameBoard.takeTurn(position);
-                if (newState == State.GAME_OVER) {
-                    handleGameOver();
-                } else {
-                    displayMessage(newState);
-                }
+                takeTurn(position);
                 break;
             case GAME_OVER:
                 handleGameOver();
                 break;
             default: break;
+        }
+    }
+
+    private void takeTurn(int position) {
+        boolean isValid = gameBoard.takeTurn(position);
+
+        if (!isValid) {
+            displayInvalidMessage();
+        } else if (gameBoard.getCurrentState() == State.GAME_OVER) {
+            handleGameOver();
+        } else {
+            displayMessage(gameBoard.getCurrentState());
         }
     }
 
@@ -108,11 +117,17 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
         animationFadeIn.start();
     }
 
+    private void displayInvalidMessage() {
+        displayMessage(msgHelper.getInvalidMessage());
+    }
+
     /** Display some message to the user based on the given State. */
     private void displayMessage(State state) {
-        final String message = msgHelper.getMessage(state);
-        fadeOutView(messageView);
+        displayMessage(msgHelper.getMessage(state));
+    }
 
+    private void displayMessage(final String message) {
+        fadeOutView(messageView);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -124,9 +139,11 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
 
     private void handleGameOver() {
         // TODO
-        Log.d("allie", "game over");
         messageView.setText("Game Over");
     }
 
-
+    @Override
+    public void onAnimationComplete() {
+        displayMessage(State.PLACE_PIECE);
+    }
 }
