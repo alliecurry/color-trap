@@ -3,6 +3,7 @@ package com.hutchdesign.colortrap.model;
 import android.content.Context;
 import android.util.Log;
 import com.hutchdesign.colortrap.R;
+import com.hutchdesign.colortrap.util.AI;
 import com.hutchdesign.colortrap.util.Shuffle;
 
 import java.util.ArrayList;
@@ -160,19 +161,23 @@ public final class GameBoard {
     }
 
     //Check the 3 win conditions (Same color squares, same space, or no valid moves)
-    public boolean checkWin(){
-        return sameColor() || sameSpace() || noMoves(otherPlayer(playerTurn));
+    //Use the position sent for player (Can be temp position)
+    public boolean checkWin(int position){
+        return sameColor(position) || sameSpace(position) || noMoves(otherPlayer(playerTurn));
     }
 
-    private boolean sameColor(){
-        return getPlayerTileColor(players[PLAYER_ONE]) == getPlayerTileColor(players[PLAYER_TWO]);
+    private boolean sameColor(int position){
+        return getGridPosition(position).getColor() == getPlayerTileColor(players[otherPlayer(playerTurn)]);
+        //return getPlayerTileColor(players[PLAYER_ONE]) == getPlayerTileColor(players[PLAYER_TWO]);
     }
-    private boolean sameSpace(){
-        return players[PLAYER_ONE].getPosition() == players[PLAYER_TWO].getPosition();
+    private boolean sameSpace(int position){
+        return position == players[otherPlayer(playerTurn)].getPosition();
+        //return players[PLAYER_ONE].getPosition() == players[PLAYER_TWO].getPosition();
     }
     private boolean noMoves(int player){
         return getValidMoves(players[player].getPosition()).isEmpty();
     }
+
 
     /** Makes a move for the current player a the given grid position.
      *  @return true if the move was valid. */
@@ -183,7 +188,7 @@ public final class GameBoard {
             getGridPosition(players[playerTurn].getPosition()).disable();
             players[playerTurn].setPosition(position);
 
-            if (checkWin()) {
+            if (checkWin(players[playerTurn].getPosition())) {
                 Log.d(TAG, "A winner is player " + playerTurn);
                 setCurrentState(State.GAME_OVER);
                 return true;
@@ -200,6 +205,13 @@ public final class GameBoard {
     private void takeCompTurn() {
         List<Integer> validMoves;
         validMoves = getValidMoves(players[playerTurn].getPosition());
+
+        for(int position : validMoves){
+            if(checkWin(position)){
+                takeTurn(position);
+                return;
+            }
+        }
         Collections.shuffle(validMoves);
         takeTurn(validMoves.get(0));
     }
