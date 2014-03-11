@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Color Trap</string>
+    <string name="menu_subtitle">Players</string>
 
-    <string name="new_game_ai">VS Computer</string>
-    <string name="new_game_hotseat">VS Friend</string>
+    <string name="new_game_ai">1</string>
+    <string name="new_game_hotseat">2</string>
 
     <string name="font_default">GothamRnd-Book.otf</string>
     <string name="font_default_bold">GothamRnd-Bold.otf</string>

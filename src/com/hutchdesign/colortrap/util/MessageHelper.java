@@ -18,10 +18,6 @@ public class MessageHelper {
     private LinkedList<String> turnStack;
     private LinkedList<String> invalidStack;
 
-    String player1 = "Player 1";
-    String player2 = "Player 2";
-
-
     public void setMode(Context c, Mode mode) {
         this.mode = mode;
         Resources res = c.getResources();
@@ -37,11 +33,6 @@ public class MessageHelper {
         }
 
         invalidStack = Shuffle.shuffleString(res.getStringArray(R.array.invalid_list));
-    }
-
-    public void setPlayerNames(String player1, String player2) {
-        this.player1 = player1;
-        this.player2 = player2;
     }
 
     public String getMessage(State state, String playerName) {

@@ -75,6 +75,7 @@
     <dimen name="tile_size">54dp</dimen>
     <dimen name="piece_size">20dp</dimen>
     <dimen name="spacing">2dp</dimen> <!-- space between tiles -->
-
+    <dimen name="menu_spacing">20dp</dimen>
+    <dimen name="menu_subtitle_fontsize">42sp</dimen>
 
 </resources>

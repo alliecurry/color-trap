@@ -123,7 +123,16 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
 
     /** Display some message to the user based on the given State. */
     private void displayMessage(State state) {
-        displayMessage(msgHelper.getMessage(state));
+        String message = "";
+        switch (mode) {
+            case HOTSEAT:
+                message = msgHelper.getMessage(state, gameBoard.getCurrentPlayerName());
+                break;
+            case COMPUTER:
+                message = msgHelper.getMessage(state);
+                break;
+        }
+        displayMessage(message);
     }
 
     private void displayMessage(final String message) {

@@ -10,7 +10,7 @@ public class Player {
     public Player(int position, boolean isFirstPlayer) {
         this.position = position;
         this.isFirstPlayer = isFirstPlayer;
-        this.name = "Player " + (position + 1);
+        this.name = "Player " + (isFirstPlayer ? "1" : "2");
     }
 
     public void setName(String name) {

@@ -3,7 +3,6 @@ package com.hutchdesign.colortrap.model;
 import android.content.Context;
 import android.util.Log;
 import com.hutchdesign.colortrap.R;
-import com.hutchdesign.colortrap.util.AI;
 import com.hutchdesign.colortrap.util.Shuffle;
 
 import java.util.ArrayList;
@@ -32,8 +31,8 @@ public final class GameBoard {
     public GameBoard(Context c, Mode mode) {
         setupTiles(c);
         players = new Player[2];
-        players[PLAYER_ONE] = null;
-        players[PLAYER_TWO] = null;
+        players[PLAYER_ONE] = players[playerTurn] = new Player(-1, true);
+        players[PLAYER_TWO] = mode == Mode.HOTSEAT ? new Player(-1, false) : new ComputerPlayer(-1, false);
         playerTurn = 0;
         setGameMode(mode);
         setCurrentState(State.PLACE_PIECE);
@@ -41,7 +40,7 @@ public final class GameBoard {
 
     public boolean setupPlayer(int position) {
         if(playerTurn == PLAYER_ONE){
-            players[playerTurn] = new Player(position, true);
+            players[playerTurn].setPosition(position);
             playerTurn = otherPlayer(playerTurn);
             if(gameMode == Mode.COMPUTER){
                 setUpCompPlayer();
@@ -50,7 +49,7 @@ public final class GameBoard {
 
         }
         if(validStartSpace(position)){
-            players[playerTurn] = new Player(position, false);
+            players[playerTurn].setPosition(position);
             playerTurn = otherPlayer(playerTurn);
             setCurrentState(State.TURN_PLAYER);
             return true;
@@ -66,7 +65,7 @@ public final class GameBoard {
             }
         }
         Collections.shuffle(startMoves);
-        players[playerTurn] = new ComputerPlayer(startMoves.pop(), false);
+        players[playerTurn].setPosition(startMoves.pop());
         setCurrentState(State.TURN_PLAYER);
         playerTurn = otherPlayer(playerTurn);
 

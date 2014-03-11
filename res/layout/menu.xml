@@ -14,20 +14,35 @@
             app:customFont="@string/font_default"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/app_name"
             android:layout_gravity="center_horizontal"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:textColor="@android:color/black"
             android:textSize="60sp"
-            android:layout_marginTop="40dp"
+            android:text="@string/app_name"
+            />
+
+    <com.hutchdesign.colortrap.view.FontyTextView
+            android:id="@+id/menu_text_subtitle"
+            app:customFont="@string/font_default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_below="@+id/menu_text_title"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="40dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"/>
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/menu_subtitle_fontsize"
+            android:text="@string/menu_subtitle"/>
 
     <View android:id="@+id/menu_filler"
-          android:layout_width="20dp"
+          android:layout_width="@dimen/menu_spacing"
           android:layout_height="1dp"
           android:layout_centerHorizontal="true"
-          android:layout_below="@id/menu_text_title"
+          android:layout_below="@id/menu_text_subtitle"
           />
 
     <com.hutchdesign.colortrap.view.FontyTextView
@@ -48,6 +63,17 @@
             android:background="@color/watermelon"
             android:layout_toRightOf="@id/menu_filler"
             android:layout_alignTop="@id/menu_filler"
+            />
+
+    <com.hutchdesign.colortrap.view.FontyTextView
+            style="@style/MenuButton"
+            android:layout_marginTop="@dimen/menu_spacing"
+            android:id="@+id/button_help"
+            app:customFont="@string/font_default"
+            android:text="\?"
+            android:background="@color/river"
+            android:layout_toRightOf="@id/menu_filler"
+            android:layout_below="@+id/button_new_hotseat"
             />
 
 
