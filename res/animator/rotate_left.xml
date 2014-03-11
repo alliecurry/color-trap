@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<objectAnimator xmlns:android="http://schemas.android.com/apk/res/android"
+                android:interpolator="@android:interpolator/decelerate_cubic"
+                android:valueFrom="0"
+                android:valueTo="@integer/rotation_menu_inverse"
+                android:propertyName="rotationY" >
+</objectAnimator>

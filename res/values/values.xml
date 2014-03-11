@@ -78,4 +78,8 @@
     <dimen name="menu_spacing">20dp</dimen>
     <dimen name="menu_subtitle_fontsize">42sp</dimen>
 
+    <integer name="rotation_menu">20</integer>
+    <integer name="rotation_menu_inverse">-20</integer>
+    <integer name="rotation_menu_duration">200</integer>
+
 </resources>
