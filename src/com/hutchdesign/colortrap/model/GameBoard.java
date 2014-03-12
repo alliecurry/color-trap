@@ -5,12 +5,14 @@ import android.util.Log;
 import com.hutchdesign.colortrap.R;
 import com.hutchdesign.colortrap.util.Shuffle;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
-public final class GameBoard {
+public final class GameBoard implements Serializable {
+    private static final long serialVersionUID = -945511170198587443L;
     private static String TAG = GameBoard.class.getSimpleName();
 
     /** Default amount of tiles (including disabled). */
@@ -262,5 +264,9 @@ public final class GameBoard {
     /** @return the name of the current Player. */
     public String getCurrentPlayerName() {
         return players[playerTurn].getName();
+    }
+
+    public Mode getMode() {
+        return gameMode;
     }
 }

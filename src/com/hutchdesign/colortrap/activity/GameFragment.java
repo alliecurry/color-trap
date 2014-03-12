@@ -24,6 +24,7 @@ import com.hutchdesign.colortrap.view.GridAdapter;
  * Activity which starts and manages a new game.
  */
 public class GameFragment extends Fragment implements AdapterView.OnItemClickListener, AnimatedAdapter.AnimationListener {
+    protected static final String KEY_GAMEBOARD = "gameb";
     private static final int FADE_DURATION = 300;
 
     private GameBoard gameBoard;
@@ -35,6 +36,11 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.board, container, false);
+
+        if (savedInstanceState != null && savedInstanceState.getSerializable(KEY_GAMEBOARD) != null) {
+            continueGame((GameBoard) savedInstanceState.getSerializable(KEY_GAMEBOARD));
+        }
+
         messageView = (FontyTextView) v.findViewById(R.id.board_text);
         messageView.setText("");
         gridView = (GridView) v.findViewById(R.id.gridview);
@@ -51,6 +57,17 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
         }
 
         msgHelper.setMode(context, mode);
+    }
+
+    public void continueGame(GameBoard gameBoard) {
+        this.mode = gameBoard.getMode();
+        this.gameBoard = gameBoard;
+
+        if (msgHelper == null) {
+            msgHelper = new MessageHelper();
+        }
+
+        msgHelper.setMode(getActivity(), mode);
     }
 
     private void setupGridView(Context context) {
@@ -154,5 +171,26 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
     @Override
     public void onAnimationComplete() {
         displayMessage(State.PLACE_PIECE);
+    }
+
+    protected GameBoard getGameBoard() {
+        return gameBoard;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        storeData(outState);
+    }
+
+    /** Stores session Objects in the given Bundle. */
+    private void storeData(Bundle bundle) {
+        if (bundle == null) {
+            return;
+        }
+
+        if (gameBoard.getCurrentState() != State.GAME_OVER) {
+            bundle.putSerializable(KEY_GAMEBOARD, gameBoard);
+        }
     }
 }

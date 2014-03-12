@@ -3,6 +3,7 @@ package com.hutchdesign.colortrap.activity;
 import android.animation.AnimatorInflater;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.view.View;
 import com.hutchdesign.colortrap.R;
@@ -32,7 +33,13 @@ public class StartupActivity extends Activity implements View.OnClickListener {
         buttonComputer.setOnTouchListener(touchListener);
         buttonHelp.setOnTouchListener(touchListener);
 
-        gameFragment = new GameFragment();
+        Fragment currentFragment = getFragmentManager().findFragmentById(R.id.fragment);
+        if (currentFragment instanceof GameFragment) {
+            gameFragment = (GameFragment) currentFragment;
+        } else {
+            gameFragment = new GameFragment();
+        }
+
     }
 
     private RotateTouchListener getTouchAnimationListener() {
