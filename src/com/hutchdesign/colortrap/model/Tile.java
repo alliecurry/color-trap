@@ -1,8 +1,9 @@
 package com.hutchdesign.colortrap.model;
 
-import com.hutchdesign.colortrap.R;
+import java.io.Serializable;
 
-public class Tile {
+public class Tile implements Serializable {
+    private static final long serialVersionUID = 544431964317821331L;
 
     private int color;
     private boolean disabled = false;
