@@ -1,6 +1,6 @@
 Color Trap
 ==========
-Android SDK Version: 18
+Android Minimum SDK Version: 16
 
 Goal: Trap the other player one of three ways
  - Land on the same space
