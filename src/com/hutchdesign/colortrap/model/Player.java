@@ -1,7 +1,10 @@
 package com.hutchdesign.colortrap.model;
 
-public class Player {
+import java.io.Serializable;
 
+public class Player implements Serializable {
+    private static final long serialVersionUID = -9196884400202320545L;
+    
     /** Players current grid position or -1 if not placed. */
     private int position;
     private boolean isFirstPlayer;
