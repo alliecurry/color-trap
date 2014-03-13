@@ -10,16 +10,29 @@ import com.hutchdesign.colortrap.R;
 import com.hutchdesign.colortrap.model.Mode;
 import com.hutchdesign.colortrap.util.FragmentUtility;
 import com.hutchdesign.colortrap.view.RotateTouchListener;
+import com.google.android.gms.ads.*;
+
 
 public class StartupActivity extends Activity implements View.OnClickListener {
 
     private GameFragment gameFragment;
+    private InterstitialAd interstitial;
+    private static final String NEW_GAME_AD_ID = "ca-app-pub-4074371291605833/9344298102";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu);
 
+        // Create the interstitial.
+        interstitial = new InterstitialAd(this);
+        interstitial.setAdUnitId(NEW_GAME_AD_ID);
+
+        // Create ad request.
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        // Begin loading your interstitial.
+        interstitial.loadAd(adRequest);
         RotateTouchListener touchListener = getTouchAnimationListener();
 
         final View buttonHotseat = findViewById(R.id.button_new_hotseat);
@@ -52,9 +65,17 @@ public class StartupActivity extends Activity implements View.OnClickListener {
         return touchListener;
     }
 
+    public void displayInterstitial() {
+        if (interstitial.isLoaded()) {
+            interstitial.show();
+        }
+    }
+
     private void startGame(Mode mode) {
+        displayInterstitial();
         FragmentUtility.replaceFragment(this, gameFragment, R.id.fragment, null);
         gameFragment.startGame(this, mode);
+
     }
 
     @Override

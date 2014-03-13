@@ -20,12 +20,14 @@ import com.hutchdesign.colortrap.view.AnimatedAdapter;
 import com.hutchdesign.colortrap.view.FontyTextView;
 import com.hutchdesign.colortrap.view.GridAdapter;
 
+
 /**
  * Activity which starts and manages a new game.
  */
 public class GameFragment extends Fragment implements AdapterView.OnItemClickListener, AnimatedAdapter.AnimationListener {
     protected static final String KEY_GAMEBOARD = "gameb";
     private static final int FADE_DURATION = 300;
+
 
     private GameBoard gameBoard;
     private GridView gridView;
@@ -35,6 +37,8 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+
         View v = inflater.inflate(R.layout.board, container, false);
 
         if (savedInstanceState != null && savedInstanceState.getSerializable(KEY_GAMEBOARD) != null) {

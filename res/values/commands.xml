@@ -7,6 +7,7 @@
     <string-array name="place_piece_list">
         <item>Place your piece.</item>
         <item>Where\'s that token goin\'?</item>
+        <item>Where\'s that tok\'n goin\'?</item>
         <item>You\'ve gotta start somewhere. Where\'s it gonna be?</item>
         <item>Pick a tile, any tile.</item>
         <item>Choose that starting tile.</item>
