@@ -77,6 +77,7 @@ public final class GameBoard implements Serializable {
     private boolean validStartSpace(int position){
         return !(position == players[PLAYER_ONE].getPosition() ||
                 getGridPosition(position).getColor() == getPlayerTileColor(players[PLAYER_ONE]) ||
+                getValidMoves(position).contains(players[PLAYER_ONE].getPosition()) ||
                 getGridPosition(position).isDisabled());
     }
 
