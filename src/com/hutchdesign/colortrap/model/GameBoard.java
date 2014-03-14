@@ -62,7 +62,9 @@ public final class GameBoard implements Serializable {
     private void setUpCompPlayer() {
         Stack<Integer> startMoves = new Stack<Integer>();
         for(int position = 0; position < boardSize(); position++){
-            if(validStartSpace(position)){
+            if(validStartSpace(position) &&
+               validStartColor(position))
+            {
                 startMoves.add(position);
             }
         }
@@ -81,6 +83,14 @@ public final class GameBoard implements Serializable {
                 getGridPosition(position).isDisabled());
     }
 
+    private boolean validStartColor(int position){
+        for(int i : getValidMoves(players[PLAYER_ONE].getPosition())){
+            if (getGridPosition(i).getColor() == getGridPosition(position).getColor()){
+                return false;
+            }
+        }
+        return true;
+    }
     /* Initial Board setup Methods
 
     Creates board of row x col size Tiles, applies initial randomized colors and disabled tiles
@@ -222,7 +232,7 @@ public final class GameBoard implements Serializable {
         return player == 0 ? 1 : 0;
     }
     //Probably a fancier way to do this.
-    private List getValidMoves(int position){
+    private List <Integer> getValidMoves(int position){
         Log.d(TAG, "Current position = " + position);
         List<Integer> validMoves = new ArrayList();
         //Right
