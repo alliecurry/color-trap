@@ -12,6 +12,7 @@ import com.google.android.gms.ads.InterstitialAd;
 import com.hutchdesign.colortrap.R;
 import com.hutchdesign.colortrap.model.Mode;
 import com.hutchdesign.colortrap.util.FragmentUtility;
+import com.hutchdesign.colortrap.util.Prefs;
 import com.hutchdesign.colortrap.view.RotateTouchListener;
 
 
@@ -72,15 +73,27 @@ public class StartupActivity extends Activity implements View.OnClickListener {
         return touchListener;
     }
 
-    public void displayInterstitial() {
+    public void displayAd() {
+        if (Prefs.isFirstPlay(this)) {
+            Prefs.setFirstPlay(this);
+            return;
+        }
+
+        try {
+            displayInterstitial();
+        } catch (Exception adErr) {
+            Log.e(TAG, adErr.toString());
+        }
+    }
+
+    private void displayInterstitial() {
         if (interstitial.isLoaded()) {
             interstitial.show();
         }
     }
 
     private void startGame(Mode mode) {
-        try{ displayInterstitial(); }
-        catch(Exception adErr){ Log.e(TAG, adErr.toString()); }
+        displayAd();
         FragmentUtility.replaceFragment(this, gameFragment, R.id.fragment, null);
         gameFragment.startGame(this, mode);
 

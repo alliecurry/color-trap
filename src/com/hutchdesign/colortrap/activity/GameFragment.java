@@ -193,7 +193,7 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
             return;
         }
 
-        if (gameBoard.getCurrentState() != State.GAME_OVER) {
+        if (gameBoard != null && gameBoard.getCurrentState() != State.GAME_OVER) {
             bundle.putSerializable(KEY_GAMEBOARD, gameBoard);
         }
     }
