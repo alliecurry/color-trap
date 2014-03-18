@@ -49,4 +49,21 @@
         <item>%1$s, you know what to do!</item>
     </string-array>
 
+    <!-- GAME OVER -->
+    <string name="game_over_default">Game Over.\n%1$s wins.</string>
+    <string-array name="game_over_list">
+        <item>@string/game_over_default</item>
+        <item>@string/game_over_default</item>
+        <item>@string/game_over_default</item>
+        <item>@string/game_over_default</item>
+        <item>@string/game_over_default</item>
+        <item>Game Over.\n%1$s = winner.</item>
+        <item>Game Over.\n%1$s reigns champ.</item>
+        <item>Game Over.\n%1$s is the winner. </item>
+        <item>Game Over.\n%1$s beat the odds.</item>
+        <item>Game Over.\n%1$s somehow managed to pull through.</item>
+        <item>Game Over.\n%1$s showed \'em who\'s boss.</item>
+        <item>Game Over.\n%1$s is the champ.</item>
+    </string-array>
+
 </resources>

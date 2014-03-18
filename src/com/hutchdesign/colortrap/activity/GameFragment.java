@@ -169,7 +169,8 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
 
     private void handleGameOver() {
         // TODO
-        messageView.setText("Game Over");
+        messageView.setText(msgHelper.getGameOverMessage(gameBoard.getCurrentPlayerName()));
+
     }
 
     @Override

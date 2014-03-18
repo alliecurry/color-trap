@@ -17,6 +17,7 @@ public class MessageHelper {
     private LinkedList<String> placePieceStack;
     private LinkedList<String> turnStack;
     private LinkedList<String> invalidStack;
+    private LinkedList<String> gameOverStack;
 
     public void setMode(Context c, Mode mode) {
         this.mode = mode;
@@ -33,6 +34,7 @@ public class MessageHelper {
         }
 
         invalidStack = Shuffle.shuffleString(res.getStringArray(R.array.invalid_list));
+        gameOverStack = Shuffle.shuffleString(res.getStringArray(R.array.game_over_list));
     }
 
     public String getMessage(State state, String playerName) {
@@ -54,11 +56,14 @@ public class MessageHelper {
         return getNextMessage(invalidStack);
     }
 
+    public String getGameOverMessage(String playerName) {
+        return String.format(getNextMessage(gameOverStack), playerName);
+    }
+
     public String getNextMessage(LinkedList<String> list) {
         String popped = list.pop();
         list.add(popped);
         return popped;
     }
-
 
 }
