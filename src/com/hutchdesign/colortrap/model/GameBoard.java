@@ -41,21 +41,22 @@ public final class GameBoard implements Serializable {
     }
 
     public boolean setupPlayer(int position) {
-        if(playerTurn == PLAYER_ONE){
+        if (playerTurn == PLAYER_ONE) {
             players[playerTurn].setPosition(position);
             playerTurn = otherPlayer(playerTurn);
-            if(gameMode == Mode.COMPUTER){
+            if (gameMode == Mode.COMPUTER) {
                 setUpCompPlayer();
             }
             return true;
-
         }
-        if(validStartSpace(position)){
+
+        if (validStartSpace(position)) {
             players[playerTurn].setPosition(position);
             playerTurn = otherPlayer(playerTurn);
             setCurrentState(State.TURN_PLAYER);
             return true;
         }
+
         return false;
     }
 

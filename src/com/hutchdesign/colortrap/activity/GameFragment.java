@@ -28,7 +28,6 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
     protected static final String KEY_GAMEBOARD = "gameb";
     private static final int FADE_DURATION = 300;
 
-
     private GameBoard gameBoard;
     private GridView gridView;
     private FontyTextView messageView;
@@ -37,8 +36,6 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-
         View v = inflater.inflate(R.layout.board, container, false);
 
         if (savedInstanceState != null && savedInstanceState.getSerializable(KEY_GAMEBOARD) != null) {
@@ -102,7 +99,7 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
         switch (currentState) {
             case PLACE_PIECE:
                 gameBoard.setupPlayer(position);
-                displayMessage(State.TURN_PLAYER);
+                displayMessage();
                 break;
             case TURN_PLAYER:
                 takeTurn(position);
@@ -122,7 +119,7 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
         } else if (gameBoard.getCurrentState() == State.GAME_OVER) {
             handleGameOver();
         } else {
-            displayMessage(gameBoard.getCurrentState());
+            displayMessage();
         }
     }
 
@@ -140,6 +137,10 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
 
     private void displayInvalidMessage() {
         displayMessage(msgHelper.getInvalidMessage());
+    }
+
+    private void displayMessage() {
+        displayMessage(gameBoard.getCurrentState());
     }
 
     /** Display some message to the user based on the given State. */
