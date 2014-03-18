@@ -32,6 +32,7 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
     private GridView gridView;
     private FontyTextView messageView;
     private MessageHelper msgHelper;
+    private View resetButton;
     private Mode mode;
 
     @Override
@@ -45,6 +46,18 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
         messageView = (FontyTextView) v.findViewById(R.id.board_text);
         messageView.setText("");
         gridView = (GridView) v.findViewById(R.id.gridview);
+        resetButton = v.findViewById(R.id.board_reset);
+
+        resetButton.setVisibility(View.GONE);
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                resetButton.setVisibility(View.GONE);
+                setupGridView(getActivity());
+                startGame(getActivity(), mode);
+            }
+        });
+
         setupGridView(getActivity());
         return v;
     }
@@ -169,9 +182,8 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
     }
 
     private void handleGameOver() {
-        // TODO
+        resetButton.setVisibility(View.VISIBLE);
         messageView.setText(msgHelper.getGameOverMessage(gameBoard.getCurrentPlayerName()));
-
     }
 
     @Override

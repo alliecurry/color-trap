@@ -25,4 +25,21 @@
             android:textColor="@android:color/secondary_text_light"
             />
 
+    <com.hutchdesign.colortrap.view.FontyTextView
+            android:id="@+id/board_reset"
+            app:customFont="@string/font_default_light"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_above="@id/board_text"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:textColor="@android:color/secondary_text_light"
+            android:text="reset"
+            android:background="@color/river"
+            android:layout_marginBottom="10dp"
+            android:visibility="gone"
+            />
+
+
 </com.hutchdesign.colortrap.view.SlidingRelativeLayout>
