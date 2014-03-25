@@ -7,6 +7,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.hutchdesign.colortrap.R;
@@ -98,7 +99,18 @@ public class StartupActivity extends Activity implements View.OnClickListener {
         gameFragment.startGame(this, mode);
 
     }
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.i(TAG, "Starting analytics");
+        EasyTracker.getInstance(this).activityStart(this);
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        EasyTracker.getInstance(this).activityStop(this);
+    }
     @Override
     public void onBackPressed() {
         if (FragmentUtility.getBackStackCount(this) > 0) {
