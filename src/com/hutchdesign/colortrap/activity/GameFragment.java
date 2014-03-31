@@ -53,6 +53,7 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
             @Override
             public void onClick(View view) {
                 resetButton.setVisibility(View.GONE);
+                resetBoard(getActivity(), mode);
                 setupGridView(getActivity());
                 startGame(getActivity(), mode);
             }
@@ -64,8 +65,7 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
 
     public void startGame(Context context, Mode mode) {
         this.mode = mode;
-        gameBoard = new GameBoard(context, mode);
-
+        //gameBoard = new GameBoard(context, mode);
         if (msgHelper == null) {
             msgHelper = new MessageHelper();
         }
@@ -195,6 +195,7 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
         return gameBoard;
     }
 
+    public void resetBoard(Context c, Mode m) {gameBoard = new GameBoard(c, m);}
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
