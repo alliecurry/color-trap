@@ -50,5 +50,14 @@
                android:alpha="0"
             />
 
+    <ImageView android:id="@+id/animation_image2"
+               android:visibility="visible"
+               android:layout_height="wrap_content"
+               android:layout_width="wrap_content"
+               android:scaleType="centerInside"
+               android:src="@drawable/player2"
+               android:alpha="0"
+            />
+
 
 </co.starsky.colortrap.view.SlidingRelativeLayout>

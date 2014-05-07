@@ -58,12 +58,12 @@ public class GridAdapter extends AnimatedAdapter {
             playerView2.setVisibility(View.GONE);
 
         } else if (p.isFirstPlayer()) {
-            playerView1.setVisibility(View.VISIBLE);
+//            playerView1.setVisibility(View.VISIBLE);
             playerView2.setVisibility(View.GONE);
             playerOneTile = tileView;
         } else {
             playerView1.setVisibility(View.GONE);
-            playerView2.setVisibility(View.VISIBLE);
+//            playerView2.setVisibility(View.VISIBLE);
             playerTwoTile = tileView;
         }
 
