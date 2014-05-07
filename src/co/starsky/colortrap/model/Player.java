@@ -1,0 +1,48 @@
+package co.starsky.colortrap.model;
+
+import java.io.Serializable;
+
+public class Player implements Serializable {
+    private static final long serialVersionUID = -9196884400202320545L;
+
+    /** Players current grid position or -1 if not placed. */
+    private int position;
+    private int prevPosition = -1;
+    private boolean isFirstPlayer;
+    private String name;
+
+    public Player(int position, boolean isFirstPlayer) {
+        this.position = position;
+        this.isFirstPlayer = isFirstPlayer;
+        this.name = "Player " + (isFirstPlayer ? "1" : "2");
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.prevPosition = this.position;
+        this.position = position;
+    }
+
+    public int getPrevPosition() {
+        return prevPosition;
+    }
+
+    public boolean isFirstPlayer() {
+        return isFirstPlayer;
+    }
+
+    public void setFirstPlayer(boolean firstPlayer) {
+        isFirstPlayer = firstPlayer;
+    }
+}

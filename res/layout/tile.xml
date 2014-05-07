@@ -6,7 +6,7 @@
                 android:visibility="invisible"
                 android:id="@+id/tile_layout">
 
-    <com.hutchdesign.colortrap.view.SquareView
+    <co.starsky.colortrap.view.SquareView
           android:id="@+id/tile_square_view"
           android:layout_width="match_parent"
           android:layout_height="match_parent"/>

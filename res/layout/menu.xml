@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.hutchdesign.colortrap.view.SlidingRelativeLayout
+<co.starsky.colortrap.view.SlidingRelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res/com.hutchdesign.colortrap"
+        xmlns:app="http://schemas.android.com/apk/res/co.starsky.colortrap"
         style="@style/ColorTrap"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="20dp">
 
-    <com.hutchdesign.colortrap.view.FontyTextView
+    <co.starsky.colortrap.view.FontyTextView
             android:id="@+id/menu_text_title"
             app:customFont="@string/font_default"
             android:layout_width="wrap_content"
@@ -24,7 +24,7 @@
             android:text="@string/app_name"
             />
 
-    <com.hutchdesign.colortrap.view.FontyTextView
+    <co.starsky.colortrap.view.FontyTextView
             android:id="@+id/menu_text_subtitle"
             app:customFont="@string/font_default"
             android:layout_width="wrap_content"
@@ -45,7 +45,7 @@
           android:layout_below="@id/menu_text_subtitle"
           />
 
-    <com.hutchdesign.colortrap.view.FontyTextView
+    <co.starsky.colortrap.view.FontyTextView
             style="@style/MenuButton"
             android:id="@+id/button_new_computer"
             app:customFont="@string/font_default"
@@ -55,7 +55,7 @@
             android:layout_alignTop="@id/menu_filler"
             />
 
-    <com.hutchdesign.colortrap.view.FontyTextView
+    <co.starsky.colortrap.view.FontyTextView
             style="@style/MenuButton"
             android:id="@+id/button_new_hotseat"
             app:customFont="@string/font_default"
@@ -65,7 +65,7 @@
             android:layout_alignTop="@id/menu_filler"
             />
 
-    <com.hutchdesign.colortrap.view.FontyTextView
+    <co.starsky.colortrap.view.FontyTextView
             style="@style/MenuButton"
             android:layout_marginTop="@dimen/menu_spacing"
             android:id="@+id/button_help"
@@ -83,4 +83,4 @@
             android:layout_height="match_parent"
             android:visibility="visible" />
 
-</com.hutchdesign.colortrap.view.SlidingRelativeLayout>
+</co.starsky.colortrap.view.SlidingRelativeLayout>
