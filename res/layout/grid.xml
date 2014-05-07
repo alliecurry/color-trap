@@ -3,10 +3,11 @@
           android:id="@+id/gridview"
           android:layout_width="match_parent"
           android:layout_height="match_parent"
-          android:numColumns="5"
+          android:numColumns="@integer/grid_columns"
           android:verticalSpacing="@dimen/spacing"
           android:horizontalSpacing="@dimen/spacing"
           android:stretchMode="columnWidth"
           android:background="@android:color/transparent"
           android:listSelector="@android:color/transparent"
+          android:clipChildren="false"
         />

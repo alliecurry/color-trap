@@ -94,7 +94,7 @@ public class StartupActivity extends Activity implements View.OnClickListener {
     }
 
     private void startGame(Mode mode) {
-        displayAd();
+//        displayAd();
         FragmentUtility.replaceFragment(this, gameFragment, R.id.fragment, null);
         gameFragment.resetBoard(this, mode);
         gameFragment.startGame(this, mode);

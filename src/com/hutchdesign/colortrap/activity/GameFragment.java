@@ -9,12 +9,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.ImageView;
 import com.hutchdesign.colortrap.R;
+import com.hutchdesign.colortrap.animator.AnimatorPath;
+import com.hutchdesign.colortrap.animator.AnimatorProxy;
+import com.hutchdesign.colortrap.animator.PathEvaluator;
+import com.hutchdesign.colortrap.animator.PathPoint;
 import com.hutchdesign.colortrap.model.GameBoard;
 import com.hutchdesign.colortrap.model.Mode;
 import com.hutchdesign.colortrap.model.State;
+import com.hutchdesign.colortrap.model.Triplet;
 import com.hutchdesign.colortrap.util.MessageHelper;
 import com.hutchdesign.colortrap.view.AnimatedAdapter;
 import com.hutchdesign.colortrap.view.FontyTextView;
@@ -27,13 +32,16 @@ import com.hutchdesign.colortrap.view.GridAdapter;
 public class GameFragment extends Fragment implements AdapterView.OnItemClickListener, AnimatedAdapter.AnimationListener {
     protected static final String KEY_GAMEBOARD = "gameb";
     private static final int FADE_DURATION = 300;
+    private float spacing;
 
     private GameBoard gameBoard;
     private GridView gridView;
+    private GridAdapter adapter;
     private FontyTextView messageView;
     private MessageHelper msgHelper;
     private View resetButton;
     private Mode mode;
+    private ImageView animateView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,10 +51,13 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
             continueGame((GameBoard) savedInstanceState.getSerializable(KEY_GAMEBOARD));
         }
 
+        spacing = getResources().getDimension(R.dimen.spacing);
+
         messageView = (FontyTextView) v.findViewById(R.id.board_text);
         messageView.setText("");
         gridView = (GridView) v.findViewById(R.id.gridview);
         resetButton = v.findViewById(R.id.board_reset);
+        animateView = (ImageView) v.findViewById(R.id.animation_image);
 
         resetButton.setVisibility(View.GONE);
         resetButton.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +67,7 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
                 resetBoard(getActivity(), mode);
                 setupGridView(getActivity());
                 startGame(getActivity(), mode);
+                messageView.setText("");
             }
         });
 
@@ -85,7 +97,7 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
     }
 
     private void setupGridView(Context context) {
-        final GridAdapter adapter = new GridAdapter(context, gameBoard);
+        adapter = new GridAdapter(context, gameBoard);
         adapter.setAnimationListener(this);
 
         gridView.setNumColumns(gameBoard.getColNum());
@@ -104,7 +116,6 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         step(position);
-        ((BaseAdapter)gridView.getAdapter()).notifyDataSetChanged();
     }
 
     private void step(int position) {
@@ -112,6 +123,7 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
         switch (currentState) {
             case PLACE_PIECE:
                 gameBoard.setupPlayer(position);
+                adapter.notifyDataSetChanged();
                 displayMessage();
                 break;
             case TURN_PLAYER:
@@ -124,25 +136,112 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
         }
     }
 
+    /** @return true if the turn was valid. */
     private void takeTurn(int position) {
-        boolean isValid = gameBoard.takeTurn(position);
+        Triplet<Integer, Integer, Integer> t = gameBoard.takeTurn(position);
 
-        if (!isValid) {
+        if (t == null) {
             displayInvalidMessage();
         } else if (gameBoard.getCurrentState() == State.GAME_OVER) {
             handleGameOver();
+            animate(t);
         } else {
             displayMessage();
+            animate(t);
         }
     }
 
-    private void fadeOutView(View v) {
+    private void animate(Triplet<Integer, Integer, Integer> t) {
+        int player = t.getA();
+        View tile;
+
+        if (player == 0) {
+            animateView.setImageResource(R.drawable.player);
+            tile = adapter.getPlayerOneTile();
+        } else {
+            animateView.setImageResource(R.drawable.player2);
+            tile = adapter.getPlayerTwoTile();
+        }
+
+        // Grid View indices
+        final float oldPos = (float) t.getB();
+        final float newPos = (float) t.getC();
+
+        // Screen start location
+        final float x = tile.getX() + ((tile.getWidth() / 2) - (animateView.getWidth() / 2));
+        final float y = tile.getY() + ((tile.getHeight() / 2) - (animateView.getHeight() / 2));
+
+        // Tile size including grid padding
+        final float oneTileX = tile.getWidth() + spacing;
+        final float oneTileY = tile.getHeight() + spacing;
+
+        final float cols = GameBoard.COL_NUM;
+        final float n = (newPos - oldPos) / cols;
+        final float vertical = (int) n; // # of columns move difference
+
+        final float xOffset = oneTileX * ((n - vertical) * cols);
+        final float yOffset = oneTileY * vertical;
+
+        float xCurve = getCurve(oneTileX, xOffset);
+        float yCurve = getCurve(oneTileY, yOffset);
+
+        if (n < 0) {
+            xCurve = -xCurve;
+            yCurve = -yCurve;
+        }
+
+        adapter.hidePlayer(player);
+        jump(x, y, xOffset, yOffset, xCurve, yCurve);
+    }
+
+    private void jump(final float x, final float y,
+                      final float xOffset, final float yOffset,
+                      final float xCurve, final float yCurve) {
+
+        AnimatorPath path = new AnimatorPath();
+        path.moveTo(x, y);
+        path.curveTo(
+                x + xCurve, y - yCurve,
+                x + xOffset + xCurve, y + yOffset - yCurve,
+                x + xOffset, y + yOffset);
+
+        AnimatorProxy.wrap(animateView);
+
+        // Set up the animation
+        final ObjectAnimator anim = ObjectAnimator.ofObject(this, "buttonLocation",
+                new PathEvaluator(), path.getPoints().toArray());
+
+        final int duration = (int) Math.abs((xOffset + yOffset) / 3) + 250;
+        anim.setDuration(duration);
+        animateView.setAlpha(1f);
+        anim.start();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() { // Animation on finish
+                animateView.setAlpha(0f);
+                adapter.notifyDataSetChanged();
+            }
+        }, duration);
+    }
+
+    private static float getCurve(float tileSize, float offset) {
+        return offset > -1f && offset < 1f ? (tileSize / 2) + offset : 0;
+    }
+
+    @SuppressWarnings("UnusedDeclaration")
+    public void setButtonLocation(PathPoint newLoc) {
+        animateView.setTranslationX(newLoc.mX);
+        animateView.setTranslationY(newLoc.mY);
+    }
+
+    private static void fadeOutView(View v) {
         ObjectAnimator animationFadeOut = ObjectAnimator.ofFloat(v, "alpha", 1f, 0f);
         animationFadeOut.setDuration(FADE_DURATION);
         animationFadeOut.start();
     }
 
-    private void fadeInView(View v) {
+    private static void fadeInView(View v) {
         ObjectAnimator animationFadeIn = ObjectAnimator.ofFloat(v, "alpha", 0f, 1f);
         animationFadeIn.setDuration(FADE_DURATION);
         animationFadeIn.start();
@@ -195,7 +294,10 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
         return gameBoard;
     }
 
-    public void resetBoard(Context c, Mode m) {gameBoard = new GameBoard(c, m);}
+    public void resetBoard(Context c, Mode m) {
+        gameBoard = new GameBoard(c, m);
+    }
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -212,4 +314,5 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
             bundle.putSerializable(KEY_GAMEBOARD, gameBoard);
         }
     }
+
 }

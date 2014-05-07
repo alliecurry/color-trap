@@ -18,6 +18,8 @@ public final class GameBoard implements Serializable {
     /** Default amount of tiles (including disabled). */
     private static final int DEFAULT_ROW_NUM = 6;
     private static final int DEFAULT_COL_NUM = 5;
+    public static final float COL_NUM = (float) DEFAULT_COL_NUM;
+
     static final int PLAYER_ONE = 0;
     static final int PLAYER_TWO = 1;
     private int playerTurn;
@@ -192,29 +194,31 @@ public final class GameBoard implements Serializable {
     }
 
 
-    /** Makes a move for the current player a the given grid position.
-     *  @return true if the move was valid. */
-    public boolean takeTurn(int position) {
-        List validMoves = getValidMoves(players[playerTurn].getPosition());
+    /** Makes a move for the current player a the given grid position. */
+    public Triplet<Integer, Integer, Integer> takeTurn(int position) {
+        int oldPosition = players[playerTurn].getPosition();
+        List validMoves = getValidMoves(oldPosition);
 
         if (validMoves.contains(position)) {
-            getGridPosition(players[playerTurn].getPosition()).disable();
+            getGridPosition(oldPosition).disable();
             players[playerTurn].setPosition(position);
+            Triplet<Integer, Integer, Integer> t = new Triplet<Integer, Integer, Integer>(playerTurn, oldPosition, position);
 
             if (checkWin(players[playerTurn].getPosition())) {
                 Log.d(TAG, "A winner is player " + playerTurn);
                 setCurrentState(State.GAME_OVER);
-                return true;
+                return t;
             }
 
             playerTurn = otherPlayer(playerTurn);
             if (gameMode == Mode.COMPUTER && !players[playerTurn].isFirstPlayer()) {
                 takeCompTurn();
             }
-            return true;
+            return t;
         }
-        return false;
+        return null;
     }
+
     private void takeCompTurn() {
         List<Integer> validMoves;
         validMoves = getValidMoves(players[playerTurn].getPosition());
@@ -226,7 +230,7 @@ public final class GameBoard implements Serializable {
             }
         }
         Collections.shuffle(validMoves);
-        takeTurn(validMoves.get(0));
+        Triplet<Integer, Integer, Integer> turn = takeTurn(validMoves.get(0));
     }
 
     private int otherPlayer(int player) {
@@ -234,7 +238,6 @@ public final class GameBoard implements Serializable {
     }
     //Probably a fancier way to do this.
     private List <Integer> getValidMoves(int position){
-        Log.d(TAG, "Current position = " + position);
         List<Integer> validMoves = new ArrayList();
         //Right
         for(int i = position + 1; i%colNum != 0; i++){
@@ -245,7 +248,6 @@ public final class GameBoard implements Serializable {
         }
         //Left
         for(int i = position - 1; (i+1)%colNum > 0; i--){
-            Log.d(TAG, "left move i = " + i);
             if(!getGridPosition(i).isDisabled()){
                 validMoves.add(i);
                 break;
@@ -260,7 +262,6 @@ public final class GameBoard implements Serializable {
         }
         //Down
         for(int i = position + colNum; i < boardSize(); i = i + colNum){
-            Log.d(TAG, "Down move i = " + i);
             if(!getGridPosition(i).isDisabled()){
                 validMoves.add(i);
                 break;
