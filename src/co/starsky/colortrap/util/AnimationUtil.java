@@ -15,6 +15,10 @@ public final class AnimationUtil {
     public static final int DEFAULT_CURVE_DURATION = 250;
     public static final int DEFAULT_FADE_DURATION = 300;
 
+    private AnimationUtil() {
+        throw new AssertionError();
+    }
+
     public static void fadeOutView(View v) {
         ObjectAnimator animationFadeOut = ObjectAnimator.ofFloat(v, "alpha", 1f, 0f);
         animationFadeOut.setDuration(DEFAULT_FADE_DURATION);
