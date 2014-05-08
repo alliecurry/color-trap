@@ -1,8 +1,11 @@
-package co.starsky.colortrap.model;
+package co.starsky.colortrap.game;
 
 import android.content.Context;
 import android.util.Log;
 import co.starsky.colortrap.R;
+import co.starsky.colortrap.model.*;
+import co.starsky.colortrap.model.player.ComputerPlayer;
+import co.starsky.colortrap.model.player.Player;
 import co.starsky.colortrap.util.Shuffle;
 
 import java.io.Serializable;

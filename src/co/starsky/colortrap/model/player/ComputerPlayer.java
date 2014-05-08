@@ -1,4 +1,4 @@
-package co.starsky.colortrap.model;
+package co.starsky.colortrap.model.player;
 
 /**
  * Created by mike.hutcheson on 1/5/14.

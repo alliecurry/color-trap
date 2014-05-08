@@ -1,4 +1,4 @@
-package co.starsky.colortrap.activity;
+package co.starsky.colortrap.game;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -12,7 +12,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import co.starsky.colortrap.R;
 import co.starsky.colortrap.animator.AnimatorPath;
-import co.starsky.colortrap.model.GameBoard;
 import co.starsky.colortrap.model.Mode;
 import co.starsky.colortrap.model.State;
 import co.starsky.colortrap.model.Triplet;
@@ -120,8 +119,11 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
         State currentState = gameBoard.getCurrentState();
         switch (currentState) {
             case PLACE_PIECE:
-                gameBoard.setupPlayer(position);
-                adapter.notifyDataSetChanged();
+                boolean success = gameBoard.setupPlayer(position);
+                if (success) {
+                    adapter.notifyDataSetChanged();
+
+                }
                 displayMessage();
                 break;
             case TURN_PLAYER:
@@ -147,6 +149,10 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
             displayMessage();
             animateTurn(t);
         }
+    }
+
+    private void animatePiecePlacement() {
+
     }
 
     /** Animates a player piece to its new grid tile. */

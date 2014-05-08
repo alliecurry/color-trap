@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import co.starsky.colortrap.R;
+import co.starsky.colortrap.game.GameFragment;
 import co.starsky.colortrap.model.Mode;
 import co.starsky.colortrap.util.FragmentUtility;
 import co.starsky.colortrap.view.RotateTouchListener;

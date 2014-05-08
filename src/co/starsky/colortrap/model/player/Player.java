@@ -1,4 +1,4 @@
-package co.starsky.colortrap.model;
+package co.starsky.colortrap.model.player;
 
 import java.io.Serializable;
 

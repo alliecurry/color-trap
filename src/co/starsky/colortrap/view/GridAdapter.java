@@ -5,8 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import co.starsky.colortrap.R;
-import co.starsky.colortrap.model.GameBoard;
-import co.starsky.colortrap.model.Player;
+import co.starsky.colortrap.game.GameBoard;
+import co.starsky.colortrap.model.player.Player;
 import co.starsky.colortrap.model.Tile;
 
 public class GridAdapter extends AnimatedAdapter {
