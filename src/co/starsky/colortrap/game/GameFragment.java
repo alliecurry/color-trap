@@ -65,6 +65,7 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
             @Override
             public void onClick(View view) {
                 resetButton.setVisibility(View.GONE);
+                resetPieces();
                 resetBoard(getActivity(), mode);
                 setupGridView(getActivity());
                 startGame(getActivity(), mode);
@@ -76,9 +77,15 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
         return v;
     }
 
+    private void resetPieces() {
+        playerOnePiece.setAlpha(0f);
+        playerTwoPiece.setAlpha(0f);
+    }
+
     public void startGame(Context context, Mode mode) {
         this.mode = mode;
         didMakeFirstMove = false;
+
         //gameBoard = new GameBoard(context, mode);
         if (msgHelper == null) {
             msgHelper = new MessageHelper();
@@ -193,6 +200,8 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
             tile = playerTwoTile;
         }
 
+        piece.bringToFront();
+
         // Math! Gathers measurements for start to end location and curve offsets.
 
         // Grid View indices
@@ -227,7 +236,6 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
             @Override
             public void run() {
                 adapter.notifyDataSetChanged();
-//                piece.bringToFront();
             }
         });
     }
