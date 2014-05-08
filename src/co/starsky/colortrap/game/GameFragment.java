@@ -17,9 +17,9 @@ import co.starsky.colortrap.model.State;
 import co.starsky.colortrap.model.Triplet;
 import co.starsky.colortrap.util.AnimationUtil;
 import co.starsky.colortrap.util.MessageHelper;
-import co.starsky.colortrap.view.AnimatedAdapter;
+import co.starsky.colortrap.view.adapter.AnimatedAdapter;
 import co.starsky.colortrap.view.FontyTextView;
-import co.starsky.colortrap.view.GridAdapter;
+import co.starsky.colortrap.view.adapter.GridAdapter;
 
 
 /**

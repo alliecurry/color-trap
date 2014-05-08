@@ -1,4 +1,4 @@
-package co.starsky.colortrap.view;
+package co.starsky.colortrap.view.adapter;
 
 import android.animation.AnimatorInflater;
 import android.animation.ObjectAnimator;

@@ -1,4 +1,4 @@
-package co.starsky.colortrap.view;
+package co.starsky.colortrap.view.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

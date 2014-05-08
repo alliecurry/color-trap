@@ -5,6 +5,8 @@ import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
 /**
+ * RelativeLayout that will auto-slide into View.
+ * Used as an alternative to fragment transaction animations (looks prettier).
  * @author alliecurry
  */
 public class SlidingRelativeLayout extends RelativeLayout {
