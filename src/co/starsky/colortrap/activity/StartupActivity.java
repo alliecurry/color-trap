@@ -70,7 +70,7 @@ public class StartupActivity extends Activity implements View.OnClickListener {
         final ObjectAnimator animatorRight = (ObjectAnimator) AnimatorInflater.loadAnimator(this, R.animator.rotate_right);
         final ObjectAnimator animatorLeftReset = (ObjectAnimator) AnimatorInflater.loadAnimator(this, R.animator.rotate_left_reset);
         final ObjectAnimator animatorRightReset = (ObjectAnimator) AnimatorInflater.loadAnimator(this, R.animator.rotate_right_reset);
-        RotateTouchListener touchListener = new RotateTouchListener(animatorLeft, animatorRight, getResources().getInteger(R.integer.rotation_menu_duration));
+        final RotateTouchListener touchListener = new RotateTouchListener(animatorLeft, animatorRight, getResources().getInteger(R.integer.rotation_menu_duration));
         touchListener.setResetAnimators(animatorLeftReset, animatorRightReset);
         return touchListener;
     }
@@ -99,8 +99,8 @@ public class StartupActivity extends Activity implements View.OnClickListener {
         FragmentUtility.replaceFragment(this, gameFragment, R.id.fragment, null);
         gameFragment.resetBoard(this, mode);
         gameFragment.startGame(this, mode);
-
     }
+
     @Override
     public void onStart() {
         super.onStart();

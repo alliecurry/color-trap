@@ -12,5 +12,6 @@
     <string name="cd_player1">Player 1 game piece</string>
     <string name="cd_player2">Player 2 game piece</string>
     <string name="reset_button">reset</string>
+    <string name="question_mark">\?</string>
 
 </resources>

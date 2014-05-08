@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- menu -->
+    <dimen name="menu_tile_size">200dp</dimen>
+    <dimen name="menu_spacing">20dp</dimen>
+    <dimen name="menu_title_fontsize">80sp</dimen>
+    <dimen name="menu_subtitle_fontsize">62sp</dimen>
+    <dimen name="menu_margin">20dp</dimen>
+    <dimen name="menu_margin_double">40dp</dimen>
+
+    <!-- board -->
+    <dimen name="piece_size">60dp</dimen>
+    <dimen name="spacing">4dp</dimen> <!-- space between tiles -->
+</resources>

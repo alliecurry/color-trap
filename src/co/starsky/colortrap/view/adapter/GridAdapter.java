@@ -30,7 +30,7 @@ public class GridAdapter extends AnimatedAdapter {
     }
 
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     /** Redraw & animate grid. */
@@ -62,16 +62,8 @@ public class GridAdapter extends AnimatedAdapter {
     }
 
     @Override
-    public void notifyDataSetChanged() {
-        super.notifyDataSetChanged();
-    }
-
-    @Override
     public void onAnimate(View view) {
         view.setVisibility(View.VISIBLE);
     }
 
-    public interface TileListener {
-        public Tile getTile(int position);
-    }
 }

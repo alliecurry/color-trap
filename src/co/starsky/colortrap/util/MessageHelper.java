@@ -13,14 +13,12 @@ import java.util.LinkedList;
  * @author alliecurry
  */
 public class MessageHelper {
-    private Mode mode;
     private LinkedList<String> placePieceStack;
     private LinkedList<String> turnStack;
     private LinkedList<String> invalidStack;
     private LinkedList<String> gameOverStack;
 
     public void setMode(Context c, Mode mode) {
-        this.mode = mode;
         Resources res = c.getResources();
         switch (mode) {
             case HOTSEAT:

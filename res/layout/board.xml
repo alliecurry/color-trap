@@ -10,7 +10,6 @@
     <include
             layout="@layout/grid"
             android:id="@+id/gridview"
-            android:layout_alignWithParentIfMissing="false"
             android:layout_marginBottom="10dp"
             />
 

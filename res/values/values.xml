@@ -74,14 +74,20 @@
     <color name="player_color">@android:color/holo_blue_bright</color>
     <color name="player_color2">@android:color/holo_purple</color>
 
-    <dimen name="tile_size">54dp</dimen>
-    <dimen name="piece_size">60dp</dimen>
-    <dimen name="spacing">2dp</dimen> <!-- space between tiles -->
+    <!-- menu -->
+    <dimen name="menu_tile_size">120dp</dimen>
     <dimen name="menu_spacing">20dp</dimen>
+    <dimen name="menu_title_fontsize">60sp</dimen>
     <dimen name="menu_subtitle_fontsize">42sp</dimen>
+    <dimen name="menu_margin">20dp</dimen>
+    <dimen name="menu_margin_double">40dp</dimen>
 
     <integer name="rotation_menu">20</integer>
     <integer name="rotation_menu_inverse">-20</integer>
     <integer name="rotation_menu_duration">200</integer>
+
+    <!-- board -->
+    <dimen name="piece_size">40dp</dimen>
+    <dimen name="spacing">2dp</dimen> <!-- space between tiles -->
 
 </resources>

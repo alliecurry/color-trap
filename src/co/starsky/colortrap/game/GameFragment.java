@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +18,8 @@ import co.starsky.colortrap.model.State;
 import co.starsky.colortrap.model.Triplet;
 import co.starsky.colortrap.util.AnimationUtil;
 import co.starsky.colortrap.util.MessageHelper;
-import co.starsky.colortrap.view.adapter.AnimatedAdapter;
 import co.starsky.colortrap.view.FontyTextView;
+import co.starsky.colortrap.view.adapter.AnimatedAdapter;
 import co.starsky.colortrap.view.adapter.GridAdapter;
 
 
@@ -50,6 +51,13 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
         if (savedInstanceState != null && savedInstanceState.getSerializable(KEY_GAMEBOARD) != null) {
             continueGame((GameBoard) savedInstanceState.getSerializable(KEY_GAMEBOARD));
         }
+
+        v.findViewById(R.id.board_layout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         spacing = getResources().getDimension(R.dimen.spacing);
 
@@ -109,9 +117,8 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
         adapter = new GridAdapter(context, gameBoard);
         adapter.setAnimationListener(this);
 
-        gridView.setNumColumns(gameBoard.getColNum());
-        gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(this);
+        gridView.setAdapter(adapter);
 
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -124,6 +131,7 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Log.d("allie", "" + position + " / " + view.getX());
         step(view, position);
     }
 
@@ -178,8 +186,8 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
     }
 
     private void showPiece(final View piece, final View tile) {
-        final float x = tile.getX() + (tile.getWidth() / 2) - (piece.getWidth() / 2);
-        final float y = tile.getY() + (tile.getHeight() / 2) - (piece.getHeight() / 2);
+        final float x = tile.getX() + ((tile.getWidth() / 2) - (piece.getWidth() / 2));
+        final float y = tile.getY() + ((tile.getHeight() / 2) - (piece.getHeight() / 2));
 
         piece.setX(x);
         piece.setY(y);

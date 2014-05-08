@@ -241,7 +241,7 @@ public final class GameBoard implements Serializable {
     }
     //Probably a fancier way to do this.
     private List <Integer> getValidMoves(int position){
-        List<Integer> validMoves = new ArrayList();
+        List<Integer> validMoves = new ArrayList<Integer>();
         //Right
         for(int i = position + 1; i%colNum != 0; i++){
             if(!getGridPosition(i).isDisabled()){

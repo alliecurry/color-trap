@@ -64,7 +64,7 @@
             style="@style/MenuButton"
             android:id="@+id/button_help"
             app:customFont="@string/font_default"
-            android:text="\?"
+            android:text="@string/question_mark"
             android:background="@color/river"
             android:layout_toRightOf="@id/button_new_hotseat"
             android:layout_alignTop="@+id/button_new_hotseat"
