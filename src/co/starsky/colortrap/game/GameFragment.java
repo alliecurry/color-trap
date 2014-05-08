@@ -36,8 +36,12 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
     private MessageHelper msgHelper;
     private View resetButton;
     private Mode mode;
-    private ImageView playerOneView;
-    private ImageView playerTwoView;
+
+    private ImageView playerOnePiece;
+    private ImageView playerTwoPiece;
+    private View playerOneTile;
+    private View playerTwoTile;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,8 +57,8 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
         messageView.setText("");
         gridView = (GridView) v.findViewById(R.id.gridview);
         resetButton = v.findViewById(R.id.board_reset);
-        playerOneView = (ImageView) v.findViewById(R.id.animation_image);
-        playerTwoView = (ImageView) v.findViewById(R.id.animation_image2);
+        playerOnePiece = (ImageView) v.findViewById(R.id.animation_image);
+        playerTwoPiece = (ImageView) v.findViewById(R.id.animation_image2);
 
         resetButton.setVisibility(View.GONE);
         resetButton.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +78,7 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
 
     public void startGame(Context context, Mode mode) {
         this.mode = mode;
+        didMakeFirstMove = false;
         //gameBoard = new GameBoard(context, mode);
         if (msgHelper == null) {
             msgHelper = new MessageHelper();
@@ -112,22 +117,32 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        step(position);
+        step(view, position);
     }
 
-    private void step(int position) {
+    private boolean didMakeFirstMove = false;
+    private void step(final View view, final int position) {
         State currentState = gameBoard.getCurrentState();
         switch (currentState) {
             case PLACE_PIECE:
                 boolean success = gameBoard.setupPlayer(position);
                 if (success) {
-                    adapter.notifyDataSetChanged();
+                    final View piece;
 
+                    if (!didMakeFirstMove) {
+                        piece = playerOnePiece;
+                        playerOneTile = view;
+                    } else {
+                        piece = playerTwoPiece;
+                        playerTwoTile = view;
+                    }
+                    showPiece(piece, view);
+                    didMakeFirstMove = true;
                 }
                 displayMessage();
                 break;
             case TURN_PLAYER:
-                takeTurn(position);
+                takeTurn(view, position);
                 break;
             case GAME_OVER:
                 handleGameOver();
@@ -136,8 +151,7 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
         }
     }
 
-    /** @return true if the turn was valid. */
-    private void takeTurn(int position) {
+    private void takeTurn(final View view, final int position) {
         Triplet<Integer, Integer, Integer> t = gameBoard.takeTurn(position);
 
         if (t == null) {
@@ -148,24 +162,35 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
         } else {
             displayMessage();
             animateTurn(t);
+            if (t.getA() == 0) {
+                playerOneTile = view;
+            } else {
+                playerTwoTile = view;
+            }
         }
     }
 
-    private void animatePiecePlacement() {
+    private void showPiece(final View piece, final View tile) {
+        final float x = tile.getX() + (tile.getWidth() / 2) - (piece.getWidth() / 2);
+        final float y = tile.getY() + (tile.getHeight() / 2) - (piece.getHeight() / 2);
 
+        piece.setX(x);
+        piece.setY(y);
+        piece.setAlpha(1);
+        piece.bringToFront();
     }
 
     /** Animates a player piece to its new grid tile. */
-    private void animateTurn(Triplet<Integer, Integer, Integer> t) {
-        final View tile;
+    private void animateTurn(final Triplet<Integer, Integer, Integer> t) {
         final View piece;
+        final View tile;
 
         if (t.getA() == 0) {
-            piece = playerOneView;
-            tile = adapter.getPlayerOneTile();
+            piece = playerOnePiece;
+            tile = playerOneTile;
         } else {
-            piece = playerTwoView;
-            tile = adapter.getPlayerTwoTile();
+            piece = playerTwoPiece;
+            tile = playerTwoTile;
         }
 
         // Math! Gathers measurements for start to end location and curve offsets.

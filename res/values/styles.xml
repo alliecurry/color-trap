@@ -17,5 +17,12 @@
         <item name="android:textSize">@dimen/menu_subtitle_fontsize</item>
         <item name="android:textColor">@android:color/black</item>
     </style>
+    <style name="PlayerPiece">
+        <item name="android:visibility">visible</item>
+        <item name="android:layout_height">@dimen/piece_size</item>
+        <item name="android:layout_width">@dimen/piece_size</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:alpha">0</item>
+    </style>
 
 </resources>

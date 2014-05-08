@@ -35,29 +35,21 @@
             android:gravity="center"
             android:textSize="24sp"
             android:textColor="@android:color/secondary_text_light"
-            android:text="reset"
+            android:text="@string/reset_button"
             android:background="@color/river"
             android:layout_marginBottom="10dp"
             android:visibility="gone"
             />
 
     <ImageView android:id="@+id/animation_image"
-               android:visibility="visible"
-               android:layout_height="wrap_content"
-               android:layout_width="wrap_content"
-               android:scaleType="centerInside"
-               android:src="@drawable/player"
-               android:alpha="0"
-            />
+               android:src="@drawable/piece1"
+               android:contentDescription="@string/cd_player1"
+               style="@style/PlayerPiece" />
 
     <ImageView android:id="@+id/animation_image2"
-               android:visibility="visible"
-               android:layout_height="wrap_content"
-               android:layout_width="wrap_content"
-               android:scaleType="centerInside"
-               android:src="@drawable/player2"
-               android:alpha="0"
-            />
+               android:src="@drawable/piece2"
+               android:contentDescription="@string/cd_player2"
+               style="@style/PlayerPiece"/>
 
 
 </co.starsky.colortrap.view.SlidingRelativeLayout>
