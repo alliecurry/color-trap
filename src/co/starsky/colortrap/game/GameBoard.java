@@ -216,7 +216,6 @@ public final class GameBoard implements Serializable {
             Triplet<Integer, Integer, Integer> t = new Triplet<Integer, Integer, Integer>(playerTurn, oldPosition, position);
 
             if (checkWin(players[playerTurn].getPosition())) {
-                Log.d(TAG, "A winner is player " + playerTurn);
                 setCurrentState(State.GAME_OVER);
                 return t;
             }
