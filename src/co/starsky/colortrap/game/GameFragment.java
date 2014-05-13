@@ -26,7 +26,7 @@ import co.starsky.colortrap.view.adapter.GridAdapter;
 /**
  * Activity which starts and manages a new game.
  */
-public class GameFragment extends Fragment implements AnimatedAdapter.AnimationListener, GridAdapter.TileListener {
+public class GameFragment extends Fragment implements AnimatedAdapter.AnimationListener, GridAdapter.TileListener, GameBoard.MoveListener {
     protected static final String KEY_GAMEBOARD = "gameb";
     private float spacing;
 
@@ -293,7 +293,7 @@ public class GameFragment extends Fragment implements AnimatedAdapter.AnimationL
     }
 
     public void resetBoard(Context c, Mode m) {
-        gameBoard = new GameBoard(c, m);
+        gameBoard = new GameBoard(c, m, this);
     }
 
     @Override
@@ -313,4 +313,27 @@ public class GameFragment extends Fragment implements AnimatedAdapter.AnimationL
         }
     }
 
+    private static final int COMPUTER_DELAY = 150;
+
+    @Override
+    public void onComputerPlaced(int position) {
+        playerTwoTile = gridView.getChildAt(position);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showPiece(playerTwoPiece, playerTwoTile);
+            }
+        }, COMPUTER_DELAY);
+    }
+
+    @Override
+    public void onComputerMove(final Triplet<Integer, Integer, Integer> turn) {
+        playerTwoTile = gridView.getChildAt(turn.getB());
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                animateTurn(turn);
+            }
+        }, COMPUTER_DELAY);
+    }
 }

@@ -35,7 +35,13 @@ public final class GameBoard implements Serializable {
     private State currentState;
     private Mode gameMode;
 
-    public GameBoard(Context c, Mode mode) {
+    private final MoveListener listener;
+    public interface MoveListener {
+        public void onComputerPlaced(int position);
+        public void onComputerMove(Triplet<Integer, Integer, Integer> turn);
+    }
+
+    public GameBoard(Context c, Mode mode, MoveListener listener) {
         setupTiles(c);
         players = new Player[2];
         players[PLAYER_ONE] = players[playerTurn] = new Player(-1, true);
@@ -43,6 +49,7 @@ public final class GameBoard implements Serializable {
         playerTurn = 0;
         setGameMode(mode);
         setCurrentState(State.PLACE_PIECE);
+        this.listener = listener;
     }
 
     public boolean setupPlayer(int position) {
@@ -75,10 +82,11 @@ public final class GameBoard implements Serializable {
             }
         }
         Collections.shuffle(startMoves);
-        players[playerTurn].setPosition(startMoves.pop());
+        int pos = startMoves.pop();
+        players[playerTurn].setPosition(pos);
         setCurrentState(State.TURN_PLAYER);
         playerTurn = otherPlayer(playerTurn);
-
+        listener.onComputerPlaced(pos);
     }
 
     // Second players start space can't be a winning position
@@ -225,15 +233,18 @@ public final class GameBoard implements Serializable {
     private void takeCompTurn() {
         List<Integer> validMoves;
         validMoves = getValidMoves(players[playerTurn].getPosition());
+        Triplet<Integer, Integer, Integer> turn;
 
         for(int position : validMoves){
             if(checkWin(position)){
-                takeTurn(position);
+                turn = takeTurn(position);
+                listener.onComputerMove(turn);
                 return;
             }
         }
         Collections.shuffle(validMoves);
-        Triplet<Integer, Integer, Integer> turn = takeTurn(validMoves.get(0));
+        turn = takeTurn(validMoves.get(0));
+        listener.onComputerMove(turn);
     }
 
     private int otherPlayer(int player) {
