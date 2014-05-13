@@ -26,7 +26,7 @@ import co.starsky.colortrap.view.adapter.GridAdapter;
 /**
  * Activity which starts and manages a new game.
  */
-public class GameFragment extends Fragment implements AdapterView.OnItemClickListener, AnimatedAdapter.AnimationListener {
+public class GameFragment extends Fragment implements AnimatedAdapter.AnimationListener, GridAdapter.TileListener {
     protected static final String KEY_GAMEBOARD = "gameb";
     private float spacing;
 
@@ -114,10 +114,8 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
     }
 
     private void setupGridView(Context context) {
-        adapter = new GridAdapter(context, gameBoard);
+        adapter = new GridAdapter(context, gameBoard, this);
         adapter.setAnimationListener(this);
-
-        gridView.setOnItemClickListener(this);
         gridView.setAdapter(adapter);
 
         final Handler handler = new Handler();
@@ -130,8 +128,7 @@ public class GameFragment extends Fragment implements AdapterView.OnItemClickLis
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Log.d("allie", "" + position + " / " + view.getX());
+    public void onTileClick(int position, View view) {
         step(view, position);
     }
 

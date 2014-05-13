@@ -12,12 +12,14 @@ public class GridAdapter extends AnimatedAdapter {
     private GameBoard gameBoard;
     private Context context;
     private int disabledColor;
+    private final TileListener listener;
 
-    public GridAdapter(Context c, GameBoard board) {
+    public GridAdapter(Context c, GameBoard board, TileListener listener) {
         super(c, R.animator.flip, 350);
         context = c;
         gameBoard = board;
         disabledColor = context.getResources().getColor(R.color.board_background);
+        this.listener = listener;
         setDelay(50);
     }
 
@@ -39,12 +41,14 @@ public class GridAdapter extends AnimatedAdapter {
         notifyDataSetChanged();
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View tileView = convertView;
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        final View tileView;
         Tile currentTile = gameBoard.getGridPosition(position);
 
         if (convertView == null) {
             tileView = LayoutInflater.from(context).inflate(R.layout.tile, null);
+        } else {
+            tileView = convertView;
         }
 
         // Handle "dead" tiles
@@ -56,7 +60,12 @@ public class GridAdapter extends AnimatedAdapter {
         }
 
         tileView.setBackgroundColor(currentTile.getColor());
-
+        tileView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onTileClick(position, tileView);
+            }
+        });
         doAnimation(tileView, position, currentTile.isDisabled());
         return tileView;
     }
@@ -66,4 +75,7 @@ public class GridAdapter extends AnimatedAdapter {
         view.setVisibility(View.VISIBLE);
     }
 
+    public interface TileListener {
+        public void onTileClick(int position, View view);
+    }
 }
