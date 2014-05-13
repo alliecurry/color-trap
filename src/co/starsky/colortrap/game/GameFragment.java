@@ -2,6 +2,8 @@ package co.starsky.colortrap.game;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -18,9 +20,13 @@ import co.starsky.colortrap.model.State;
 import co.starsky.colortrap.model.Triplet;
 import co.starsky.colortrap.util.AnimationUtil;
 import co.starsky.colortrap.util.MessageHelper;
+import co.starsky.colortrap.util.PlayerPieceUtil;
 import co.starsky.colortrap.view.FontyTextView;
 import co.starsky.colortrap.view.adapter.AnimatedAdapter;
 import co.starsky.colortrap.view.adapter.GridAdapter;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 
 /**
@@ -67,6 +73,7 @@ public class GameFragment extends Fragment implements AnimatedAdapter.AnimationL
         resetButton = v.findViewById(R.id.board_reset);
         playerOnePiece = (ImageView) v.findViewById(R.id.animation_image);
         playerTwoPiece = (ImageView) v.findViewById(R.id.animation_image2);
+        PlayerPieceUtil.setupImages(playerOnePiece, playerTwoPiece, mode);
 
         resetButton.setVisibility(View.GONE);
         resetButton.setOnClickListener(new View.OnClickListener() {
@@ -88,6 +95,7 @@ public class GameFragment extends Fragment implements AnimatedAdapter.AnimationL
     private void resetPieces() {
         playerOnePiece.setAlpha(0f);
         playerTwoPiece.setAlpha(0f);
+        PlayerPieceUtil.setupImages(playerOnePiece, playerTwoPiece, mode);
     }
 
     public void startGame(Context context, Mode mode) {
@@ -281,6 +289,37 @@ public class GameFragment extends Fragment implements AnimatedAdapter.AnimationL
     private void handleGameOver() {
         resetButton.setVisibility(View.VISIBLE);
         messageView.setText(msgHelper.getGameOverMessage(gameBoard.getCurrentPlayerName()));
+        displayGameOverPieces();
+    }
+
+    private void displayGameOverPieces() {
+        final boolean isPlayer1Winner = gameBoard.isFirstPlayerTurn();
+        new Thread(new Runnable() {
+            public void run() {
+                final int res1 = isPlayer1Winner ? R.drawable.piece1_win : R.drawable.piece1_lose;
+                final int res2;
+                switch (mode) {
+                    case COMPUTER:
+                        res2 = isPlayer1Winner ? R.drawable.piece3_lose : R.drawable.piece3;
+                        break;
+                    default:
+                        res2 = isPlayer1Winner ? R.drawable.piece2_lose : R.drawable.piece2_win;
+                        break;
+                }
+
+                // This is significantly faster than setImageResource...
+                final Bitmap imageBitmap = PlayerPieceUtil.openRawResource(getActivity(), res1);
+                final Bitmap imageBitmap2 = PlayerPieceUtil.openRawResource(getActivity(), res2);
+                GameFragment.this.getView().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        playerOnePiece.setImageBitmap(imageBitmap);
+                        playerTwoPiece.setImageBitmap(imageBitmap2);
+                    }
+                });
+
+            }
+        }).start();
     }
 
     @Override

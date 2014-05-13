@@ -8,6 +8,6 @@ public class ComputerPlayer extends Player {
 
     public ComputerPlayer(int position, boolean isFirstPlayer) {
         super(position, isFirstPlayer);
-        setName("Computer");
+        setName("Señor Puzzle");
     }
 }

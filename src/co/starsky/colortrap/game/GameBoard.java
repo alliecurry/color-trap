@@ -292,6 +292,10 @@ public final class GameBoard implements Serializable {
         return players[playerTurn].getName();
     }
 
+    public boolean isFirstPlayerTurn() {
+        return playerTurn == PLAYER_ONE;
+    }
+
     public Mode getMode() {
         return gameMode;
     }
