@@ -14,6 +14,7 @@ import co.starsky.colortrap.model.Mode;
 import co.starsky.colortrap.util.FragmentUtility;
 import co.starsky.colortrap.view.RotateTouchListener;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
@@ -138,11 +139,16 @@ public class StartupActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        EasyTracker easyTracker = EasyTracker.getInstance(this);
         switch (view.getId()) {
             case R.id.button_new_computer:
+                easyTracker.send(MapBuilder.createEvent("Game_Info","Mode_Select",
+                        "Single_Player", null).build());
                 startGame(Mode.COMPUTER);
                 break;
             case R.id.button_new_hotseat:
+                easyTracker.send(MapBuilder.createEvent("Game_Info","Mode_Select",
+                        "Multi_Player", null).build());
                 startGame(Mode.HOTSEAT);
                 break;
             case R.id.button_help:

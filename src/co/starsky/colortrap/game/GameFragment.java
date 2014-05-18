@@ -24,6 +24,8 @@ import co.starsky.colortrap.util.PlayerPieceUtil;
 import co.starsky.colortrap.view.FontyTextView;
 import co.starsky.colortrap.view.adapter.AnimatedAdapter;
 import co.starsky.colortrap.view.adapter.GridAdapter;
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,7 +45,7 @@ public class GameFragment extends Fragment implements AnimatedAdapter.AnimationL
     private MessageHelper msgHelper;
     private View resetButton;
     private Mode mode;
-
+    private EasyTracker easyTracker;
     private ImageView playerOnePiece;
     private ImageView playerTwoPiece;
     private View playerOneTile;
@@ -74,7 +76,7 @@ public class GameFragment extends Fragment implements AnimatedAdapter.AnimationL
         playerOnePiece = (ImageView) v.findViewById(R.id.animation_image);
         playerTwoPiece = (ImageView) v.findViewById(R.id.animation_image2);
         PlayerPieceUtil.setupImages(playerOnePiece, playerTwoPiece, mode);
-
+        easyTracker = EasyTracker.getInstance(getActivity());
         resetButton.setVisibility(View.GONE);
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +87,11 @@ public class GameFragment extends Fragment implements AnimatedAdapter.AnimationL
                 setupGridView(getActivity());
                 startGame(getActivity(), mode);
                 messageView.setText("");
+                if(mode == Mode.COMPUTER){
+                easyTracker.send(MapBuilder.createEvent("Game_Info","Mode_Select",
+                        "Single_Player", null).build());}
+                else {easyTracker.send(MapBuilder.createEvent("Game_Info","Mode_Select",
+                        "Multi_Player", null).build());}
             }
         });
 
@@ -290,6 +297,11 @@ public class GameFragment extends Fragment implements AnimatedAdapter.AnimationL
         resetButton.setVisibility(View.VISIBLE);
         messageView.setText(msgHelper.getGameOverMessage(gameBoard.getCurrentPlayerName()));
         displayGameOverPieces();
+        if(mode == Mode.COMPUTER){
+            easyTracker.send(MapBuilder.createEvent("Winner","Single_Player_Winner",
+                    gameBoard.getCurrentPlayerName(), null).build());}
+        else {easyTracker.send(MapBuilder.createEvent("Winner","Multi_Player_Winner",
+                gameBoard.getCurrentPlayerName(), null).build());}
     }
 
     private void displayGameOverPieces() {
