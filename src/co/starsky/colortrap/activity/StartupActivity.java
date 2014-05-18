@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import co.starsky.colortrap.R;
+import co.starsky.colortrap.dialog.HelpDialog;
 import co.starsky.colortrap.game.GameFragment;
 import co.starsky.colortrap.model.Mode;
 import co.starsky.colortrap.util.FragmentUtility;
@@ -51,6 +52,7 @@ public class StartupActivity extends Activity implements View.OnClickListener {
 
         buttonHotseat.setOnClickListener(this);
         buttonComputer.setOnClickListener(this);
+        buttonHelp.setOnClickListener(this);
 
         buttonHotseat.setOnTouchListener(touchListener);
         buttonComputer.setOnTouchListener(touchListener);
@@ -101,6 +103,10 @@ public class StartupActivity extends Activity implements View.OnClickListener {
         gameFragment.startGame(this, mode);
     }
 
+    private void showHelp() {
+        new HelpDialog().show(getFragmentManager(), HelpDialog.class.getSimpleName());
+    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -130,6 +136,9 @@ public class StartupActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.button_new_hotseat:
                 startGame(Mode.HOTSEAT);
+                break;
+            case R.id.button_help:
+                showHelp();
                 break;
             default: break;
         }

@@ -13,5 +13,10 @@
     <string name="cd_player2">Player 2 game piece</string>
     <string name="reset_button">reset</string>
     <string name="question_mark">\?</string>
+    <string name="help_credits">Color Trap by Star Sky\nPuzzle piece assets by J. Deveaux</string>
+    <string name="help1">Move UP, DOWN, LEFT, or RIGHT. You can even jump over whitespace!</string>
+    <string name="help2">To win, land on your opponent\'s current tile color, OR land on his head!</string>
+    <string name="help3">Don\'t run out of places to move…</string>
+    <string name="attribution_link">http://thenounproject.com/Julihan/</string>
 
 </resources>

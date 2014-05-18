@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+<LinearLayout
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:padding="20dp"
+              android:background="@color/board_background"
+        >
+
+    <ImageView
+            android:src="@drawable/help1"
+            style="@style/HelpImage"/>
+
+    <co.starsky.colortrap.view.FontyTextView
+            style="@style/HelpText"
+            android:text="@string/help1"
+            />
+
+    <ImageView
+        style="@style/HelpImage"
+        android:src="@drawable/help2"
+        />
+    <co.starsky.colortrap.view.FontyTextView
+            style="@style/HelpText"
+            android:text="@string/help2"
+            />
+
+    <ImageView
+            style="@style/HelpImage"
+            android:src="@drawable/help3"
+            />
+    <co.starsky.colortrap.view.FontyTextView
+            style="@style/HelpText"
+            android:text="@string/help3"
+            />
+
+    <co.starsky.colortrap.view.FontyTextView
+            android:id="@+id/help_credits"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/help_credits"
+            android:textSize="10sp"
+            android:textColor="#888"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            />
+
+</LinearLayout>
+</ScrollView>
