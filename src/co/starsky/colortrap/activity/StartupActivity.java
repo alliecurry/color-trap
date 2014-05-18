@@ -14,6 +14,7 @@ import co.starsky.colortrap.model.Mode;
 import co.starsky.colortrap.util.FragmentUtility;
 import co.starsky.colortrap.view.RotateTouchListener;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import co.starsky.colortrap.util.Prefs;
@@ -31,19 +32,7 @@ public class StartupActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu);
 
-        // Create the interstitial.
-        try{
-            interstitial = new InterstitialAd(this);
-            interstitial.setAdUnitId(NEW_GAME_AD_ID);
-
-            // Create ad request.
-            AdRequest adRequest = new AdRequest.Builder().build();
-
-            // Begin loading your interstitial.
-            interstitial.loadAd(adRequest);
-        }
-        catch(Exception adErr){ Log.e(TAG, adErr.toString()); }
-
+        setupAd();
         RotateTouchListener touchListener = getTouchAnimationListener();
 
         final View buttonHotseat = findViewById(R.id.button_new_hotseat);
@@ -77,6 +66,21 @@ public class StartupActivity extends Activity implements View.OnClickListener {
         return touchListener;
     }
 
+    private void setupAd() {
+        // Create the interstitial.
+        try{
+            interstitial = new InterstitialAd(this);
+            interstitial.setAdUnitId(NEW_GAME_AD_ID);
+
+            // Create ad request.
+            AdRequest adRequest = new AdRequest.Builder().build();
+
+            // Begin loading your interstitial.
+            interstitial.loadAd(adRequest);
+        }
+        catch(Exception adErr){ Log.e(TAG, adErr.toString()); }
+    }
+
     public void displayAd() {
         if (Prefs.isFirstPlay(this)) {
             Prefs.setFirstPlay(this);
@@ -96,11 +100,15 @@ public class StartupActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    private void startGame(Mode mode) {
-//        displayAd();
-        FragmentUtility.replaceFragment(this, gameFragment, R.id.fragment, null);
+    private void startGame(final Mode mode) {
+        displayAd();
         gameFragment.resetBoard(this, mode);
         gameFragment.startGame(this, mode);
+        showGameFragment();
+    }
+
+    private void showGameFragment() {
+        FragmentUtility.replaceFragment(this, gameFragment, R.id.fragment, null);
     }
 
     private void showHelp() {

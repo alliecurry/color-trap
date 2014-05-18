@@ -335,23 +335,6 @@ public class GameFragment extends Fragment implements AnimatedAdapter.AnimationL
         gameBoard = new GameBoard(c, m, this);
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        storeData(outState);
-    }
-
-    /** Stores session Objects in the given Bundle. */
-    private void storeData(Bundle bundle) {
-        if (bundle == null) {
-            return;
-        }
-
-        if (gameBoard != null && gameBoard.getCurrentState() != State.GAME_OVER) {
-            bundle.putSerializable(KEY_GAMEBOARD, gameBoard);
-        }
-    }
-
     private static final int COMPUTER_DELAY = 150;
 
     @Override
