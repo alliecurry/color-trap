@@ -4,7 +4,9 @@ import android.animation.AnimatorInflater;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Fragment;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import co.starsky.colortrap.R;
@@ -28,22 +30,26 @@ public class StartupActivity extends Activity implements View.OnClickListener {
     private static final String NEW_GAME_AD_ID = "ca-app-pub-4074371291605833/9344298102";
     private static String TAG = StartupActivity.class.getSimpleName();
 
+    View buttonHotseat;
+    View buttonComputer;
+    View buttonHelp;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu);
 
         setupAd();
-        RotateTouchListener touchListener = getTouchAnimationListener();
 
-        final View buttonHotseat = findViewById(R.id.button_new_hotseat);
-        final View buttonComputer = findViewById(R.id.button_new_computer);
-        final View buttonHelp = findViewById(R.id.button_help);
+        buttonHotseat = findViewById(R.id.button_new_hotseat);
+        buttonComputer = findViewById(R.id.button_new_computer);
+        buttonHelp = findViewById(R.id.button_help);
 
         buttonHotseat.setOnClickListener(this);
         buttonComputer.setOnClickListener(this);
         buttonHelp.setOnClickListener(this);
 
+        RotateTouchListener touchListener = getTouchAnimationListener();
         buttonHotseat.setOnTouchListener(touchListener);
         buttonComputer.setOnTouchListener(touchListener);
         buttonHelp.setOnTouchListener(touchListener);
@@ -65,6 +71,24 @@ public class StartupActivity extends Activity implements View.OnClickListener {
         final RotateTouchListener touchListener = new RotateTouchListener(animatorLeft, animatorRight, getResources().getInteger(R.integer.rotation_menu_duration));
         touchListener.setResetAnimators(animatorLeftReset, animatorRightReset);
         return touchListener;
+    }
+
+    /** Remove the Y rotation from the menu buttons. */
+    private void resetButtonAnimation() {
+        // Only need to do this for older APIs...
+        int api = Build.VERSION.SDK_INT;
+        if (api >= Build.VERSION_CODES.KITKAT) {
+            return;
+        }
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                buttonHotseat.setRotationY(0f);
+                buttonComputer.setRotationY(0f);
+                buttonHelp.setRotationY(0f);
+            }
+        }, 500);
     }
 
     private void setupAd() {
@@ -156,5 +180,7 @@ public class StartupActivity extends Activity implements View.OnClickListener {
                 break;
             default: break;
         }
+
+        resetButtonAnimation();
     }
 }
