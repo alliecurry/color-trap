@@ -17,7 +17,6 @@ import co.starsky.colortrap.util.FragmentUtility;
 import co.starsky.colortrap.view.RotateTouchListener;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
-import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import co.starsky.colortrap.util.Prefs;
@@ -77,7 +76,7 @@ public class StartupActivity extends Activity implements View.OnClickListener {
     private void resetButtonAnimation() {
         // Only need to do this for older APIs...
         int api = Build.VERSION.SDK_INT;
-        if (api >= Build.VERSION_CODES.KITKAT) {
+        if (api >= 18){ //Build.VERSION_CODES.KITKAT doesnt exist in minSDK 15
             return;
         }
 

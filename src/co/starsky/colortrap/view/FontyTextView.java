@@ -33,7 +33,7 @@ public class FontyTextView extends TextView {
     private void setCustomFont(Context context, AttributeSet attrs) {
         TypedArray attrArray = context.obtainStyledAttributes(attrs, R.styleable.FontyTextView);
         String customFont = attrArray.getString(R.styleable.FontyTextView_customFont);
-        if (customFont == null || customFont.isEmpty()) {
+        if (customFont == null || customFont.equals("")) {
             customFont = context.getString(R.string.font_default);
         }
         assignFont(context, this, customFont);
