@@ -30,7 +30,8 @@ public final class FragmentUtility {
     public static void replaceFragment(Activity fragmentActivity, Fragment fragment, int containerId, String tag) {
         FragmentManager fragmentManager = fragmentActivity.getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.animator.slide_in, R.animator.slide_out);
+        fragmentTransaction.setCustomAnimations(R.animator.slide_in, R.animator.slide_out,
+                R.animator.slide_in, R.animator.slide_out);
         fragmentTransaction.replace(containerId, fragment, tag);
         fragmentTransaction.addToBackStack(tag);
         fragmentTransaction.commit();

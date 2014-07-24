@@ -162,14 +162,6 @@ public class StartupActivity extends Activity implements View.OnClickListener {
         super.onStop();
         EasyTracker.getInstance(this).activityStop(this);
     }
-    @Override
-    public void onBackPressed() {
-        if (FragmentUtility.getBackStackCount(this) > 0) {
-            FragmentUtility.removeFragment(this, gameFragment);
-        } else {
-            super.onBackPressed();
-        }
-    }
 
     @Override
     public void onClick(View view) {
