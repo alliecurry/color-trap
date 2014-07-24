@@ -34,7 +34,7 @@
             android:text="@string/reset_button"
             android:background="@color/emerald"
             android:visibility="gone"
-            android:textSize="12sp"
+            android:textSize="@dimen/reset_text"
             />
 
     <ImageView android:id="@+id/animation_image"

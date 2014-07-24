@@ -71,7 +71,7 @@
             android:background="@color/river"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:textSize="20sp"
+            android:textSize="@dimen/menu_help_text"
             android:alpha="0.8"
             />
 

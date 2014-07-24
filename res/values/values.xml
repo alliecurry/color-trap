@@ -83,6 +83,7 @@
     <dimen name="menu_settings_fontsize">18sp</dimen>
     <dimen name="menu_margin">20dp</dimen>
     <dimen name="menu_margin_double">40dp</dimen>
+    <dimen name="menu_help_text">20sp</dimen>
 
     <integer name="rotation_menu">20</integer>
     <integer name="rotation_menu_inverse">-20</integer>
@@ -91,5 +92,11 @@
     <!-- board -->
     <dimen name="piece_size">40dp</dimen>
     <dimen name="spacing">2dp</dimen> <!-- space between tiles -->
+    <dimen name="reset_text">12sp</dimen>
+
+    <!-- help -->
+    <dimen name="help_padding">20dp</dimen>
+    <dimen name="help_image_margin_top">30dp</dimen>
+    <dimen name="help_image_margin_bottom">10dp</dimen>
 
 </resources>
