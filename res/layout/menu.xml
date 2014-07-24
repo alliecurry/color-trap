@@ -31,13 +31,13 @@
             android:layout_gravity="center_horizontal"
             android:layout_below="@+id/menu_text_title"
             android:layout_marginTop="@dimen/menu_margin"
-            android:layout_marginBottom="@dimen/menu_margin_double"
+            android:layout_marginBottom="@dimen/menu_margin"
             android:textColor="@android:color/black"
             android:textSize="@dimen/menu_subtitle_fontsize"
             android:text="@string/menu_subtitle"/>
 
     <View android:id="@+id/menu_filler"
-          android:layout_width="@dimen/menu_spacing"
+          android:layout_width="0dp"
           android:layout_height="1dp"
           android:layout_centerHorizontal="true"
           android:layout_below="@id/menu_text_subtitle"
@@ -59,19 +59,20 @@
             app:customFont="@string/font_default"
             android:text="@string/new_game_hotseat"
             android:background="@color/watermelon"
-            android:layout_toRightOf="@id/menu_filler"
-            android:layout_alignTop="@id/menu_filler"
+            android:layout_toRightOf="@id/button_new_computer"
+            android:layout_below="@id/button_new_computer"
             />
 
     <co.starsky.colortrap.view.FontyTextView
-            style="@style/MenuButton"
-            android:layout_marginTop="@dimen/menu_spacing"
+            style="@style/MenuButton.Small"
             android:id="@+id/button_help"
             app:customFont="@string/font_default"
             android:text="@string/question_mark"
             android:background="@color/river"
-            android:layout_toRightOf="@id/menu_filler"
-            android:layout_below="@+id/button_new_hotseat"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:textSize="20sp"
+            android:alpha="0.8"
             />
 
 

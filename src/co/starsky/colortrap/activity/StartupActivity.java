@@ -29,9 +29,12 @@ public class StartupActivity extends Activity implements View.OnClickListener {
     private static final String NEW_GAME_AD_ID = "ca-app-pub-4074371291605833/9344298102";
     private static String TAG = StartupActivity.class.getSimpleName();
 
-    View buttonHotseat;
-    View buttonComputer;
-    View buttonHelp;
+    private View buttonHotseat;
+    private View buttonComputer;
+    private View buttonHelp;
+
+    private boolean isFirstLaunch = false;
+    private boolean didShowHelp = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,7 @@ public class StartupActivity extends Activity implements View.OnClickListener {
             gameFragment = new GameFragment();
         }
 
+        isFirstLaunch = Prefs.isFirstPlay(this);
     }
 
     private RotateTouchListener getTouchAnimationListener() {
@@ -106,8 +110,7 @@ public class StartupActivity extends Activity implements View.OnClickListener {
     }
 
     public void displayAd() {
-        if (Prefs.isFirstPlay(this)) {
-            Prefs.setFirstPlay(this);
+        if (isFirstLaunch) {
             return;
         }
 
@@ -129,6 +132,11 @@ public class StartupActivity extends Activity implements View.OnClickListener {
         gameFragment.resetBoard(this, mode);
         gameFragment.startGame(this, mode);
         showGameFragment();
+        // Show Help dialog if this is the first play.
+        if (isFirstLaunch && !didShowHelp) {
+            showHelp();
+            didShowHelp = true;
+        }
     }
 
     private void showGameFragment() {
@@ -148,6 +156,9 @@ public class StartupActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onStop() {
+        if (isFirstLaunch) {
+            Prefs.setFirstPlay(this);
+        }
         super.onStop();
         EasyTracker.getInstance(this).activityStop(this);
     }

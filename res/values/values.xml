@@ -76,9 +76,11 @@
 
     <!-- menu -->
     <dimen name="menu_tile_size">120dp</dimen>
+    <dimen name="menu_tile_size_small">40dp</dimen>
     <dimen name="menu_spacing">20dp</dimen>
     <dimen name="menu_title_fontsize">60sp</dimen>
-    <dimen name="menu_subtitle_fontsize">42sp</dimen>
+    <dimen name="menu_subtitle_fontsize">32sp</dimen>
+    <dimen name="menu_settings_fontsize">18sp</dimen>
     <dimen name="menu_margin">20dp</dimen>
     <dimen name="menu_margin_double">40dp</dimen>
 

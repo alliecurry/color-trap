@@ -10,7 +10,6 @@
     <include
             layout="@layout/grid"
             android:id="@+id/gridview"
-            android:layout_marginBottom="10dp"
             />
 
     <co.starsky.colortrap.view.FontyTextView
@@ -22,21 +21,20 @@
             android:textSize="24sp"
             android:textColor="@android:color/secondary_text_light"
             android:layout_below="@id/gridview"
+            android:layout_marginBottom="10dp"
             />
 
     <co.starsky.colortrap.view.FontyTextView
+            style="@style/MenuButton.Small"
             android:id="@+id/board_reset"
             app:customFont="@string/font_default_light"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:gravity="center"
-            android:textSize="18sp"
             android:textColor="@android:color/secondary_text_light"
             android:text="@string/reset_button"
-            android:background="@color/river"
+            android:background="@color/emerald"
             android:visibility="gone"
+            android:textSize="12sp"
             />
 
     <ImageView android:id="@+id/animation_image"

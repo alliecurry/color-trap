@@ -15,12 +15,21 @@ public class HelpDialog extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.help, container);
-        Dialog dialog = getDialog();
+        final View v = inflater.inflate(R.layout.help, container);
+        final Dialog dialog = getDialog();
         if (dialog != null && dialog.getWindow() != null) {
             Window window = dialog.getWindow();
             window.requestFeature(Window.FEATURE_NO_TITLE);
         }
+
+        // Setup the "done" button to dismiss the dialog.
+        v.findViewById(R.id.button_done).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+
         setupLink(v.findViewById(R.id.help_credits));
         return v;
     }
