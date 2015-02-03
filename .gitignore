@@ -31,3 +31,6 @@ proguard_logs/dump.txt
 proguard_logs/mapping.txt
 proguard_logs/seeds.txt
 proguard_logs/usage.txt
+
+/build
+.gradle
