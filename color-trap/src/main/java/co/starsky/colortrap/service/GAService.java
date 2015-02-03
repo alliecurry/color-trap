@@ -34,6 +34,7 @@ public final class GAService {
                                  final String label, final Integer value) {
         if (t == null) {
             Log.e("GAService", "Cannot Send GA Event: Tracker is null");
+            return;
         }
 
         HitBuilders.EventBuilder builder = new HitBuilders.EventBuilder()
