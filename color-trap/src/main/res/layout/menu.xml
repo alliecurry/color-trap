@@ -11,56 +11,41 @@
 
     <ImageView
             android:id="@+id/menu_text_title"
-            android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:src="@drawable/title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/menu_title_image_height"
+            android:src="@drawable/title3"
             android:layout_gravity="center_horizontal"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/menu_margin"
-            android:layout_marginBottom="@dimen/menu_margin"
-            android:scaleType="centerInside"
+            android:scaleType="fitEnd"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="60dp"
             />
 
-    <co.starsky.colortrap.view.FontyTextView
-            android:id="@+id/menu_text_subtitle"
-            app:customFont="@string/font_default"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal"
-            android:layout_below="@+id/menu_text_title"
-            android:layout_marginTop="@dimen/menu_margin"
-            android:layout_marginBottom="@dimen/menu_margin"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/menu_subtitle_fontsize"
-            android:text="@string/menu_subtitle"/>
 
     <View android:id="@+id/menu_filler"
           android:layout_width="0dp"
           android:layout_height="1dp"
           android:layout_centerHorizontal="true"
-          android:layout_below="@id/menu_text_subtitle"
+          android:layout_below="@id/menu_text_title"
           />
 
-    <co.starsky.colortrap.view.FontyTextView
+    <ImageView
             style="@style/MenuButton"
             android:id="@+id/button_new_computer"
-            app:customFont="@string/font_default"
-            android:text="@string/new_game_ai"
             android:background="@color/sun_flower"
             android:layout_toLeftOf="@id/menu_filler"
             android:layout_alignTop="@id/menu_filler"
+            android:src="@drawable/piece_black"
             />
 
-    <co.starsky.colortrap.view.FontyTextView
+    <ImageView
             style="@style/MenuButton"
             android:id="@+id/button_new_hotseat"
-            app:customFont="@string/font_default"
-            android:text="@string/new_game_hotseat"
             android:background="@color/watermelon"
             android:layout_toRightOf="@id/button_new_computer"
             android:layout_below="@id/button_new_computer"
+            android:src="@drawable/piece_black2"
             />
 
     <co.starsky.colortrap.view.FontyTextView
@@ -69,10 +54,9 @@
             app:customFont="@string/font_default"
             android:text="@string/question_mark"
             android:background="@color/river"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
+            android:layout_alignBottom="@id/button_new_hotseat"
+            android:layout_alignLeft="@id/button_new_computer"
             android:textSize="@dimen/menu_help_text"
-            android:alpha="0.8"
             />
 
 

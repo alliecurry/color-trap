@@ -16,6 +16,7 @@
         <item name="android:padding">20dp</item>
         <item name="android:textSize">@dimen/menu_subtitle_fontsize</item>
         <item name="android:textColor">@android:color/black</item>
+        <item name="android:scaleType">centerInside</item>
     </style>
 
     <style name="MenuButton.Small">

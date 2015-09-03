@@ -34,3 +34,4 @@ proguard_logs/usage.txt
 
 /build
 .gradle
+achievements

@@ -84,6 +84,7 @@
     <dimen name="menu_margin">20dp</dimen>
     <dimen name="menu_margin_double">40dp</dimen>
     <dimen name="menu_help_text">20sp</dimen>
+    <dimen name="menu_title_image_height">140dp</dimen>
 
     <integer name="rotation_menu">20</integer>
     <integer name="rotation_menu_inverse">-20</integer>

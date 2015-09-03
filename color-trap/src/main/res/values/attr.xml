@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="FilteredImageView">
+        <attr name="filterColor" format="color" />
+        <attr name="filterType" format="string" />
+    </declare-styleable>
+</resources>
