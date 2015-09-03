@@ -18,9 +18,11 @@ import co.starsky.colortrap.service.GAService;
 import co.starsky.colortrap.util.FragmentUtility;
 import co.starsky.colortrap.util.Prefs;
 import co.starsky.colortrap.view.RotateTouchListener;
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.analytics.Tracker;
+import io.fabric.sdk.android.Fabric;
 
 
 public class StartupActivity extends Activity implements View.OnClickListener {
@@ -40,6 +42,7 @@ public class StartupActivity extends Activity implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.menu);
 
         setupAd();

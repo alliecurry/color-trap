@@ -22,6 +22,9 @@
         </activity>
         <activity android:name="com.google.android.gms.ads.AdActivity"
                   android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="c615e48238d31a39566bfb64875e560789993ba4" />
     </application>
 
 </manifest>
