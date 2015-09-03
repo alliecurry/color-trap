@@ -19,7 +19,6 @@
             android:layout_centerHorizontal="true"
             android:scaleType="fitEnd"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="60dp"
             />
 
 
@@ -27,7 +26,6 @@
           android:layout_width="0dp"
           android:layout_height="1dp"
           android:layout_centerHorizontal="true"
-          android:layout_below="@id/menu_text_title"
           />
 
     <ImageView
@@ -35,7 +33,7 @@
             android:id="@+id/button_new_computer"
             android:background="@color/sun_flower"
             android:layout_toLeftOf="@id/menu_filler"
-            android:layout_alignTop="@id/menu_filler"
+            android:layout_centerVertical="true"
             android:src="@drawable/piece_black"
             />
 
