@@ -29,7 +29,7 @@ public class StartupActivity extends Activity implements View.OnClickListener {
 
     private GameFragment gameFragment;
     private InterstitialAd interstitial;
-    private static final String NEW_GAME_AD_ID = "ca-app-pub-4074371291605833/9344298102";
+    private static final String NEW_GAME_AD_ID = "ca-app-pub-5016746119225161/1817688534";
     private static String TAG = StartupActivity.class.getSimpleName();
 
     private View buttonHotseat;
