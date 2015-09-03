@@ -25,6 +25,16 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="c615e48238d31a39566bfb64875e560789993ba4" />
+
+        <receiver android:name="com.google.android.gms.analytics.AnalyticsReceiver"
+                  android:enabled="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.analytics.ANALYTICS_DISPATCH" />
+            </intent-filter>
+        </receiver>
+        <service android:name="com.google.android.gms.analytics.AnalyticsService"
+                 android:enabled="true"
+                 android:exported="false"/>
     </application>
 
 </manifest>
