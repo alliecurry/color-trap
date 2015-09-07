@@ -1,9 +1,17 @@
 package co.starsky.colortrap.activity;
 
 import android.app.Activity;
+import android.content.IntentFilter;
 import android.content.IntentSender;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import co.starsky.colortrap.CTApplication;
+import co.starsky.colortrap.model.GameOverData;
+import co.starsky.colortrap.model.Mode;
+import co.starsky.colortrap.service.GAService;
+import co.starsky.colortrap.service.GameStatusReceiver;
+import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -43,9 +51,22 @@ public class GoogleActivity extends Activity implements GoogleApiClient.Connecti
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        registerGameStatusReceiver();
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         mGoogleApiClient.connect();
+    }
+
+    @Override
+    protected void onPause() {
+        Log.d(TAG, "GameStatusReceiver UN-REGISTER");
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(statusReceiver);
+        super.onPause();
     }
 
     @Override
@@ -58,7 +79,6 @@ public class GoogleActivity extends Activity implements GoogleApiClient.Connecti
 
     @Override
     public void onConnected(Bundle bundle) {
-
     }
 
     @Override
@@ -121,4 +141,61 @@ public class GoogleActivity extends Activity implements GoogleApiClient.Connecti
         return true;
     }
 
+    public void connect() {
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.connect();
+        }
+    }
+
+    protected void unlockAchievement(final String id) {
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            Games.Achievements.unlock(mGoogleApiClient, id);
+        }
+    }
+
+    protected void incrementAchievement(final String id, final int amount) {
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            Games.Achievements.increment(mGoogleApiClient, id, amount);
+        }
+    }
+
+    protected void incrementAchievement(final String id) {
+        incrementAchievement(id, 1);
+    }
+
+    protected Tracker getTracker() {
+        if (getApplication() instanceof CTApplication) {
+            return ((CTApplication) getApplication()).getTracker();
+        }
+        return null;
+    }
+
+    private void registerGameStatusReceiver() {
+        Log.d(TAG, "GameStatusReceiver GAME REGISTER");
+        final IntentFilter intentFilter = new IntentFilter(GameStatusReceiver.ACTION_GAME_UPDATE);
+        LocalBroadcastManager.getInstance(this).registerReceiver(statusReceiver, intentFilter);
+    }
+
+    private GameStatusReceiver statusReceiver = new GameStatusReceiver() {
+        @Override
+        public void onGameStart(Mode mode) {
+            Log.d(TAG, "GameStatusReceiver GAME START");
+            if (mode == Mode.COMPUTER) {
+                GAService.trackGameStart(getTracker(), false);
+            } else {
+                GAService.trackGameStart(getTracker(), true);
+            }
+        }
+
+        @Override
+        public void onGameOver(Mode mode, GameOverData data) {
+            Log.d(TAG, "GameStatusReceiver GAME OVER");
+            GAService.trackGameOver(getTracker(), mode != Mode.COMPUTER, data.getWinner().getName());
+        }
+
+        @Override
+        public void onMoveInvalid(Mode mode, int currentTileIndex) {
+            Log.d(TAG, "GameStatusReceiver MOVE INVALID");
+        }
+    };
 }

@@ -35,6 +35,7 @@
             android:layout_toLeftOf="@id/menu_filler"
             android:layout_centerVertical="true"
             android:src="@drawable/piece_black"
+            android:contentDescription="@string/single_player"
             />
 
     <ImageView
@@ -44,6 +45,7 @@
             android:layout_toRightOf="@id/button_new_computer"
             android:layout_below="@id/button_new_computer"
             android:src="@drawable/piece_black2"
+            android:contentDescription="@string/multiplayer"
             />
 
     <co.starsky.colortrap.view.FontyTextView

@@ -2,28 +2,28 @@ package co.starsky.colortrap.game;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
-import co.starsky.colortrap.CTApplication;
 import co.starsky.colortrap.R;
 import co.starsky.colortrap.animator.AnimatorPath;
 import co.starsky.colortrap.model.Mode;
 import co.starsky.colortrap.model.State;
 import co.starsky.colortrap.model.Triplet;
-import co.starsky.colortrap.service.GAService;
+import co.starsky.colortrap.service.GameStatusReceiver;
 import co.starsky.colortrap.util.AnimationUtil;
 import co.starsky.colortrap.util.MessageHelper;
 import co.starsky.colortrap.util.PlayerPieceUtil;
 import co.starsky.colortrap.view.FontyTextView;
 import co.starsky.colortrap.view.adapter.AnimatedAdapter;
 import co.starsky.colortrap.view.adapter.GridAdapter;
-import com.google.android.gms.analytics.Tracker;
 
 
 /**
@@ -90,18 +90,6 @@ public class GameFragment extends Fragment implements AnimatedAdapter.AnimationL
         setupGridView(getActivity());
         startGame(getActivity(), mode);
         messageView.setText("");
-        if (mode == Mode.COMPUTER) {
-            GAService.trackGameStart(getTracker(), false);
-        } else {
-            GAService.trackGameStart(getTracker(), true);
-        }
-    }
-
-    private Tracker getTracker() {
-        if (getActivity().getApplication() instanceof CTApplication) {
-            return ((CTApplication) getActivity().getApplication()).getTracker();
-        }
-        return null;
     }
 
     private void resetPieces() {
@@ -114,12 +102,14 @@ public class GameFragment extends Fragment implements AnimatedAdapter.AnimationL
         this.mode = mode;
         didMakeFirstMove = false;
 
-        //gameBoard = new GameBoard(context, mode);
         if (msgHelper == null) {
             msgHelper = new MessageHelper();
         }
 
         msgHelper.setMode(context, mode);
+
+        final Intent i = GameStatusReceiver.getGameStartIntent(mode);
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(i);
     }
 
     public void continueGame(GameBoard gameBoard) {
@@ -302,7 +292,9 @@ public class GameFragment extends Fragment implements AnimatedAdapter.AnimationL
         resetButton.setVisibility(View.VISIBLE);
         messageView.setText(msgHelper.getGameOverMessage(gameBoard.getCurrentPlayerName()));
         displayGameOverPieces();
-        GAService.trackGameOver(getTracker(), mode != Mode.COMPUTER, gameBoard.getCurrentPlayerName());
+
+        final Intent i = GameStatusReceiver.getGameOverIntent(mode, gameBoard.getGameOverData());
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(i);
     }
 
     private void displayGameOverPieces() {
@@ -338,10 +330,6 @@ public class GameFragment extends Fragment implements AnimatedAdapter.AnimationL
     @Override
     public void onAnimationComplete() {
         displayMessage(State.PLACE_PIECE);
-    }
-
-    protected GameBoard getGameBoard() {
-        return gameBoard;
     }
 
     public void resetBoard(Mode m) {

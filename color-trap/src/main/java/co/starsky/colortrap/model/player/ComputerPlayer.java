@@ -10,4 +10,8 @@ public class ComputerPlayer extends Player {
         super(position, isFirstPlayer);
         setName("Señor Puzzle");
     }
+
+    public PlayerType getType() {
+        return PlayerType.COMPUTER;
+    }
 }

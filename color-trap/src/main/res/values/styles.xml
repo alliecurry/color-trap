@@ -28,7 +28,7 @@
         <item name="android:layout_height">@dimen/menu_tile_size_small</item>
         <item name="android:padding">4dp</item>
         <item name="android:textSize">@dimen/menu_settings_fontsize</item>
-        <item name="android:textColor">@android:color/secondary_text_light</item>
+        <item name="android:textColor">@android:color/black</item>
     </style>
 
     <style name="PlayerPiece">

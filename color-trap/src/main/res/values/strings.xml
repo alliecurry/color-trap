@@ -20,5 +20,7 @@
     <string name="attribution_link">http://thenounproject.com/Julihan/</string>
     <string name="help_done">Got it</string>
     <string name="help_title">HOW TO PLAY</string>
+    <string name="single_player">Single Player</string>
+    <string name="multiplayer">Multiplayer</string>
 
 </resources>

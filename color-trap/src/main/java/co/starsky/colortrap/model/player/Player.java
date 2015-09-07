@@ -7,7 +7,6 @@ public class Player implements Serializable {
 
     /** Players current grid position or -1 if not placed. */
     private int position;
-    private int prevPosition = -1;
     private boolean isFirstPlayer;
     private String name;
 
@@ -30,19 +29,14 @@ public class Player implements Serializable {
     }
 
     public void setPosition(int position) {
-        this.prevPosition = this.position;
         this.position = position;
-    }
-
-    public int getPrevPosition() {
-        return prevPosition;
     }
 
     public boolean isFirstPlayer() {
         return isFirstPlayer;
     }
 
-    public void setFirstPlayer(boolean firstPlayer) {
-        isFirstPlayer = firstPlayer;
+    public PlayerType getType() {
+        return PlayerType.HUMAN;
     }
 }

@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import co.starsky.colortrap.CTApplication;
 import co.starsky.colortrap.R;
 import co.starsky.colortrap.dialog.HelpDialog;
 import co.starsky.colortrap.game.GameFragment;
@@ -20,7 +19,6 @@ import co.starsky.colortrap.view.RotateTouchListener;
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.analytics.Tracker;
 import io.fabric.sdk.android.Fabric;
 
 
@@ -178,10 +176,4 @@ public class StartupActivity extends GoogleActivity implements View.OnClickListe
         resetButtonAnimation();
     }
 
-    private Tracker getTracker() {
-        if (getApplication() instanceof CTApplication) {
-            return ((CTApplication) getApplication()).getTracker();
-        }
-        return null;
-    }
 }

@@ -1,9 +1,6 @@
 package co.starsky.colortrap.game;
 
-import co.starsky.colortrap.model.Mode;
-import co.starsky.colortrap.model.State;
-import co.starsky.colortrap.model.Tile;
-import co.starsky.colortrap.model.Triplet;
+import co.starsky.colortrap.model.*;
 import co.starsky.colortrap.model.player.ComputerPlayer;
 import co.starsky.colortrap.model.player.Player;
 import co.starsky.colortrap.util.Shuffle;
@@ -35,6 +32,7 @@ public final class GameBoard implements Serializable {
     private Player[] players;
     private State currentState;
     private Mode gameMode;
+    private WinReason winReason;
 
     private final MoveListener listener;
     public interface MoveListener {
@@ -194,16 +192,24 @@ public final class GameBoard implements Serializable {
     //Check the 3 win conditions (Same color squares, same space, or no valid moves)
     //Use the position sent for player (Can be temp position)
     public boolean checkWin(int position){
-        return sameColor(position) || sameSpace(position) || noMoves(otherPlayer(playerTurn));
+        if (sameColor(position)) {
+            winReason = WinReason.SAME_COLOR;
+            return true;
+        } else if (sameSpace(position)) {
+            winReason = WinReason.SAME_SPACE;
+            return true;
+        } else if (noMoves(otherPlayer(playerTurn))) {
+            winReason = WinReason.NO_MOVES;
+            return true;
+        }
+        return false;
     }
 
     private boolean sameColor(int position){
         return getGridPosition(position).getType() == getPlayerTileType(players[otherPlayer(playerTurn)]);
-        //return getPlayerTileColor(players[PLAYER_ONE]) == getPlayerTileColor(players[PLAYER_TWO]);
     }
     private boolean sameSpace(int position){
         return position == players[otherPlayer(playerTurn)].getPosition();
-        //return players[PLAYER_ONE].getPosition() == players[PLAYER_TWO].getPosition();
     }
     private boolean noMoves(int player){
         return getValidMoves(players[player].getPosition()).isEmpty();
@@ -303,5 +309,9 @@ public final class GameBoard implements Serializable {
 
     public Mode getMode() {
         return gameMode;
+    }
+
+    public GameOverData getGameOverData() {
+        return new GameOverData(players[playerTurn], players[otherPlayer(playerTurn)], winReason);
     }
 }
