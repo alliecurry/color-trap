@@ -1,7 +1,5 @@
 package co.starsky.colortrap.game;
 
-import android.content.Context;
-import co.starsky.colortrap.R;
 import co.starsky.colortrap.model.Mode;
 import co.starsky.colortrap.model.State;
 import co.starsky.colortrap.model.Tile;
@@ -19,6 +17,7 @@ import java.util.Stack;
 public final class GameBoard implements Serializable {
     private static final long serialVersionUID = -945511170198587443L;
     private static String TAG = GameBoard.class.getSimpleName();
+    private static final int DEFAULT_TITLE_TYPES = 10; // The total number of tile "types" / colors
 
     /** Default amount of tiles (including disabled). */
     private static final int DEFAULT_ROW_NUM = 6;
@@ -43,8 +42,8 @@ public final class GameBoard implements Serializable {
         void onComputerMove(Triplet<Integer, Integer, Integer> turn);
     }
 
-    public GameBoard(Context c, Mode mode, MoveListener listener) {
-        setupTiles(c);
+    public GameBoard(Mode mode, MoveListener listener) {
+        setupTiles();
         players = new Player[2];
         players[PLAYER_ONE] = players[playerTurn] = new Player(-1, true);
         players[PLAYER_TWO] = mode == Mode.HOTSEAT ? new Player(-1, false) : new ComputerPlayer(-1, false);
@@ -94,29 +93,33 @@ public final class GameBoard implements Serializable {
     // Second players start space can't be a winning position
     private boolean validStartSpace(int position){
         return !(position == players[PLAYER_ONE].getPosition() ||
-                getGridPosition(position).getColor() == getPlayerTileColor(players[PLAYER_ONE]) ||
+                getGridPosition(position).getType() == getPlayerTileType(players[PLAYER_ONE]) ||
                 getValidMoves(position).contains(players[PLAYER_ONE].getPosition()) ||
                 getGridPosition(position).isDisabled());
     }
 
     private boolean validStartColor(int position){
         for(int i : getValidMoves(players[PLAYER_ONE].getPosition())){
-            if (getGridPosition(i).getColor() == getGridPosition(position).getColor()){
+            if (getGridPosition(i).getType() == getGridPosition(position).getType()){
                 return false;
             }
         }
         return true;
     }
-    /* Initial Board setup Methods
 
-    Creates board of row x col size Tiles, applies initial randomized colors and disabled tiles
+    private void setupTiles() {
+        setupTiles(DEFAULT_TITLE_TYPES);
+    }
+
+    /* Initial Board setup Methods
+    Creates board of row x col size Tiles, applies initial randomized tile values.
     Board is a 2d List of Tiles (List of ArrayList of Tiles). Accessed similar to coordinates starting at 0,0x
     in top left corner
     */
-    private void setupTiles(Context c) {
+    private void setupTiles(final int typesCount) {
         colNum = DEFAULT_COL_NUM;
         rowNum = DEFAULT_ROW_NUM;
-        createTiles(rowNum, colNum, Shuffle.shuffleInt(c.getResources().getIntArray(R.array.grid_colors2), boardSize()));
+        createTiles(rowNum, colNum, Shuffle.shuffleInt(0, typesCount - 1, boardSize()));
         assignDisabledTiles();
     }
 
@@ -176,8 +179,8 @@ public final class GameBoard implements Serializable {
         return null;
     }
 
-    private int getPlayerTileColor(Player player){
-        return getGridPosition(player.getPosition()).getColor();
+    private int getPlayerTileType(Player player){
+        return getGridPosition(player.getPosition()).getType();
     }
 
     public State getCurrentState() {
@@ -195,7 +198,7 @@ public final class GameBoard implements Serializable {
     }
 
     private boolean sameColor(int position){
-        return getGridPosition(position).getColor() == getPlayerTileColor(players[otherPlayer(playerTurn)]);
+        return getGridPosition(position).getType() == getPlayerTileType(players[otherPlayer(playerTurn)]);
         //return getPlayerTileColor(players[PLAYER_ONE]) == getPlayerTileColor(players[PLAYER_TWO]);
     }
     private boolean sameSpace(int position){

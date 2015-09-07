@@ -75,22 +75,26 @@ public class GameFragment extends Fragment implements AnimatedAdapter.AnimationL
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                resetButton.setVisibility(View.GONE);
-                resetPieces();
-                resetBoard(getActivity(), mode);
-                setupGridView(getActivity());
-                startGame(getActivity(), mode);
-                messageView.setText("");
-                if (mode == Mode.COMPUTER) {
-                    GAService.trackGameStart(getTracker(), false);
-                } else {
-                    GAService.trackGameStart(getTracker(), true);
-                }
+                resetGame();
             }
         });
 
         setupGridView(getActivity());
         return v;
+    }
+
+    private void resetGame() {
+        resetButton.setVisibility(View.GONE);
+        resetPieces();
+        resetBoard(mode);
+        setupGridView(getActivity());
+        startGame(getActivity(), mode);
+        messageView.setText("");
+        if (mode == Mode.COMPUTER) {
+            GAService.trackGameStart(getTracker(), false);
+        } else {
+            GAService.trackGameStart(getTracker(), true);
+        }
     }
 
     private Tracker getTracker() {
@@ -340,8 +344,8 @@ public class GameFragment extends Fragment implements AnimatedAdapter.AnimationL
         return gameBoard;
     }
 
-    public void resetBoard(Context c, Mode m) {
-        gameBoard = new GameBoard(c, m, this);
+    public void resetBoard(Mode m) {
+        gameBoard = new GameBoard(m, this);
     }
 
     private static final int COMPUTER_DELAY = 150;

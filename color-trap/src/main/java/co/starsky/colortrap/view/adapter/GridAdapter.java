@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import co.starsky.colortrap.R;
 import co.starsky.colortrap.game.GameBoard;
 import co.starsky.colortrap.model.Tile;
+import co.starsky.colortrap.view.ColorHelper;
 
 public class GridAdapter extends AnimatedAdapter {
     private GameBoard gameBoard;
@@ -43,7 +44,7 @@ public class GridAdapter extends AnimatedAdapter {
 
     public View getView(final int position, View convertView, ViewGroup parent) {
         final View tileView;
-        Tile currentTile = gameBoard.getGridPosition(position);
+        final Tile currentTile = gameBoard.getGridPosition(position);
 
         if (convertView == null) {
             tileView = LayoutInflater.from(context).inflate(R.layout.tile, null);
@@ -59,7 +60,7 @@ public class GridAdapter extends AnimatedAdapter {
             return tileView;
         }
 
-        tileView.setBackgroundColor(currentTile.getColor());
+        tileView.setBackgroundColor(ColorHelper.getColorForTile(context, currentTile));
         tileView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,6 +77,6 @@ public class GridAdapter extends AnimatedAdapter {
     }
 
     public interface TileListener {
-        public void onTileClick(int position, View view);
+        void onTileClick(int position, View view);
     }
 }

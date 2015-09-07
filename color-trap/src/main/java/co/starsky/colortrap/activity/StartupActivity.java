@@ -132,7 +132,7 @@ public class StartupActivity extends GoogleActivity implements View.OnClickListe
 
     private void startGame(final Mode mode) {
         displayAd();
-        gameFragment.resetBoard(this, mode);
+        gameFragment.resetBoard(mode);
         gameFragment.startGame(this, mode);
         showGameFragment();
         // Show Help dialog if this is the first play.

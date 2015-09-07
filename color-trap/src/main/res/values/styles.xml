@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="ColorTrap" parent="@android:style/Theme.Light.NoTitleBar.Fullscreen">
+    <style name="ColorTrapActivity" parent="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen">
+        <item name="colorTheme">@array/grid_colors2</item>
+    </style>
+
+    <style name="ColorTrapLayout" parent="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen">
         <item name="android:background">@color/board_background</item>
     </style>
 
