@@ -177,6 +177,8 @@ public class GoogleActivity extends Activity implements GoogleApiClient.Connecti
     }
 
     private GameStatusReceiver statusReceiver = new GameStatusReceiver() {
+        private int lastGameId = -1;
+
         @Override
         public void onGameStart(Mode mode) {
             Log.d(TAG, "GameStatusReceiver GAME START");
@@ -189,7 +191,11 @@ public class GoogleActivity extends Activity implements GoogleApiClient.Connecti
 
         @Override
         public void onGameOver(Mode mode, GameOverData data) {
-            Log.d(TAG, "GameStatusReceiver GAME OVER");
+            Log.d(TAG, "GameStatusReceiver GAME OVER " + data.getGameId());
+            if (data.getGameId() == lastGameId) {
+                return; // We already tracked the Game Over for this session
+            }
+            lastGameId = data.getGameId();
             GAService.trackGameOver(getTracker(), mode != Mode.COMPUTER, data.getWinner().getName());
         }
 

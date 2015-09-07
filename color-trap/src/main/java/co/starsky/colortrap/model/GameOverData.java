@@ -10,11 +10,13 @@ import java.io.Serializable;
 public class GameOverData implements Serializable {
     private static final long serialVersionUID = -2417816382573317519L;
 
+    private int gameId;
     private Player winner;
     private Player loser;
     private WinReason winReason;
 
-    public GameOverData(final Player winner, final Player loser, final WinReason reason) {
+    public GameOverData(final int gameId, final Player winner, final Player loser, final WinReason reason) {
+        this.gameId = gameId;
         this.winner = winner;
         this.loser = loser;
         this.winReason = reason;
@@ -30,5 +32,9 @@ public class GameOverData implements Serializable {
 
     public WinReason getWinReason() {
         return winReason;
+    }
+
+    public int getGameId() {
+        return gameId;
     }
 }

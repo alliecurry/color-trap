@@ -6,10 +6,7 @@ import co.starsky.colortrap.model.player.Player;
 import co.starsky.colortrap.util.Shuffle;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public final class GameBoard implements Serializable {
     private static final long serialVersionUID = -945511170198587443L;
@@ -34,6 +31,9 @@ public final class GameBoard implements Serializable {
     private Mode gameMode;
     private WinReason winReason;
 
+    /** Random number generated at every game. Used to ensure that a single game isn't tracked multiple times. */
+    private int gameId;
+
     private final MoveListener listener;
     public interface MoveListener {
         void onComputerPlaced(int position);
@@ -49,6 +49,7 @@ public final class GameBoard implements Serializable {
         setGameMode(mode);
         setCurrentState(State.PLACE_PIECE);
         this.listener = listener;
+        gameId = new Random().nextInt();
     }
 
     public boolean setupPlayer(int position) {
@@ -312,6 +313,6 @@ public final class GameBoard implements Serializable {
     }
 
     public GameOverData getGameOverData() {
-        return new GameOverData(players[playerTurn], players[otherPlayer(playerTurn)], winReason);
+        return new GameOverData(gameId, players[playerTurn], players[otherPlayer(playerTurn)], winReason);
     }
 }
