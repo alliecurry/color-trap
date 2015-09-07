@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Google Play game services IDs.
+Save this file as res/values/games-ids.xml in your project.
+-->
+<resources>
+    <string name="app_id">429111011742</string>
+    <string name="achievement_were_all_friends_here">CgkIntOJyL4MEAIQAQ</string>
+    <string name="achievement_soy_el_ganador">CgkIntOJyL4MEAIQAg</string>
+    <string name="achievement_head_shot">CgkIntOJyL4MEAIQAw</string>
+    <string name="achievement_its_a_trap">CgkIntOJyL4MEAIQBA</string>
+    <string name="achievement_puzzle_addict">CgkIntOJyL4MEAIQBQ</string>
+    <string name="achievement_doh">CgkIntOJyL4MEAIQBg</string>
+</resources>
