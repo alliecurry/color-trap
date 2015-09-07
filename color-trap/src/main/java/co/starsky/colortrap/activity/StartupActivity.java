@@ -2,7 +2,6 @@ package co.starsky.colortrap.activity;
 
 import android.animation.AnimatorInflater;
 import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.app.Fragment;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,7 +24,7 @@ import com.google.android.gms.analytics.Tracker;
 import io.fabric.sdk.android.Fabric;
 
 
-public class StartupActivity extends Activity implements View.OnClickListener {
+public class StartupActivity extends GoogleActivity implements View.OnClickListener {
 
     private GameFragment gameFragment;
     private InterstitialAd interstitial;

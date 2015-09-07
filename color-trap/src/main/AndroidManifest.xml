@@ -26,6 +26,9 @@
             android:name="io.fabric.ApiKey"
             android:value="c615e48238d31a39566bfb64875e560789993ba4" />
 
+        <meta-data android:name="com.google.android.gms.games.APP_ID"
+                   android:value="@string/app_id" />
+
         <receiver android:name="com.google.android.gms.analytics.AnalyticsReceiver"
                   android:enabled="true">
             <intent-filter>

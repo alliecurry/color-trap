@@ -1,9 +1,11 @@
 package co.starsky.colortrap.game;
 
 import android.content.Context;
-import android.util.Log;
 import co.starsky.colortrap.R;
-import co.starsky.colortrap.model.*;
+import co.starsky.colortrap.model.Mode;
+import co.starsky.colortrap.model.State;
+import co.starsky.colortrap.model.Tile;
+import co.starsky.colortrap.model.Triplet;
 import co.starsky.colortrap.model.player.ComputerPlayer;
 import co.starsky.colortrap.model.player.Player;
 import co.starsky.colortrap.util.Shuffle;
@@ -37,8 +39,8 @@ public final class GameBoard implements Serializable {
 
     private final MoveListener listener;
     public interface MoveListener {
-        public void onComputerPlaced(int position);
-        public void onComputerMove(Triplet<Integer, Integer, Integer> turn);
+        void onComputerPlaced(int position);
+        void onComputerMove(Triplet<Integer, Integer, Integer> turn);
     }
 
     public GameBoard(Context c, Mode mode, MoveListener listener) {
