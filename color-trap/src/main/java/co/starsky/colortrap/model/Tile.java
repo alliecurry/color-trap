@@ -4,18 +4,12 @@ import java.io.Serializable;
 
 public class Tile implements Serializable {
     private static final long serialVersionUID = 544431964317821331L;
+    private static final int DISABLED = -1;
 
-    /** A number corresponding to this tile's appearance.*/
+    /** A number corresponding to this tile's appearance. */
     private int type;
 
-    /** True when this tile is to be hidden. */
-    private boolean disabled = false;
-
-    public Tile(int type) {
-        this.type = type;
-    }
-
-    public void setType(int type) {
+    public Tile(final int type) {
         this.type = type;
     }
 
@@ -24,11 +18,11 @@ public class Tile implements Serializable {
     }
 
     public void disable() {
-        disabled = true;
+        type = DISABLED;
     }
 
     public boolean isDisabled() {
-        return this.disabled;
+        return type == DISABLED;
     }
 
 }
